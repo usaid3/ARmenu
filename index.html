@@ -1,185 +1,517 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crave Corner - AR Food Menu</title>
-    <!-- Google Model Viewer Script for 3D/AR -->
-    <script type="module" src="https://googleapis.com"></script>
-    
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #111111; color: #ffffff; padding: 20px; text-align: center; }
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chai Dosti | Dosti Buns On Chai</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Montserrat:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Load Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-primary-fixed-variant": "#574500",
+                "surface-container": "#201f1f",
+                "secondary-fixed-dim": "#e9c400",
+                "on-background": "#e5e2e1",
+                "primary-fixed-dim": "#e9c349",
+                "on-secondary-fixed": "#221b00",
+                "on-primary-fixed": "#241a00",
+                "tertiary": "#d0cdcd",
+                "on-tertiary-fixed-variant": "#474746",
+                "surface-container-low": "#1c1b1b",
+                "on-primary": "#3c2f00",
+                "surface-container-lowest": "#0e0e0e",
+                "on-primary-container": "#554300",
+                "secondary-container": "#ffdb3c",
+                "error": "#ffb4ab",
+                "surface-variant": "#353534",
+                "on-surface": "#e5e2e1",
+                "outline-variant": "#4d4635",
+                "background": "#131313",
+                "inverse-on-surface": "#313030",
+                "surface": "#131313",
+                "on-secondary": "#3a3000",
+                "outline": "#99907c",
+                "error-container": "#93000a",
+                "tertiary-container": "#b4b2b2",
+                "secondary-fixed": "#ffe16d",
+                "on-tertiary-fixed": "#1c1b1b",
+                "on-surface-variant": "#d0c5af",
+                "on-secondary-container": "#725f00",
+                "tertiary-fixed": "#e5e2e1",
+                "tertiary-fixed-dim": "#c8c6c5",
+                "surface-bright": "#3a3939",
+                "surface-tint": "#e9c349",
+                "on-tertiary": "#313030",
+                "secondary": "#fff9ef",
+                "primary": "#f2ca50",
+                "on-secondary-fixed-variant": "#544600",
+                "surface-container-high": "#2a2a2a",
+                "inverse-primary": "#735c00",
+                "inverse-surface": "#e5e2e1",
+                "on-tertiary-container": "#454544",
+                "on-error-container": "#ffdad6",
+                "primary-container": "#d4af37",
+                "on-error": "#690005",
+                "surface-dim": "#131313",
+                "surface-container-highest": "#353534",
+                "primary-fixed": "#ffe088"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "card-padding": "20px",
+                "base": "8px",
+                "container-margin": "24px",
+                "gutter": "16px",
+                "section-gap": "48px"
+            },
+            "fontFamily": {
+                "display-lg": ["Playfair Display"],
+                "headline-category-mobile": ["Playfair Display"],
+                "item-title": ["Montserrat"],
+                "body-muted": ["Montserrat"],
+                "price-label": ["Montserrat"],
+                "headline-category": ["Playfair Display"],
+                "body-main": ["Montserrat"],
+                "label-caps": ["Montserrat"]
+            },
+            "fontSize": {
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-category-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "item-title": ["18px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                "body-muted": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "price-label": ["20px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                "headline-category": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "body-main": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Header Styling matching the logo theme */
-        .header { margin-bottom: 30px; }
-        .brand-title { color: #ff9f43; font-size: 2.5rem; font-weight: bold; letter-spacing: 2px; }
-        .brand-subtitle { color: #f5f6fa; font-size: 1rem; font-style: italic; margin-top: 5px; letter-spacing: 1px; }
+        .cursive-header { font-family: 'Playfair Display', serif; font-style: italic; }
+        .dotted-leader { flex-grow: 1; border-bottom: 2px dotted rgba(242, 202, 80, 0.2); margin: 0 8px; position: relative; top: -4px; }
         
-        /* Category Section Style */
-        .category-container { max-width: 500px; margin: 0 auto 25px auto; background-color: #fff8f0; color: #111111; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,0.3); border: 3px solid #ff9f43; }
-        .category-title { background-color: #ff4757; color: white; padding: 12px; font-size: 1.6rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        
-        /* Product Item Row */
-        .item-row { padding: 15px 20px; border-bottom: 1px dashed #cccccc; text-align: left; }
-        .item-info { display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem; margin-bottom: 10px; color: #2f3542; }
-        .item-price { color: #ff4757; }
-        
-        /* Google 3D/AR Viewer Style */
-        model-viewer { width: 100%; height: 280px; background-color: #f1f2f6; border-radius: 12px; margin-top: 10px; border: 1px solid #e4e7eb; }
-        
-        /* Custom Premium AR Button Inside Viewer */
-        .btn-ar { background-color: #ff4757; color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 0.9rem; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: 0.3s; position: absolute; bottom: 15px; right: 15px; }
-        .btn-ar:hover { background-color: #ff2135; }
-        
-        /* Footer Contact Details */
-        .footer { margin-top: 40px; font-size: 0.9rem; color: #a4b0be; line-height: 1.6; }
-        .footer span { color: #ff9f43; font-weight: bold; }
+        .food-card {
+            background: #1A1A1A;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: transform 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .food-card:hover {
+            transform: translateY(-4px);
+            border-color: #f2ca50;
+        }
+
+        .category-chip.active {
+            background-color: #f2ca50;
+            color: #3c2f00;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
-<body>
-
-    <!-- BRAND HEADER -->
-    <div class="header">
-        <div class="brand-title">CRAVE CORNER</div>
-        <div class="brand-subtitle">CRAVE IT. LOVE IT. REPEAT.</div>
-    </div>
-
-    <!-- 1. FRIED RICE CATEGORY -->
-    <div class="category-container">
-        <div class="category-title">Fried Rice</div>
+<body class="bg-background text-on-background selection:bg-primary selection:text-on-primary min-h-[100dvh]">
+<!-- Top AppBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-primary/30 shadow-sm flex justify-between items-center px-container-margin py-base max-w-7xl mx-auto left-1/2 -translate-x-1/2">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary">menu</span>
+<h1 class="font-display-lg text-headline-category-mobile md:text-headline-category text-primary tracking-tighter">Chai Dosti</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="px-3 py-1 rounded-full text-[10px] font-label-caps uppercase tracking-widest border border-primary/50 text-primary animate-pulse" id="status-badge">Checking...</div>
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative min-h-[618px] flex flex-col items-center justify-center text-center px-container-margin pt-24 overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-40">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-background"></div>
+<img class="w-full h-full object-cover" data-alt="A moody, high-end cafe interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_SNdbje-bAiMeFlzZiS1aM503QWJuFwQYJqlZicvzMi0ERlxUD9EZDzJXbupeJF7WpUG11TvVqKXpWsURB3NMsclQjHo1tYRXsBmR5pEpt0NEnLn69HrDUzkMCGlvXSGc8rbDQQ1q4-3Myom7tY466WX-l17YITZzUdeEJNyZK0Fnag0VbU6WggLH2b6micngoS8RzuAaav71ycKb0tyhCCSwNuEusa7K3pGffTxaSn74wJdvdSwx8QcDt_vH4Y4p82mQ-Ga2OC8"/>
+</div>
+<div class="relative z-10 max-w-2xl">
+<h2 class="font-display-lg text-display-lg text-primary mb-2 italic">Chai Dosti</h2>
+<p class="font-body-main text-secondary-fixed text-lg mb-8 tracking-widest uppercase">Dosti Buns On Chai</p>
+<button class="inline-block bg-primary text-on-primary px-10 py-4 rounded-full font-label-caps text-label-caps transition-transform active:scale-95 shadow-[0px_8px_24px_rgba(212,175,55,0.3)]" onclick="document.getElementById('menu-search-container').scrollIntoView({behavior: 'smooth'})">
+            VIEW MENU
+        </button>
+</div>
+</section>
+<!-- Search Bar Section -->
+<section class="relative z-40 bg-background px-container-margin py-8 border-b border-primary/10" id="menu-search-container">
+<div class="max-w-2xl mx-auto">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary group-focus-within:scale-110 transition-transform">search</span>
+<input class="w-full bg-surface-container-lowest border border-primary/20 focus:border-primary text-on-surface py-4 pl-12 pr-4 rounded-2xl outline-none transition-all placeholder:text-on-surface-variant/40 font-body-main shadow-inner focus:shadow-[0_0_15px_rgba(242,202,80,0.1)]" id="menu-search-input" placeholder="Search your favorites..." type="text"/>
+</div>
+</div>
+</section>
+<!-- Sticky Category Nav -->
+<nav class="sticky top-14 z-40 bg-surface-container/90 backdrop-blur-md border-y border-primary/10">
+<div class="max-w-7xl mx-auto flex overflow-x-auto hide-scrollbar py-4 px-container-margin gap-4 whitespace-nowrap">
+<button class="category-chip active px-4 py-2 rounded-full border border-primary/20 font-label-caps text-label-caps transition-all" onclick="scrollToCategory('soup')">SOUP</button>
+<button class="category-chip px-4 py-2 rounded-full border border-primary/20 font-label-caps text-label-caps text-on-surface-variant hover:border-primary/50 transition-all" onclick="scrollToCategory('starters')">STARTERS</button>
+<button class="category-chip px-4 py-2 rounded-full border border-primary/20 font-label-caps text-label-caps text-on-surface-variant hover:border-primary/50 transition-all" onclick="scrollToCategory('sea-food')">SEA FOOD</button>
+<button class="category-chip px-4 py-2 rounded-full border border-primary/20 font-label-caps text-label-caps text-on-surface-variant hover:border-primary/50 transition-all" onclick="scrollToCategory('fries')">FRIES</button>
+<button class="category-chip px-4 py-2 rounded-full border border-primary/20 font-label-caps text-label-caps text-on-surface-variant hover:border-primary/50 transition-all" onclick="scrollToCategory('chicken-karhai')">CHICKEN KARHAI</button>
+<button class="category-chip px-4 py-2 rounded-full border border-primary/20 font-label-caps text-label-caps text-on-surface-variant hover:border-primary/50 transition-all" onclick="scrollToCategory('paratha')">PARATHA</button>
+<button class="category-chip px-4 py-2 rounded-full border border-primary/20 font-label-caps text-label-caps text-on-surface-variant hover:border-primary/50 transition-all" onclick="scrollToCategory('tea')">TEA</button>
+</div>
+</nav>
+<!-- Menu Content -->
+<main class="max-w-7xl mx-auto px-container-margin pb-32 min-h-[400px]" id="menu-start">
+<!-- No Results Message -->
+<div class="hidden py-32 text-center" id="no-results">
+<span class="material-symbols-outlined text-primary/30 text-6xl mb-4">search_off</span>
+<h3 class="font-display-lg text-primary text-2xl mb-2">No items found</h3>
+<p class="font-body-muted text-on-surface-variant">Try searching for something else or browse categories.</p>
+</div>
+<!-- Soup Category -->
+<div class="pt-section-gap menu-category" id="soup">
+<h3 class="cursive-header text-primary text-headline-category-mobile md:text-headline-category mb-gutter category-title">Soups</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<div class="food-card p-card-padding rounded-xl flex items-center justify-between menu-item">
+<div class="flex-1">
+<h4 class="font-item-title text-item-title text-white item-name">Hot &amp; Sour</h4>
+<p class="font-body-muted text-body-muted text-on-surface-variant item-desc">Classic spicy &amp; tangy</p>
+</div>
+<div class="flex flex-col items-end shrink-0 ml-4">
+<span class="text-secondary-fixed font-price-label text-price-label">499 <span class="text-xs">H</span></span>
+<span class="text-secondary-fixed font-price-label text-price-label">829 <span class="text-xs">F</span></span>
+</div>
+</div>
+<div class="food-card p-card-padding rounded-xl flex items-center justify-between menu-item">
+<div class="flex-1">
+<h4 class="font-item-title text-item-title text-white item-name">Chicken Corn</h4>
+<p class="font-body-muted text-body-muted text-on-surface-variant item-desc">Creamy comfort in a bowl</p>
+</div>
+<div class="flex flex-col items-end shrink-0 ml-4">
+<span class="text-secondary-fixed font-price-label text-price-label">499 <span class="text-xs">H</span></span>
+<span class="text-secondary-fixed font-price-label text-price-label">829 <span class="text-xs">F</span></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Starters Category -->
+<div class="pt-section-gap menu-category" id="starters">
+<h3 class="cursive-header text-primary text-headline-category-mobile md:text-headline-category mb-gutter category-title">Starters</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<div class="food-card p-card-padding rounded-xl menu-item">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-item-title text-item-title text-white item-name">Chicken Wings</h4>
+<span class="text-secondary-fixed font-price-label text-price-label shrink-0 ml-2">450/799</span>
+</div>
+<p class="font-body-muted text-body-muted text-on-surface-variant item-desc">Available in 6 or 12 pieces</p>
+</div>
+<div class="food-card p-card-padding rounded-xl flex justify-between items-center menu-item">
+<h4 class="font-item-title text-item-title text-white item-name">Honey Chilli Wings</h4>
+<span class="text-secondary-fixed font-price-label text-price-label ml-2">599</span>
+</div>
+<div class="food-card p-card-padding rounded-xl flex justify-between items-center menu-item">
+<h4 class="font-item-title text-item-title text-white item-name">Bread Sticks</h4>
+<span class="text-secondary-fixed font-price-label text-price-label ml-2">679</span>
+</div>
+</div>
+</div>
+<!-- Sea Food -->
+<div class="pt-section-gap menu-category" id="sea-food">
+<h3 class="cursive-header text-primary text-headline-category-mobile md:text-headline-category mb-gutter category-title">Sea Food</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<div class="food-card p-card-padding rounded-xl flex justify-between items-center menu-item">
+<h4 class="font-item-title text-item-title text-white item-name">Finger Fish</h4>
+<span class="text-secondary-fixed font-price-label text-price-label ml-2">1299</span>
+</div>
+</div>
+</div>
+<!-- Loaded Fries -->
+<div class="pt-section-gap menu-category" id="fries">
+<h3 class="cursive-header text-primary text-headline-category-mobile md:text-headline-category mb-gutter category-title">Loaded Fries</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="food-card p-4 rounded-xl menu-item">
+<h4 class="font-item-title text-white mb-4 item-name">Chicken Loaded</h4>
+<div class="flex items-center">
+<div class="dotted-leader"></div>
+<span class="text-secondary-fixed font-price-label">499</span>
+</div>
+</div>
+<div class="food-card p-4 rounded-xl menu-item">
+<h4 class="font-item-title text-white mb-4 item-name">Pizza Fries</h4>
+<div class="flex items-center">
+<div class="dotted-leader"></div>
+<span class="text-secondary-fixed font-price-label">499</span>
+</div>
+</div>
+<div class="food-card p-4 rounded-xl menu-item">
+<h4 class="font-item-title text-white mb-4 item-name">BBQ Fries</h4>
+<div class="flex items-center">
+<div class="dotted-leader"></div>
+<span class="text-secondary-fixed font-price-label">499</span>
+</div>
+</div>
+<div class="food-card p-4 rounded-xl menu-item">
+<h4 class="font-item-title text-white mb-4 item-name">Jalapeno Fries</h4>
+<div class="flex items-center">
+<div class="dotted-leader"></div>
+<span class="text-secondary-fixed font-price-label">379</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Chicken Karhai Table -->
+<div class="pt-section-gap menu-category" id="chicken-karhai">
+<h3 class="cursive-header text-primary text-headline-category-mobile md:text-headline-category mb-gutter category-title">Chicken Karhai</h3>
+<div class="overflow-hidden border border-primary/20 rounded-2xl bg-surface-container-low">
+<table class="w-full text-left font-body-main">
+<thead class="bg-surface-container-high text-primary font-label-caps text-label-caps">
+<tr>
+<th class="p-4">Variety</th>
+<th class="p-4 text-right">Half</th>
+<th class="p-4 text-right">Full</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-primary/10">
+<tr class="hover:bg-primary/5 transition-colors menu-item">
+<td class="p-4 text-white item-name">Chai Dosti Special Karhai</td>
+<td class="p-4 text-right text-secondary-fixed">1499</td>
+<td class="p-4 text-right text-secondary-fixed">2949</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors menu-item">
+<td class="p-4 text-white item-name">White Karhai</td>
+<td class="p-4 text-right text-secondary-fixed">1099</td>
+<td class="p-4 text-right text-secondary-fixed">2149</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors menu-item">
+<td class="p-4 text-white item-name">Bamboo Karhai</td>
+<td class="p-4 text-right text-secondary-fixed">1499</td>
+<td class="p-4 text-right text-secondary-fixed">2949</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors menu-item">
+<td class="p-4 text-white item-name">Achari Karhai</td>
+<td class="p-4 text-right text-secondary-fixed">999</td>
+<td class="p-4 text-right text-secondary-fixed">1899</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Signature Parathas -->
+<div class="pt-section-gap menu-category" id="paratha">
+<h3 class="cursive-header text-primary text-headline-category-mobile md:text-headline-category mb-gutter category-title">Signature Parathas</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<div class="food-card p-4 rounded-xl flex flex-col items-center text-center menu-item">
+<h4 class="font-item-title text-white mb-2 item-name">Nutella Paratha</h4>
+<span class="text-secondary-fixed font-price-label">450</span>
+</div>
+<div class="food-card p-4 rounded-xl flex flex-col items-center text-center menu-item">
+<h4 class="font-item-title text-white mb-2 item-name">Pizza Paratha</h4>
+<span class="text-secondary-fixed font-price-label">499</span>
+</div>
+<div class="food-card p-4 rounded-xl flex flex-col items-center text-center menu-item">
+<h4 class="font-item-title text-white mb-2 item-name">Dosti Special Paratha</h4>
+<span class="text-secondary-fixed font-price-label">619</span>
+</div>
+<div class="food-card p-4 rounded-xl flex flex-col items-center text-center menu-item">
+<h4 class="font-item-title text-white mb-2 item-name">Chicken Cheese Paratha</h4>
+<span class="text-secondary-fixed font-price-label">449</span>
+</div>
+</div>
+</div>
+<!-- Tea Selection -->
+<div class="pt-section-gap menu-category" id="tea">
+<h3 class="cursive-header text-primary text-headline-category-mobile md:text-headline-category mb-gutter category-title">Chai Selection</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="flex items-center justify-between p-4 border-b border-primary/10 hover:bg-surface-container transition-colors group menu-item">
+<div>
+<span class="text-primary font-label-caps block mb-1">SIGNATURE</span>
+<h4 class="font-item-title text-white text-lg item-name">Karak Chai</h4>
+</div>
+<span class="text-secondary-fixed font-price-label">199</span>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-primary/10 hover:bg-surface-container transition-colors group menu-item">
+<div>
+<span class="text-primary font-label-caps block mb-1">PREMIUM</span>
+<h4 class="font-item-title text-white text-lg item-name">Tandoori Chai</h4>
+</div>
+<span class="text-secondary-fixed font-price-label">289</span>
+</div>
+<div class="flex items-center justify-between p-4 border-b border-primary/10 hover:bg-surface-container transition-colors group menu-item">
+<div>
+<span class="text-primary font-label-caps block mb-1">TRADITIONAL</span>
+<h4 class="font-item-title text-white text-lg item-name">Doodh Patti</h4>
+</div>
+<span class="text-secondary-fixed font-price-label">239</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Buttons -->
+<div class="fixed bottom-24 right-container-margin flex flex-col gap-4 z-50">
+<button class="w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-all opacity-0 invisible" id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+<span class="material-symbols-outlined text-on-primary text-3xl">arrow_upward</span>
+</button>
+<a class="w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform" href="https://wa.me/923219494942">
+<span class="material-symbols-outlined text-white text-3xl">chat</span>
+</a>
+<a class="w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform" href="tel:03219494942">
+<span class="material-symbols-outlined text-on-primary text-3xl">call</span>
+</a>
+</div>
+<!-- Bottom Nav -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface-container/90 backdrop-blur-md flex justify-around items-center px-4 py-2 border-t border-primary/20 rounded-t-xl md:hidden">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-2" href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2" href="https://wa.me/923219494942">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-caps text-[10px]">WhatsApp</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2" href="https://www.google.com/maps?q=Atta+Bakhsh+Rd,+Lahore">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-label-caps text-[10px]">Find Us</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-primary/10 pt-section-gap pb-32 flex flex-col items-center text-center px-container-margin gap-gutter">
+<h2 class="font-display-lg text-primary text-headline-category italic">Chai Dosti</h2>
+<p class="font-body-muted text-body-muted max-w-xs">Atta Bakhsh Rd, Block C 2 Phase 1 Johar Town, Lahore, Punjab</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl mt-8">
+<div class="text-left border-l border-primary/20 pl-4">
+<h5 class="font-label-caps text-primary mb-4">OPENING HOURS</h5>
+<div class="space-y-2 font-body-muted text-on-surface-variant">
+<p class="flex justify-between"><span>Mon - Sun:</span> <span>6:00 PM - 3:00 AM</span></p>
+<p class="text-primary italic mt-2">Serving warmth through the midnight hours.</p>
+</div>
+</div>
+<div class="flex flex-col items-center md:items-end">
+<div class="w-32 h-32 bg-white/10 rounded-xl flex items-center justify-center border border-primary/20 p-4 mb-2">
+<span class="material-symbols-outlined text-primary text-6xl opacity-50">qr_code_2</span>
+</div>
+<p class="font-label-caps text-[10px] text-primary">SCAN TO VIEW DIGITAL MENU</p>
+</div>
+</div>
+<p class="mt-12 font-body-muted text-body-muted opacity-50">© 2024 Chai Dosti. Dosti Buns On Chai.</p>
+</footer>
+<script>
+    // Open Now Logic
+    function updateStatus() {
+        const now = new Date();
+        const hour = now.getHours();
+        const statusBadge = document.getElementById('status-badge');
+        const isOpen = (hour >= 18 || hour < 3);
         
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Check Check Fried Rice</span>
-                <span class="item-price">GH₵ 60</span>
-            </div>
-            <model-viewer src="models/check_fried_rice.glb" ios-src="models/check_fried_rice.usdz" ar camera-controls touch-action="none">
-                <button slot="ar-button" class="btn-ar">✨ View in AR (Table)</button>
-            </model-viewer>
-        </div>
+        if (isOpen) {
+            statusBadge.innerHTML = 'OPEN NOW';
+            statusBadge.className = 'px-3 py-1 rounded-full text-[10px] font-label-caps uppercase tracking-widest border border-[#25D366] text-[#25D366] animate-pulse';
+        } else {
+            statusBadge.innerHTML = 'CLOSED';
+            statusBadge.className = 'px-3 py-1 rounded-full text-[10px] font-label-caps uppercase tracking-widest border border-error text-error';
+        }
+    }
+    updateStatus();
+    setInterval(updateStatus, 60000);
 
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Assorted Fried Rice</span>
-                <span class="item-price">GH₵ 80</span>
-            </div>
-            <model-viewer src="models/assorted_rice.glb" ios-src="models/assorted_rice.usdz" ar camera-controls touch-action="none">
-                <button slot="ar-button" class="btn-ar">✨ View in AR (Table)</button>
-            </model-viewer>
-        </div>
-    </div>
+    // Search Functionality
+    const searchInput = document.getElementById('menu-search-input');
+    const noResults = document.getElementById('no-results');
+    const categories = document.querySelectorAll('.menu-category');
 
-    <!-- 2. NOODLES CATEGORY -->
-    <div class="category-container">
-        <div class="category-title">Noodles</div>
-        
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Regular / Chicken Noodles</span>
-                <span class="item-price">GH₵ 35 / 45</span>
-            </div>
-            <model-viewer src="models/noodles.glb" ios-src="models/noodles.usdz" ar camera-controls touch-action="none">
-                <button slot="ar-button" class="btn-ar">✨ View in AR (Table)</button>
-            </model-viewer>
-        </div>
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        let anyVisible = false;
 
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Beef / Special Noodles</span>
-                <span class="item-price">GH₵ 45 / 65</span>
-            </div>
-            <model-viewer src="models/special_noodles.glb" ios-src="models/special_noodles.usdz" ar camera-controls touch-action="none">
-                <button slot="ar-button" class="btn-ar">✨ View in AR (Table)</button>
-            </model-viewer>
-        </div>
-    </div>
+        categories.forEach(category => {
+            const items = category.querySelectorAll('.menu-item');
+            let categoryVisible = false;
 
-    <!-- 3. SPAGHETTI CATEGORY -->
-    <div class="category-container">
-        <div class="category-title">Spaghetti</div>
-        
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Regular / Chicken Spaghetti</span>
-                <span class="item-price">GH₵ 35 / 45</span>
-            </div>
-            <model-viewer src="models/spaghetti.glb" ios-src="models/spaghetti.usdz" ar camera-controls touch-action="none">
-                <button slot="ar-button" class="btn-ar">✨ View in AR (Table)</button>
-            </model-viewer>
-        </div>
+            items.forEach(item => {
+                const name = item.querySelector('.item-name')?.textContent.toLowerCase() || '';
+                const desc = item.querySelector('.item-desc')?.textContent.toLowerCase() || '';
+                
+                if (name.includes(query) || desc.includes(query)) {
+                    item.style.display = '';
+                    categoryVisible = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
 
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Beef / Special Spaghetti</span>
-                <span class="item-price">GH₵ 45 / 65</span>
-            </div>
-            <model-viewer src="models/special_spaghetti.glb" ios-src="models/special_spaghetti.usdz" ar camera-controls touch-action="none">
-                <button slot="ar-button" class="btn-ar">✨ View in AR (Table)</button>
-            </model-viewer>
-        </div>
-    </div>
+            if (categoryVisible) {
+                category.style.display = '';
+                anyVisible = true;
+            } else {
+                category.style.display = 'none';
+            }
+        });
 
-    <!-- 4. SHAWARMA CATEGORY -->
-    <div class="category-container">
-        <div class="category-title">Shawarma</div>
-        
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Chicken Shawarma</span>
-                <span class="item-price">GH₵ 45</span>
-            </div>
-            <model-viewer src="models/chicken_shawarma.glb" ios-src="models/chicken_shawarma.usdz" ar camera-controls touch-action="none">
-                <button slot="ar-button" class="btn-ar">✨ View in AR (Table)</button>
-            </model-viewer>
-        </div>
+        noResults.style.display = anyVisible ? 'none' : 'block';
+    });
 
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Beef / Crave Special Shawarma</span>
-                <span class="item-price">GH₵ 50 / 70</span>
-            </div>
-            <model-viewer src="models/special_shawarma.glb" ios-src="models/special_shawarma.usdz" ar camera-controls touch-action="none">
-                <button slot="ar-button" class="btn-ar">✨ View in AR (Table)</button>
-            </model-viewer>
-        </div>
-    </div>
+    // Smooth Scroll Category
+    function scrollToCategory(id) {
+        const element = document.getElementById(id);
+        if (!element) return;
+        const headerOffset = 180; // Adjusted for search bar + nav
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        updateActiveChip(id);
+    }
 
-    <!-- 5. EXTRAS CATEGORY -->
-    <div class="category-container">
-        <div class="category-title">Extras</div>
-        
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Fried Egg</span>
-                <span class="item-price">GH₵ 5</span>
-            </div>
-        </div>
+    function updateActiveChip(id) {
+        document.querySelectorAll('.category-chip').forEach(chip => {
+            chip.classList.remove('active', 'bg-primary', 'text-on-primary');
+            chip.classList.add('text-on-surface-variant');
+            if (chip.getAttribute('onclick') && chip.getAttribute('onclick').includes(id)) {
+                chip.classList.add('active');
+                chip.classList.remove('text-on-surface-variant');
+            }
+        });
+    }
 
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Chicken (1 Piece)</span>
-                <span class="item-price">GH₵ 15</span>
-            </div>
-        </div>
+    // Scroll Effects
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) header.classList.add('shadow-xl');
+        else header.classList.remove('shadow-xl');
 
-        <div class="item-row">
-            <div class="item-info">
-                <span>• Yam Balls (3 Pcs)</span>
-                <span class="item-price">GH₵ 12</span>
-            </div>
-            <model-viewer src="models/yamballs.glb" ios-src="models/yamballs.usdz" ar camera-controls touch-action="none">
-                <button slot="ar-button" class="btn-ar">✨ View in AR (Table)</button>
-            </model-viewer>
-        </div>
-    </div>
+        if (window.scrollY > 500) {
+            backToTopBtn.classList.remove('opacity-0', 'invisible');
+            backToTopBtn.classList.add('opacity-100', 'visible');
+        } else {
+            backToTopBtn.classList.add('opacity-0', 'invisible');
+            backToTopBtn.classList.remove('opacity-100', 'visible');
+        }
 
-    <!-- FOOTER INFO -->
-    <div class="footer">
-        <p>📞 Contact: <span>0256590332</span></p>
-        <p>📍 Location: <span>Third ridge, Cape Coast (Delivery Only)</span></p>
-        <p>Powered by Your AR Company</p>
-    </div>
-
-</body>
-</html>
+        // Active chip logic
+        const visibleSections = ['soup', 'starters', 'sea-food', 'fries', 'chicken-karhai', 'paratha', 'tea'];
+        let current = '';
+        for (const sectionId of visibleSections) {
+            const element = document.getElementById(sectionId);
+            if (element && element.style.display !== 'none') {
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= 200) current = sectionId;
+            }
+        }
+        if (current) updateActiveChip(current);
+    });
+</script>
+</body></html>
