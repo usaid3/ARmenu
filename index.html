@@ -16,51 +16,44 @@
 
 :root {
   --bg-primary: #0a0a0a;
-  --bg-transition: #0a0a0a;
   --gold: #d4a853;
   --gold-bright: #f0c96e;
   --gold-dim: #8a6d2b;
   --text-primary: #f5f0e8;
   --text-secondary: #b8b0a0;
   --card-radius: 28px;
-  --glow-gold: 0 0 15px rgba(212, 168, 83, 0.5), 0 0 30px rgba(212, 168, 83, 0.2);
-  --glow-gold-intense: 0 0 20px rgba(212, 168, 83, 0.7), 0 0 40px rgba(212, 168, 83, 0.3), 0 0 60px rgba(212, 168, 83, 0.15);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
-  transition: background 1.2s ease;
   min-height: 100vh;
+  transition: background 1s ease;
 }
 
+/* ━━━ OPTIMIZED: Static bg-glow instead of blur ━━━ */
 #bg-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
-  transition: background 1.5s ease;
-  background: radial-gradient(ellipse at center, transparent 0%, var(--bg-primary) 100%);
+  transition: background 1.2s ease;
+  will-change: background;
 }
 
+/* REMOVED: #bg-glow with 120px blur — replaced with simple radial gradient */
 #bg-glow {
   position: fixed;
-  top: 50%; left: 50%;
-  width: 800px; height: 800px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
-  filter: blur(120px);
-  opacity: 0.15;
-  transition: background 1.5s ease, opacity 1s ease;
+  opacity: 0.12;
+  transition: background 1.2s ease;
+  will-change: opacity;
 }
 
 .app-container {
@@ -76,7 +69,6 @@ body {
 
 .category-header {
   padding: 0 40px 20px;
-  position: relative;
 }
 
 .category-title {
@@ -112,11 +104,7 @@ body {
   text-transform: uppercase;
 }
 
-.carousel-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: visible;
-}
+.carousel-wrapper { position: relative; width: 100%; }
 
 .carousel-track {
   display: flex;
@@ -131,13 +119,8 @@ body {
   min-height: 420px;
 }
 
-.carousel-track::-webkit-scrollbar {
-  display: none;
-}
-
-.carousel-track.grabbing {
-  cursor: grabbing;
-}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track.grabbing { cursor: grabbing; }
 
 .carousel-nav {
   position: absolute;
@@ -156,18 +139,30 @@ body {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
 }
 
 .carousel-nav:hover {
   background: rgba(212, 168, 83, 0.15);
   border-color: var(--gold);
-  box-shadow: var(--glow-gold);
+  box-shadow: 0 0 12px rgba(212, 168, 83, 0.4);
   transform: translateY(-50%) scale(1.1);
 }
 
 .carousel-nav.prev { left: 8px; }
 .carousel-nav.next { right: 8px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CARD — OPTIMIZED NEON SYSTEM
+   
+   KEY CHANGES FOR PERFORMANCE:
+   1. NO infinite background-position animation
+   2. border-image instead of pseudo-element gradient
+   3. box-shadow ONLY on active/hover (not always)
+   4. will-change added for GPU compositing
+   5. NO backdrop-filter (removed glassmorphism)
+   6. NO filter: blur() on cards
+   7. Simpler transitions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 .menu-card {
   flex: 0 0 300px;
@@ -175,58 +170,42 @@ body {
   border-radius: var(--card-radius);
   position: relative;
   scroll-snap-align: center;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
-  transform: scale(0.88) perspective(1000px);
-  filter: brightness(0.65) blur(0.5px);
+  transform: scale(0.88);
+  opacity: 0.55;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  will-change: transform, opacity;
+  /* ━━━ OPTIMIZED NEON BORDER: Simple solid + single box-shadow ━━━ */
+  border: 2px solid var(--gold-dim);
   overflow: visible;
 }
 
 .menu-card.active {
-  transform: scale(1) perspective(1000px);
-  filter: brightness(1) blur(0);
-  z-index: 5;
+  transform: scale(1);
+  opacity: 1;
+  border-color: var(--gold);
+  /* ━━━ ONLY 1 box-shadow layer, smaller blur ━━━ */
+  box-shadow: 0 0 15px rgba(212, 168, 83, 0.4),
+              0 0 30px rgba(212, 168, 83, 0.15);
 }
 
 .menu-card:hover {
-  transform: scale(1.03) translateY(-8px) perspective(1000px);
-  filter: brightness(1.05) blur(0);
-}
-
-.card-border-glow {
-  position: absolute;
-  inset: -2px;
-  border-radius: calc(var(--card-radius) + 2px);
-  padding: 2px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dim), var(--gold-bright), var(--gold-dim), var(--gold));
-  background-size: 300% 300%;
-  animation: borderShimmer 4s ease infinite;
-  z-index: 0;
-  opacity: 0.6;
-  transition: opacity 0.4s ease;
-}
-
-.menu-card.active .card-border-glow,
-.menu-card:hover .card-border-glow {
+  transform: scale(1.03) translateY(-8px);
   opacity: 1;
-  box-shadow: var(--glow-gold-intense);
-  animation: borderShimmer 2s ease infinite, borderPulse 2s ease-in-out infinite;
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 20px rgba(212, 168, 83, 0.5),
+              0 0 35px rgba(212, 168, 83, 0.2);
 }
 
-@keyframes borderShimmer {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes borderPulse {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
-}
+/* ━━━ REMOVED: .card-border-glow pseudo element ━━━ */
+/* ━━━ REMOVED: @keyframes borderShimmer (infinite gradient animation) ━━━ */
+/* ━━━ REMOVED: @keyframes borderPulse ━━━ */
+/* ━━━ REMOVED: .card-aura with filter: blur(60px) ━━━ */
+/* ━━━ REMOVED: .card-glass with backdrop-filter ━━━ */
+/* ━━━ REMOVED: .card-shimmer with animation ━━━ */
 
 .card-inner {
   position: relative;
-  z-index: 1;
   width: 100%;
   height: 100%;
   border-radius: var(--card-radius);
@@ -241,20 +220,18 @@ body {
   position: absolute;
   inset: 0;
   border-radius: var(--card-radius);
-  z-index: 0;
 }
 
-.card-glass {
+/* ━━━ OPTIMIZED: Simple dark overlay instead of backdrop-filter ━━━ */
+.card-overlay {
   position: absolute;
   inset: 0;
   border-radius: var(--card-radius);
-  backdrop-filter: blur(3px);
-  background: linear-gradient(180deg, 
-    rgba(0,0,0,0.05) 0%, 
-    rgba(0,0,0,0.25) 40%, 
-    rgba(0,0,0,0.65) 100%
+  background: linear-gradient(180deg,
+    rgba(0,0,0,0.05) 0%,
+    rgba(0,0,0,0.25) 40%,
+    rgba(0,0,0,0.7) 100%
   );
-  z-index: 1;
 }
 
 .card-content {
@@ -267,45 +244,40 @@ body {
   font-weight: 900;
   font-size: 1.3rem;
   color: #fff;
-  text-shadow: 
-    0 2px 4px rgba(0,0,0,0.5),
-    0 4px 8px rgba(0,0,0,0.3),
-    0 0 20px rgba(212, 168, 83, 0.2);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.3);
   margin-bottom: 10px;
   line-height: 1.2;
-  transform: translateZ(20px);
-  position: relative;
 }
 
+/* ━━━ OPTIMIZED 3D TITLE: No backdrop-filter, simpler bg ━━━ */
 .card-title-3d {
   position: absolute;
-  top: -60px;
+  top: -55px;
   left: 0;
   right: 0;
   z-index: 10;
   font-family: 'Cinzel', serif;
   font-weight: 900;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: #fff;
   text-align: center;
-  text-shadow: 
-    0 1px 0 rgba(255,255,255,0.15),
-    0 2px 0 rgba(0,0,0,0.1),
-    0 3px 0 rgba(0,0,0,0.1),
+  text-shadow:
+    0 1px 0 rgba(255,255,255,0.1),
+    0 2px 0 rgba(0,0,0,0.15),
+    0 3px 0 rgba(0,0,0,0.12),
     0 4px 0 rgba(0,0,0,0.1),
-    0 5px 10px rgba(0,0,0,0.4),
-    0 0 30px rgba(212, 168, 83, 0.3);
+    0 5px 8px rgba(0,0,0,0.35),
+    0 0 20px rgba(212, 168, 83, 0.25);
   letter-spacing: 1px;
   line-height: 1.3;
   padding: 8px 12px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+  background: rgba(0,0,0,0.65);
   border-radius: 16px 16px 0 0;
-  backdrop-filter: blur(8px);
   border: 1px solid rgba(212, 168, 83, 0.2);
   border-bottom: none;
   opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.4s ease;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
   pointer-events: none;
 }
 
@@ -336,54 +308,54 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: none;
 }
 
-.card-shimmer {
+/* ━━━ OPTIMIZED SHIMMER: Only on hover, simple transform ━━━ */
+.card-shine {
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
+  top: 0; left: -100%;
+  width: 60%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255,255,255,0.03) 40%,
-    rgba(255,255,255,0.08) 50%,
-    rgba(255,255,255,0.03) 60%,
-    transparent 100%
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.06),
+    transparent
   );
   z-index: 3;
   pointer-events: none;
   border-radius: var(--card-radius);
+  will-change: transform;
 }
 
-.menu-card:hover .card-shimmer {
-  animation: shimmerMove 1.5s ease;
+.menu-card:hover .card-shine {
+  animation: shineSlide 0.8s ease forwards;
 }
 
-@keyframes shimmerMove {
-  0% { left: -100%; }
-  100% { left: 100%; }
+@keyframes shineSlide {
+  to { left: 150%; }
 }
 
-/* Active card glow aura */
-.card-aura {
-  position: absolute;
-  inset: -30px;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  pointer-events: none;
-  z-index: -1;
+/* ━━━ NEON PULSE: ONLY on active card, CSS only, lightweight ━━━ */
+.menu-card.active {
+  animation: neonBreath 3s ease-in-out infinite;
 }
 
-.menu-card.active .card-aura {
-  opacity: 0.3;
+@keyframes neonBreath {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(212, 168, 83, 0.35),
+                0 0 25px rgba(212, 168, 83, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(212, 168, 83, 0.5),
+                0 0 35px rgba(212, 168, 83, 0.2);
+  }
 }
 
-/* Scroll indicators */
+.menu-card:hover {
+  animation: none;
+}
+
+/* Scroll dots */
 .scroll-dots {
   display: flex;
   justify-content: center;
@@ -392,8 +364,7 @@ body {
 }
 
 .scroll-dot {
-  width: 6px;
-  height: 6px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--gold-dim);
   opacity: 0.3;
@@ -405,7 +376,7 @@ body {
   background: var(--gold);
   width: 20px;
   border-radius: 3px;
-  box-shadow: 0 0 8px rgba(212, 168, 83, 0.5);
+  box-shadow: 0 0 6px rgba(212, 168, 83, 0.4);
 }
 
 /* Modal */
@@ -413,14 +384,13 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(20px);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s ease;
+  transition: all 0.35s ease;
 }
 
 .modal-overlay.open {
@@ -433,10 +403,10 @@ body {
   max-width: 700px;
   height: 80vh;
   max-height: 700px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
   border-radius: 24px;
   border: 1.5px solid var(--gold-dim);
-  box-shadow: var(--glow-gold-intense), 0 20px 60px rgba(0,0,0,0.5);
+  box-shadow: 0 0 20px rgba(212, 168, 83, 0.3), 0 20px 60px rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -465,8 +435,7 @@ body {
 }
 
 .modal-close {
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   border-radius: 50%;
   border: 1px solid var(--gold-dim);
   background: transparent;
@@ -481,20 +450,17 @@ body {
 
 .modal-close:hover {
   background: rgba(212, 168, 83, 0.15);
-  box-shadow: var(--glow-gold);
+  box-shadow: 0 0 10px rgba(212, 168, 83, 0.3);
 }
 
-.modal-viewer {
-  flex: 1;
-  position: relative;
-}
+.modal-viewer { flex: 1; }
 
 .modal-viewer model-viewer {
   width: 100%;
   height: 100%;
 }
 
-/* About Us special cards */
+/* About cards */
 .about-card-icon {
   font-size: 3rem;
   margin-bottom: 10px;
@@ -523,70 +489,34 @@ body {
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .menu-card {
-    flex: 0 0 260px;
-    height: 350px;
-  }
-  .carousel-track {
-    gap: 24px;
-    padding: 40px 30px 60px;
-  }
-  .category-header {
-    padding: 0 30px 18px;
-  }
+  .menu-card { flex: 0 0 260px; height: 350px; }
+  .carousel-track { gap: 24px; padding: 40px 30px 60px; }
+  .category-header { padding: 0 30px 18px; }
 }
 
 @media (max-width: 768px) {
-  .menu-card {
-    flex: 0 0 240px;
-    height: 330px;
-  }
-  .carousel-track {
-    gap: 18px;
-    padding: 35px 24px 50px;
-  }
-  .category-header {
-    padding: 0 24px 15px;
-  }
-  .carousel-nav {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
-  }
-  .category-section {
-    padding: 20px 0 40px;
-  }
+  .menu-card { flex: 0 0 240px; height: 330px; }
+  .carousel-track { gap: 18px; padding: 35px 24px 50px; }
+  .category-header { padding: 0 24px 15px; }
+  .carousel-nav { width: 36px; height: 36px; font-size: 14px; }
+  .category-section { padding: 20px 0 40px; }
 }
 
 @media (max-width: 480px) {
-  .menu-card {
-    flex: 0 0 260px;
-    height: 340px;
-  }
-  .carousel-track {
-    gap: 16px;
-    padding: 35px 20px 45px;
-  }
-  .category-header {
-    padding: 0 20px 12px;
-  }
-  .carousel-nav {
-    display: none;
-  }
-  .card-title-3d {
-    font-size: 0.95rem;
-    top: -50px;
-  }
-  .modal-content {
-    width: 95vw;
-    height: 75vh;
-    border-radius: 18px;
-  }
+  .menu-card { flex: 0 0 260px; height: 340px; }
+  .carousel-track { gap: 16px; padding: 35px 20px 45px; }
+  .category-header { padding: 0 20px 12px; }
+  .carousel-nav { display: none; }
+  .card-title-3d { font-size: 0.95rem; top: -50px; }
+  .modal-content { width: 95vw; height: 75vh; border-radius: 18px; }
 }
 
-/* Loading shimmer for lazy sections */
-.category-section[data-loaded="false"] .carousel-track {
-  min-height: 380px;
+/* ━━━ REDUCE MOTION for users who prefer it ━━━ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>
 </head>
@@ -597,7 +527,6 @@ body {
 
 <div class="app-container" id="app"></div>
 
-<!-- Modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -612,14 +541,12 @@ body {
         camera-controls
         shadow-intensity="1"
         style="width:100%;height:100%;background:transparent;"
-        ar
       ></model-viewer>
     </div>
   </div>
 </div>
 
 <script>
-// ━━━━━━━━━━━━━ MENU DATA ━━━━━━━━━━━━━
 const menuData = [
   {
     id: 1, name: "Soup", subtitle: "WARM COMFORT IN EVERY SIP",
@@ -632,8 +559,8 @@ const menuData = [
     id: 2, name: "Starters", subtitle: "CRISPY BEGINNINGS, UNFORGETTABLE FLAVORS",
     colors: { bg: "rgba(150,80,20,0.2)", glow: "#C4822E" },
     cards: [
-      { name: "Chicken Wings", price: 550, desc: "Golden crispy wings fried to perfection, served with our signature dipping sauces. Choose between a 6 or 12 piece platter for the ultimate start.", gradient: "linear-gradient(135deg, #B87333 0%, #D4A043 30%, #8B6914 70%, #3D2B0A 100%)", aura: "#D4A043" },
-      { name: "Honey Chilli Wings", price: 650, desc: "Sweet honey meets fiery chilli in these irresistibly glazed wings. Perfectly caramelized with a kick that keeps you reaching for more.", gradient: "linear-gradient(135deg, #C44B2B 0%, #E8A52B 30%, #A04020 70%, #4A1A08 100%)", aura: "#E8A52B" },
+      { name: "Chicken Wings", price: 550, desc: "Golden crispy wings fried to perfection, served with our signature dipping sauces. Choose between a 6 or 12 piece platter.", gradient: "linear-gradient(135deg, #B87333 0%, #D4A043 30%, #8B6914 70%, #3D2B0A 100%)", aura: "#D4A043" },
+      { name: "Honey Chilli Wings", price: 650, desc: "Sweet honey meets fiery chilli in these irresistibly glazed wings. Perfectly caramelized with a kick that keeps you wanting more.", gradient: "linear-gradient(135deg, #C44B2B 0%, #E8A52B 30%, #A04020 70%, #4A1A08 100%)", aura: "#E8A52B" },
       { name: "Bread Sticks", price: 350, desc: "Warm, freshly baked breadsticks dusted with aromatic herbs and parmesan. Paired with a rich marinara dipping sauce.", gradient: "linear-gradient(135deg, #C4A265 0%, #E8D5A5 30%, #A08050 70%, #4A3A1A 100%)", aura: "#E8D5A5" },
       { name: "Nuggets", price: 450, desc: "Tender chicken nuggets with a perfectly seasoned crispy coating. Served golden brown with your choice of dipping sauce.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0C848 30%, #B88A20 70%, #5A4010 100%)", aura: "#F0C848" }
     ]
@@ -655,7 +582,7 @@ const menuData = [
       { name: "Cheesy Fries", price: 350, desc: "Loaded with melted premium cheese that stretches with every bite. Topped with a drizzle of our special sauce.", gradient: "linear-gradient(135deg, #D4A020 0%, #F0D040 30%, #C49818 70%, #6A5010 100%)", aura: "#F0D040" },
       { name: "Jalapeno Fries", price: 350, desc: "Fiery jalapenos meet crispy fries in this bold flavor explosion. Topped with spicy cheese sauce and pickled peppers.", gradient: "linear-gradient(135deg, #4A8020 0%, #70B030 30%, #C44020 60%, #2A4010 100%)", aura: "#70B030" },
       { name: "Chicken Loaded Fries", price: 500, desc: "Piled high with seasoned chicken, melted cheese, sauces, and our signature toppings. A meal in itself.", gradient: "linear-gradient(135deg, #B87030 0%, #D4A040 30%, #8B5A20 70%, #3D2A0A 100%)", aura: "#D4A040" },
-      { name: "Pizza Fries", price: 450, desc: "The best of both worlds — crispy fries topped with pizza sauce, mozzarella, and pepperoni. Baked to bubbly perfection.", gradient: "linear-gradient(135deg, #C43020 0%, #E85030 30%, #D4A030 60%, #4A1008 100%)", aura: "#E85030" },
+      { name: "Pizza Fries", price: 450, desc: "Crispy fries topped with pizza sauce, mozzarella, and pepperoni. Baked to bubbly perfection.", gradient: "linear-gradient(135deg, #C43020 0%, #E85030 30%, #D4A030 60%, #4A1008 100%)", aura: "#E85030" },
       { name: "BBQ Fries", price: 400, desc: "Smoky BBQ sauce cascading over golden fries, topped with crispy onion bits and a hint of char-grilled flavor.", gradient: "linear-gradient(135deg, #8B3A10 0%, #C46020 30%, #4A2A0A 70%, #2A1A06 100%)", aura: "#C46020" }
     ]
   },
@@ -663,14 +590,14 @@ const menuData = [
     id: 5, name: "Poultry", subtitle: "ROASTED TO GOLDEN PERFECTION",
     colors: { bg: "rgba(100,60,20,0.25)", glow: "#A07030" },
     cards: [
-      { name: "Stuffed Chicken", price: 950, desc: "A whole chicken marinated for 24 hours, stuffed with aromatic rice and herbs, then roasted until golden. Available in half and full portions.", gradient: "linear-gradient(135deg, #6A4020 0%, #A07030 30%, #C49040 60%, #3D2410 100%)", aura: "#A07030" }
+      { name: "Stuffed Chicken", price: 950, desc: "Whole chicken marinated 24 hours, stuffed with aromatic rice and herbs, roasted until golden. Half and full available.", gradient: "linear-gradient(135deg, #6A4020 0%, #A07030 30%, #C49040 60%, #3D2410 100%)", aura: "#A07030" }
     ]
   },
   {
     id: 6, name: "Wrap", subtitle: "ROLLED WITH LOVE AND FLAVOR",
     colors: { bg: "rgba(90,80,40,0.2)", glow: "#A09050" },
     cards: [
-      { name: "Chicken Cheese Wrap", price: 450, desc: "Tender grilled chicken wrapped in a warm tortilla with melted cheese, fresh veggies, and our creamy signature sauce.", gradient: "linear-gradient(135deg, #8B7A40 0%, #C4B070 30%, #A09050 70%, #4A4020 100%)", aura: "#C4B070" },
+      { name: "Chicken Cheese Wrap", price: 450, desc: "Tender grilled chicken wrapped in a warm tortilla with melted cheese, fresh veggies, and creamy signature sauce.", gradient: "linear-gradient(135deg, #8B7A40 0%, #C4B070 30%, #A09050 70%, #4A4020 100%)", aura: "#C4B070" },
       { name: "Pizza Wrap", price: 400, desc: "All the flavors of a loaded pizza rolled into a crispy wrap. Packed with cheese, sauce, and savory toppings.", gradient: "linear-gradient(135deg, #C43020 0%, #E86040 30%, #D4A030 60%, #4A1808 100%)", aura: "#E86040" },
       { name: "Arabian Wrap", price: 500, desc: "An exotic blend of Arabian spices, grilled chicken, tahini, and fresh herbs wrapped in a soft flatbread.", gradient: "linear-gradient(135deg, #6A5A30 0%, #B8A060 30%, #8B7A40 70%, #3D3418 100%)", aura: "#B8A060" }
     ]
@@ -679,7 +606,7 @@ const menuData = [
     id: 7, name: "Pasta", subtitle: "AL DENTE ARTISTRY",
     colors: { bg: "rgba(130,50,30,0.2)", glow: "#C45030" },
     cards: [
-      { name: "Special Pasta", price: 550, desc: "Our chef's signature creation — a rich blend of creamy and tangy sauces with perfectly cooked pasta and premium toppings.", gradient: "linear-gradient(135deg, #C43020 0%, #E8C8A0 30%, #A04020 60%, #4A1A0A 100%)", aura: "#C43020" },
+      { name: "Special Pasta", price: 550, desc: "Chef's signature — rich blend of creamy and tangy sauces with perfectly cooked pasta and premium toppings.", gradient: "linear-gradient(135deg, #C43020 0%, #E8C8A0 30%, #A04020 60%, #4A1A0A 100%)", aura: "#C43020" },
       { name: "Pasta", price: 450, desc: "Classic Italian-style pasta tossed in your choice of our house sauces. Simple, elegant, and deeply satisfying.", gradient: "linear-gradient(135deg, #B86030 0%, #E8D0A8 30%, #8B4A20 70%, #3D2010 100%)", aura: "#B86030" }
     ]
   },
@@ -687,231 +614,228 @@ const menuData = [
     id: 8, name: "Tea", subtitle: "BREWED WITH SOUL AND TRADITION",
     colors: { bg: "rgba(100,70,30,0.25)", glow: "#A08040" },
     cards: [
-      { name: "Karak Tea", price: 180, desc: "Strong, bold, and richly spiced — our Karak tea is brewed slow with cardamom and evaporated milk for that perfect desi kick.", gradient: "linear-gradient(135deg, #8B5A20 0%, #C48A40 30%, #6A4418 70%, #3D2A10 100%)", aura: "#C48A40" },
-      { name: "Special Tea", price: 200, desc: "Our house special blend — a perfectly balanced chai with  a secret mix of premium tea leaves and aromatic spices.", gradient: "linear-gradient(135deg, #A06A30 0%, #D4A050 30%, #7A5020 70%, #4A3018 100%)", aura: "#D4A050" },
-      { name: "Green Tea", price: 200, desc: "Delicate and refreshing, our premium green tea is a soothing blend that cleanses the palate and calms the soul.", gradient: "linear-gradient(135deg, #2A6A2A 0%, #4A9A4A 30%, #1A4A1A 70%, #0A2A0A 100%)", aura: "#4A9A4A" },
-      { name: "Doodh Patti", price: 150, desc: "Authentic desi doodh patti — rich milk simmered with premium tea leaves until deep amber. Creamy, strong, unforgettable.", gradient: "linear-gradient(135deg, #C4A070 0%, #E8D0A8 30%, #A07A40 70%, #5A4020 100%)", aura: "#E8D0A8" },
+      { name: "Karak Tea", price: 180, desc: "Strong, bold, richly spiced — brewed slow with cardamom and evaporated milk for that perfect desi kick.", gradient: "linear-gradient(135deg, #8B5A20 0%, #C48A40 30%, #6A4418 70%, #3D2A10 100%)", aura: "#C48A40" },
+      { name: "Special Tea", price: 200, desc: "Our house special blend — perfectly balanced chai with a secret mix of premium tea leaves and aromatic spices.", gradient: "linear-gradient(135deg, #A06A30 0%, #D4A050 30%, #7A5020 70%, #4A3018 100%)", aura: "#D4A050" },
+      { name: "Green Tea", price: 200, desc: "Delicate and refreshing, our premium green tea soothes the palate and calms the soul with every sip.", gradient: "linear-gradient(135deg, #2A6A2A 0%, #4A9A4A 30%, #1A4A1A 70%, #0A2A0A 100%)", aura: "#4A9A4A" },
+      { name: "Doodh Patti", price: 150, desc: "Rich milk simmered with premium tea leaves until deep amber. Creamy, strong, and unforgettable.", gradient: "linear-gradient(135deg, #C4A070 0%, #E8D0A8 30%, #A07A40 70%, #5A4020 100%)", aura: "#E8D0A8" },
       { name: "Cardamom Tea", price: 200, desc: "Fragrant cardamom pods crushed into a warming cup of silky chai. Each sip is an aromatic journey.", gradient: "linear-gradient(135deg, #6A8040 0%, #A0B060 30%, #8B7A40 70%, #3D3A18 100%)", aura: "#A0B060" },
-      { name: "Tandoori Tea", price: 250, desc: "The viral sensation — chai poured into a red-hot clay pot, giving it a uniquely smoky, earthy flavor like no other.", gradient: "linear-gradient(135deg, #8B3A1A 0%, #C46030 30%, #A04A20 70%, #4A1A08 100%)", aura: "#C46030" }
+      { name: "Tandoori Tea", price: 250, desc: "The viral sensation — chai poured into a red-hot clay pot, giving it a uniquely smoky, earthy flavor.", gradient: "linear-gradient(135deg, #8B3A1A 0%, #C46030 30%, #A04A20 70%, #4A1A08 100%)", aura: "#C46030" }
     ]
   },
   {
     id: 9, name: "Sandwiches", subtitle: "LAYERED WITH PREMIUM GOODNESS",
     colors: { bg: "rgba(120,90,40,0.2)", glow: "#C4A050" },
     cards: [
-      { name: "Club Sandwich", price: 500, desc: "Triple-decker classic loaded with grilled chicken, crispy bacon, fresh lettuce, tomato, and our special mayo. Served with fries.", gradient: "linear-gradient(135deg, #C4A050 0%, #E8D080 30%, #A08030 70%, #5A4818 100%)", aura: "#E8D080" },
-      { name: "Chai Dosti Special", price: 600, desc: "Our signature sandwich creation — a unique blend of premium ingredients, secret sauce, and love. A Chai Dosti exclusive.", gradient: "linear-gradient(135deg, #D4A020 0%, #F0C040 30%, #B88A18 70%, #6A4A10 100%)", aura: "#F0C040" }
+      { name: "Club Sandwich", price: 500, desc: "Triple-decker loaded with grilled chicken, crispy bacon, fresh lettuce, tomato, and special mayo. Served with fries.", gradient: "linear-gradient(135deg, #C4A050 0%, #E8D080 30%, #A08030 70%, #5A4818 100%)", aura: "#E8D080" },
+      { name: "Chai Dosti Special", price: 600, desc: "Our signature sandwich — a unique blend of premium ingredients, secret sauce, and love. A Chai Dosti exclusive.", gradient: "linear-gradient(135deg, #D4A020 0%, #F0C040 30%, #B88A18 70%, #6A4A10 100%)", aura: "#F0C040" }
     ]
   },
   {
     id: 10, name: "Ice Cream Shakes", subtitle: "CREAMY FROZEN INDULGENCE",
     colors: { bg: "rgba(100,50,60,0.25)", glow: "#C46080" },
     cards: [
-      { name: "Death By Chocolate", price: 550, desc: "An indulgent masterpiece of layered dark chocolate ice cream, chocolate fudge drizzle, and crunchy cocoa crumbs. A chocoholic's dream.", gradient: "linear-gradient(135deg, #3D1A0A 0%, #6A3020 30%, #4A2010 60%, #1A0A04 100%)", aura: "#6A3020" },
-            { name: "Peanut Butter Melt-Away", price: 550, desc: "Smooth peanut butter blended with vanilla ice cream and drizzled with caramel. A nutty, creamy paradise.", gradient: "linear-gradient(135deg, #A07030 0%, #D4A060 30%, #8B6020 70%, #4A3010 100%)", aura: "#D4A060" },
+      { name: "Death By Chocolate", price: 550, desc: "Layered dark chocolate ice cream, chocolate fudge drizzle, and crunchy cocoa crumbs. A chocoholic's dream.", gradient: "linear-gradient(135deg, #3D1A0A 0%, #6A3020 30%, #4A2010 60%, #1A0A04 100%)", aura: "#6A3020" },
+      { name: "Peanut Butter Melt-Away", price: 550, desc: "Smooth peanut butter blended with vanilla ice cream and drizzled with caramel. A nutty, creamy paradise.", gradient: "linear-gradient(135deg, #A07030 0%, #D4A060 30%, #8B6020 70%, #4A3010 100%)", aura: "#D4A060" },
       { name: "Vanilla Twist", price: 450, desc: "Pure Madagascar vanilla ice cream blended into a thick, creamy shake with a caramel ribbon twist.", gradient: "linear-gradient(135deg, #E8D8C0 0%, #F5ECD8 30%, #C4B498 70%, #8A7A60 100%)", aura: "#F5ECD8" },
-      { name: "Cold Coffee", price: 400, desc: "Premium espresso blended with creamy ice cream and cold milk. Rich, smooth, and the perfect afternoon pick-me-up.", gradient: "linear-gradient(135deg, #4A3020 0%, #8B6040 30%, #6A4A30 70%, #2A1A10 100%)", aura: "#8B6040" },
-      { name: "Vanilla/Chocolate Shake", price: 400, desc: "The classic duo — choose between silky vanilla or rich chocolate, both blended to thick, creamy perfection.", gradient: "linear-gradient(135deg, #C4A080 0%, #6A3A20 50%, #E8D0B0 100%)", aura: "#C4A080" }
+      { name: "Cold Coffee", price: 400, desc: "Premium espresso blended with creamy ice cream and cold milk. Rich, smooth, the perfect afternoon pick-me-up.", gradient: "linear-gradient(135deg, #4A3020 0%, #8B6040 30%, #6A4A30 70%, #2A1A10 100%)", aura: "#8B6040" },
+      { name: "Vanilla/Choco Shake", price: 400, desc: "The classic duo — choose between silky vanilla or rich chocolate, both blended to thick, creamy perfection.", gradient: "linear-gradient(135deg, #C4A080 0%, #6A3A20 50%, #E8D0B0 100%)", aura: "#C4A080" }
     ]
   },
   {
     id: 11, name: "Dosti Special", subtitle: "SIGNATURE DRINKS YOU WON'T FIND ANYWHERE ELSE",
     colors: { bg: "rgba(80,40,100,0.2)", glow: "#A050C4" },
     cards: [
-      { name: "Pina Colada", price: 450, desc: "Tropical paradise in a glass — creamy coconut blended with sweet pineapple and crushed ice. Escape to the islands.", gradient: "linear-gradient(135deg, #2A8A40 0%, #D4D040 30%, #F0E860 60%, #1A5A2A 100%)", aura: "#D4D040" },
+      { name: "Pina Colada", price: 450, desc: "Tropical paradise — creamy coconut blended with sweet pineapple and crushed ice. Escape to the islands.", gradient: "linear-gradient(135deg, #2A8A40 0%, #D4D040 30%, #F0E860 60%, #1A5A2A 100%)", aura: "#D4D040" },
       { name: "Lost In Hawaii", price: 450, desc: "A vibrant tropical fusion of exotic fruits, passion, and a splash of paradise. Close your eyes and drift away.", gradient: "linear-gradient(135deg, #E87040 0%, #F0C040 30%, #20A060 60%, #0A4A2A 100%)", aura: "#E87040" },
-      { name: "Angle Kiss", price: 400, desc: "Soft, sweet, and divinely smooth — a heavenly blend of premium flavors that leaves a kiss of sweetness on your lips.", gradient: "linear-gradient(135deg, #E8A0C0 0%, #F0C8D8 30%, #C478A0 70%, #6A2A4A 100%)", aura: "#E8A0C0" },
-      { name: "Lovely Day", price: 400, desc: "Bright, cheerful, and utterly refreshing — this vibrant drink makes every day feel lovely and full of sunshine.", gradient: "linear-gradient(135deg, #F0D040 0%, #F0A030 30%, #E87840 60%, #8A4A10 100%)", aura: "#F0D040" },
-      { name: "Malibu Affairs", price: 500, desc: "Smooth coconut vibes meet tropical fruit in this luxurious Malibu-inspired creation. Sophisticated and refreshing.", gradient: "linear-gradient(135deg#20A0C0 0%, #40C0E0 30%, #F0E080 60%, #0A5A6A 100%)", aura: "#40C0E0" },
-      { name: "Strawberry Zinc", price: 400, desc: "Fresh strawberries blended with a zingy citrus twist. Sweet, tangy, and bursting with vibrant berry goodness.", gradient: "linear-gradient(135deg, #C43040 0%, #E86080 30%, #F0A0B0 60%, #6A1020 100%)", aura: "#E86080" },
-      { name: "Midnight Sunshine", price: 450, desc: "A mysterious blend of dark berry flavors illuminated by a burst of citrus sunshine. Bold, beautiful, unforgettable.", gradient: "linear-gradient(135deg, #1A1040 0%, #4A2080 30%, #E8C040 60%, #0A0820 100%)", aura: "#4A2080" },
+      { name: "Angle Kiss", price: 400, desc: "Soft, sweet, and divinely smooth — a heavenly blend that leaves a kiss of sweetness on your lips.", gradient: "linear-gradient(135deg, #E8A0C0 0%, #F0C8D8 30%, #C478A0 70%, #6A2A4A 100%)", aura: "#E8A0C0" },
+      { name: "Lovely Day", price: 400, desc: "Bright, cheerful, and utterly refreshing — this vibrant drink makes every day feel lovely and sunny.", gradient: "linear-gradient(135deg, #F0D040 0%, #F0A030 30%, #E87840 60%, #8A4A10 100%)", aura: "#F0D040" },
+      { name: "Malibu Affairs", price: 500, desc: "Smooth coconut vibes meet tropical fruit in this luxurious Malibu-inspired creation. Sophisticated and refreshing.", gradient: "linear-gradient(135deg, #20A0C0 0%, #40C0E0 30%, #F0E080 60%, #0A5A6A 100%)", aura: "#40C0E0" },
+      { name: "Strawberry Zinc", price: 400, desc: "Fresh strawberries blended with a zingy citrus twist. Sweet, tangy, and bursting with berry goodness.", gradient: "linear-gradient(135deg, #C43040 0%, #E86080 30%, #F0A0B0 60%, #6A1020 100%)", aura: "#E86080" },
+      { name: "Midnight Sunshine", price: 450, desc: "Dark berry flavors illuminated by a burst of citrus sunshine. Bold, beautiful, unforgettable.", gradient: "linear-gradient(135deg, #1A1040 0%, #4A2080 30%, #E8C040 60%, #0A0820 100%)", aura: "#4A2080" },
       { name: "Electric Lemonade", price: 400, desc: "Shockingly refreshing — vivid blue lemonade with an electrifying citrus punch that lights up your taste buds.", gradient: "linear-gradient(135deg, #2040C0 0%, #40A0F0 30%, #80E0F0 60%, #0A2060 100%)", aura: "#40A0F0" },
-      { name: "Berry Breeze", price: 400, desc: "A cool breeze of mixed berries blended with mint and ice. Light, refreshing, and perfectly balanced.", gradient: "linear-gradient(135deg, #6A20A0 0%, #A050D0 30%, #C090E0 60%,#3A1060 100%)", aura: "#A050D0" },
+      { name: "Berry Breeze", price: 400, desc: "Cool breeze of mixed berries blended with mint and ice. Light, refreshing, and perfectly balanced.", gradient: "linear-gradient(135deg, #6A20A0 0%, #A050D0 30%, #C090E0 60%, #3A1060 100%)", aura: "#A050D0" },
       { name: "Strawberry Lemonade", price: 350, desc: "Classic lemonade elevated with fresh strawberry puree. The perfect sweet-tart balance on a warm day.", gradient: "linear-gradient(135deg, #E85070 0%, #F0A0A0 30%, #F0E050 60%, #8A2030 100%)", aura: "#E85070" },
       { name: "Lady In Pink", price: 450, desc: "Elegantly crafted with rose, berries, and a touch of vanilla. Beautiful to look at, divine to taste.", gradient: "linear-gradient(135deg, #E070A0 0%, #F0B0C8 30%, #F8D8E0 60%, #8A3060 100%)", aura: "#E070A0" },
-      { name: "Blue Sky", price: 400, desc: "As clear and refreshing as a perfect blue sky — this cooling drink features blue curacao and citrus perfection.", gradient: "linear-gradient(135deg, #1060C0 0%, #30A0F0 30%, #80D0F8 60%, #082A60 100%)", aura: "#30A0F0" },
-      { name: "Purple Heaven", price: 450, desc: "A dreamy purple blend of grape, lavender, and secret fruits. Velvety smooth and utterly heavenly.", gradient: "linear-gradient(135deg, #4A1080 0%, #8040C0 30%, #C080E0 60%, #2A0840 100%)", aura: "#8040C0" },
-      { name: "Real Apple", price: 350, desc: "Fresh pressed apple juice blended to perfection. Pure, natural, and crisp — the taste of real orchard apples.", gradient: "linear-gradient(135deg, #40A030 0%, #80C840 30%, #C0E870 60%, #206020 100%)", aura: "#80C840" },
-      { name: "Seasonal Fresh Juice", price: 300, desc: "Made with whatever is freshest from the market today. Always seasonal, always delicious, always real.", gradient: "linear-gradient(135deg, #E8A040 0%, #80C040 30%, #F0C060 60%, #4A5020 100%)", aura: "#80C040" }
+      { name: "Blue Sky", price: 400, desc: "Clear and refreshing as a perfect blue sky — cooling blue curacao and citrus perfection.", gradient: "linear-gradient(135deg, #1060C0 0%, #30A0F0 30%, #80D0F8 60%, #082A60 100%)", aura: "#30A0F0" },
+      { name: "Purple Heaven", price: 450, desc: "Dreamy purple blend of grape, lavender, and secret fruits. Velvety smooth and utterly heavenly.", gradient: "linear-gradient(135deg, #4A1080 0%, #8040C0 30%, #C080E0 60%, #2A0840 100%)", aura: "#8040C0" },
+      { name: "Real Apple", price: 350, desc: "Fresh pressed apple juice blended to perfection. Pure, natural, crisp — the taste of real orchard apples.", gradient: "linear-gradient(135deg, #40A030 0%, #80C840 30%, #C0E870 60%, #206020 100%)", aura: "#80C840" },
+      { name: "Seasonal Fresh Juice", price: 300, desc: "Made with whatever is freshest today. Always seasonal, always delicious, always real.", gradient: "linear-gradient(135deg, #E8A040 0%, #80C040 30%, #F0C060 60%, #4A5020 100%)", aura: "#80C040" }
     ]
   },
-   {
+  {
     id: 12, name: "Panini", subtitle: "PRESSED TO PERFECTION",
     colors: { bg: "rgba(120,80,30,0.2)", glow: "#B88A40" },
     cards: [
-      { name: "Grill Chicken Panini", price: 500, desc: "Grilled chicken breast pressed between artisan bread with melted cheese, sun-dried tomatoes, and basil pesto.", gradient: "linear-gradient(135deg, #B88A40 0%, #D4B060 30%, #A07830 70%, #5A4018 100%)", aura: "#D4B060" },
-      { name: "Hot Jalapeno Panini", price: 500, desc: "For the spice lovers — fiery jalapenos, pepper jack cheese, and seasoned chicken pressed into crispy golden bread.", gradient: "linear-gradient(135deg, #C44020 0%, #E87040 30%, #4A8020 60%, #3A1808 100%)", aura: "#E87040" }
+      { name: "Grill Chicken Panini", price: 500, desc: "Grilled chicken between artisan bread with melted cheese, sun-dried tomatoes, and basil pesto.", gradient: "linear-gradient(135deg, #B88A40 0%, #D4B060 30%, #A07830 70%, #5A4018 100%)", aura: "#D4B060" },
+      { name: "Hot Jalapeno Panini", price: 500, desc: "Fiery jalapenos, pepper jack cheese, and seasoned chicken pressed into crispy golden bread.", gradient: "linear-gradient(135deg, #C44020 0%, #E87040 30%, #4A8020 60%, #3A1808 100%)", aura: "#E87040" }
     ]
   },
   {
     id: 13, name: "Kehwa", subtitle: "ANCIENT FLAVORS, WARM SOUL",
     colors: { bg: "rgba(30,70,30,0.25)", glow: "#4A8A30" },
     cards: [
-      { name: "Peshawri Kehwa", price: 250, desc: "Traditional Peshawari green tea infused with cardamom, cinnamon, saffron strands, and crushed almonds. Royally warming.", gradient: "linear-gradient(135deg, #1A4A1A 0%, #4A8A30 30%, #D4A040 60%, #0A2A0A 100%)", aura: "#4A8A30" },
-      { name: "Lemon Grass Kehwa", price: 250, desc: "Refreshing lemon grass steeped with green tea and honey. A citrusy, aromatic twist on the classic kehwa tradition.", gradient: "linear-gradient(135deg, #4A8A20 0%, #80C040 30%, #C4E060 60%, #2A5010 100%)", aura: "#80C040" }
+      { name: "Peshawri Kehwa", price: 250, desc: "Traditional Peshawari green tea infused with cardamom, cinnamon, saffron, and crushed almonds. Royally warming.", gradient: "linear-gradient(135deg, #1A4A1A 0%, #4A8A30 30%, #D4A040 60%, #0A2A0A 100%)", aura: "#4A8A30" },
+      { name: "Lemon Grass Kehwa", price: 250, desc: "Refreshing lemon grass steeped with green tea and honey. A citrusy twist on the classic kehwa tradition.", gradient: "linear-gradient(135deg, #4A8A20 0%, #80C040 30%, #C4E060 60%, #2A5010 100%)", aura: "#80C040" }
     ]
   },
   {
     id: 14, name: "Ice Tea", subtitle: "CHILLED, FRUITY, REFRESHING",
     colors: { bg: "rgba(120,70,50,0.2)", glow: "#E89060" },
     cards: [
-      { name: "Peach Ice Tea", price: 350, desc: "Sweet peach nectar blended with cold-brewed tea and served over ice. Summery, fruity, and impossibly refreshing.", gradient: "linear-gradient(135deg, #E8A060 0%, #F0C890 30%, #C47840 70%, #6A4020 100%)", aura: "#E8A060" },
-      { name: "Lemon Ice Tea", price: 350, desc: "Tart lemon meets smooth cold tea in this classic thirst quencher. Perfectly sweet, perfectly tart, perfectly cold.", gradient: "linear-gradient(135deg, #E8D040 0%, #F0E878 30%, #C4B030 70%, #6A5A18 100%)", aura: "#E8D040" },
-      { name: "Raspberry Ice Tea", price: 350, desc: "Luscious raspberry puree swirled into iced tea for a berry-licious experience. Bold, fruity, and gorgeous.", gradient: "linear-gradient(135deg, #C03060 0%, #E06088 30%, #F0A0B8 60%, #601830 100%)", aura: "#C03060" }
+      { name: "Peach Ice Tea", price: 350, desc: "Sweet peach nectar with cold-brewed tea served over ice. Summery, fruity, impossibly refreshing.", gradient: "linear-gradient(135deg, #E8A060 0%, #F0C890 30%, #C47840 70%, #6A4020 100%)", aura: "#E8A060" },
+      { name: "Lemon Ice Tea", price: 350, desc: "Tart lemon meets smooth cold tea. Perfectly sweet, perfectly tart, perfectly cold.", gradient: "linear-gradient(135deg, #E8D040 0%, #F0E878 30%, #C4B030 70%, #6A5A18 100%)", aura: "#E8D040" },
+      { name: "Raspberry Ice Tea", price: 350, desc: "Luscious raspberry puree swirled into iced tea for a berry-licious experience. Bold, fruity, gorgeous.", gradient: "linear-gradient(135deg, #C03060 0%, #E06088 30%, #F0A0B8 60%, #601830 100%)", aura: "#C03060" }
     ]
   },
-   {
+  {
     id: 15, name: "Desserts", subtitle: "SWEET ENDINGS, LASTING MEMORIES",
     colors: { bg: "rgba(80,30,30,0.25)", glow: "#8A4030" },
     cards: [
-      { name: "Molten Lava", price: 500, desc: "A warm chocolate cake that oozes with rich, velvety molten chocolate from its center. Served with vanilla ice cream.", gradient: "linear-gradient(135deg, #8A2A10 0%, #C44020 30%, #6A2010 60%, #2A0A04 100%)", aura: "#C44020" },
-      { name: "Brownie Ala Mode", price: 450, desc: "A thick, fudgy chocolate brownie served warm and topped with a generous scoop of premium vanilla ice cream and chocolate drizzle.", gradient: "linear-gradient(135deg, #4A2010 0%, #7A3A20 30%, #E8D0A0 60%, #2A1008 100%)", aura: "#7A3A20" },
-      { name: "Gulab Jammun", price: 300, desc: "Soft, spongy milk-solid dumplings soaked in fragrant rose and cardamom sugar syrup. A timeless desi delicacy. 4 pieces.", gradient: "linear-gradient(135deg, #A06030 0%, #D4A060 30%, #8A4A20 70%, #4A2A10 100%)", aura: "#D4A060" }
+      { name: "Molten Lava", price: 500, desc: "Warm chocolate cake oozing rich, velvety molten chocolate. Served with vanilla ice cream.", gradient: "linear-gradient(135deg, #8A2A10 0%, #C44020 30%, #6A2010 60%, #2A0A04 100%)", aura: "#C44020" },
+      { name: "Brownie Ala Mode", price: 450, desc: "Thick fudgy brownie served warm, topped with premium vanilla ice cream and chocolate drizzle.", gradient: "linear-gradient(135deg, #4A2010 0%, #7A3A20 30%, #E8D0A0 60%, #2A1008 100%)", aura: "#7A3A20" },
+      { name: "Gulab Jammun", price: 300, desc: "Soft spongy dumplings soaked in fragrant rose and cardamom sugar syrup. Timeless desi delicacy. 4 pcs.", gradient: "linear-gradient(135deg, #A06030 0%, #D4A060 30%, #8A4A20 70%, #4A2A10 100%)", aura: "#D4A060" }
     ]
   },
   {
     id: 16, name: "House Special", subtitle: "REFRESHMENTS CRAFTED IN-HOUSE",
     colors: { bg: "rgba(30,80,40,0.2)", glow: "#40A050" },
     cards: [
-      { name: "Mint Margarita", price: 300, desc: "Fresh mint leaves crushed with lime, a hint of sugar, and sparkling soda. Crisp, cool, and endlessly refreshing.", gradient: "linear-gradient(135deg, #20A040 0%, #60D060 30%, #A0F0A0 60%, #105020 100%)", aura: "#60D060" },
-      { name: "Lemon Margarita", price: 300, desc: "Zingy fresh lemons blended with crushed ice and sweetened to perfection. A citrus explosion in every sip.", gradient: "linear-gradient(135deg, #D4D020 0%, #F0F060 30%, #A0A018 70%, #5A5A08 100%)", aura: "#F0F060" },
-      { name: "Peach Margarita", price: 350, desc: "Sweet peach puree meets tangy citrus in this fruity, frozen delight. Summer captured in a glass.", gradient: "linear-gradient(135deg, #E8A050 0%, #F0C880 30%, #C48838 70%, #6A4820 100%)", aura: "#F0C880" },
-      { name: "Blue Berry Margarita", price: 350, desc: "Wild blueberries blended into a frosty margarita with a hint of lime. Vibrant purple and bursting with flavor.", gradient: "linear-gradient(135deg, #3030A0 0%, #6060D0 30%, #A090E0 60%, #181850 100%)", aura: "#6060D0" },
-      { name: "Strawberry Margarita", price: 350, desc: "Ripe strawberries blended into a pink, frosty paradise with lime and crushed ice. Sweet, tangy, and beautiful.", gradient: "linear-gradient(135deg, #D04060 0%, #F08090 30%, #F8C0C8 60%, #702030 100%)", aura: "#D04060" },
-      { name: "Red Bull", price: 400, desc: "The original energy drink served ice cold. Wings on demand. The perfect pick-me-up to power through your day.", gradient: "linear-gradient(135deg, #1040A0 0%, #3070D0 30%, #D4A020 60%, #082050 100%)", aura: "#3070D0" },
-      { name: "Soft Drink", price: 150, desc: "Your choice of classic carbonated beverages. Served chilled in a tall glass with ice and lemon.", gradient: "linear-gradient(135deg, #C02020 0%, #E05030 30%, #2A2A2A 60%, #601010 100%)", aura: "#C02020" },
-      { name: "Water", price: 100, desc: "Premium filtered mineral water. Because even hydration should feel elevated at Chai Dosti.", gradient: "linear-gradient(135deg, #40A0D0 0%, #80D0F0 30%, #C0E8F8 60%, #205060 100%)", aura: "#80D0F0" }
+      { name: "Mint Margarita", price: 300, desc: "Fresh mint leaves crushed with lime, sugar, and sparkling soda. Crisp, cool, endlessly refreshing.", gradient: "linear-gradient(135deg, #20A040 0%, #60D060 30%, #A0F0A0 60%, #105020 100%)", aura: "#60D060" },
+      { name: "Lemon Margarita", price: 300, desc: "Zingy fresh lemons blended with crushed ice and sweetened to perfection. A citrus explosion.", gradient: "linear-gradient(135deg, #D4D020 0%, #F0F060 30%, #A0A018 70%, #5A5A08 100%)", aura: "#F0F060" },
+      { name: "Peach Margarita", price: 350, desc: "Sweet peach puree meets tangy citrus in this fruity, frozen delight. Summer in a glass.", gradient: "linear-gradient(135deg, #E8A050 0%, #F0C880 30%, #C48838 70%, #6A4820 100%)", aura: "#F0C880" },
+      { name: "Blue Berry Margarita", price: 350, desc: "Wild blueberries blended into a frosty margarita with lime. Vibrant and bursting with flavor.", gradient: "linear-gradient(135deg, #3030A0 0%, #6060D0 30%, #A090E0 60%, #181850 100%)", aura: "#6060D0" },
+      { name: "Strawberry Margarita", price: 350, desc: "Ripe strawberries in a pink frosty paradise with lime and crushed ice. Sweet, tangy, beautiful.", gradient: "linear-gradient(135deg, #D04060 0%, #F08090 30%, #F8C0C8 60%, #702030 100%)", aura: "#D04060" },
+      { name: "Red Bull", price: 400, desc: "Original energy drink served ice cold. Wings on demand. Perfect pick-me-up.", gradient: "linear-gradient(135deg, #1040A0 0%, #3070D0 30%, #D4A020 60%, #082050 100%)", aura: "#3070D0" },
+      { name: "Soft Drink", price: 150, desc: "Classic carbonated beverages served chilled in a tall glass with ice and lemon.", gradient: "linear-gradient(135deg, #C02020 0%, #E05030 30%, #2A2A2A 60%, #601010 100%)", aura: "#C02020" },
+      { name: "Water", price: 100, desc: "Premium filtered mineral water. Even hydration feels elevated at Chai Dosti.", gradient: "linear-gradient(135deg, #40A0D0 0%, #80D0F0 30%, #C0E8F8 60%, #205060 100%)", aura: "#80D0F0" }
     ]
   },
   {
     id: 17, name: "BBQ", subtitle: "FLAME-KISSED, SMOKE-INFUSED",
     colors: { bg: "rgba(120,30,10,0.25)", glow: "#C04020" },
     cards: [
-      { name: "Chicken Boti", price: 650, desc: "12 pieces of tender chicken marinated in our special BBQ spice blend, grilled over open flames until charred and juicy.", gradient: "linear-gradient(135deg, #8B2A10 0%, #C04020 30%, #E87040 60%, #3D1208 100%)", aura: "#C04020" },
-      { name: "Chicken Cheese Boti", price: 400, desc: "Succulent chicken boti topped with melted cheese and a drizzle of smoky BBQ sauce. 2 pieces of cheesy perfection.", gradient: "linear-gradient(135deg, #A04020 0%, #D06030 30%, #E8B040 60%, #4A1A08 100%)", aura: "#D06030" },
-      { name: "Malai Boti", price: 750, desc: "Cream-marinated chicken pieces grilled to buttery, melt-in-your-mouth perfection. 12 pieces of pure malai heaven.", gradient: "linear-gradient(135deg, #D4B080 0%, #E8D4B0 30%, #C4A070 70%, #6A5430 100%)", aura: "#E8D4B0" },
-      { name: "Kastori Boti", price: 700, desc: "A royal recipe of aromatic kastoori spices infusing every fiber of tender grilled chicken. 12 pieces of fragrant bliss.", gradient: "linear-gradient(135deg, #7A5020 0%, #B88040 30%, #D4A860 60%, #3D2810 100%)", aura: "#B88040" },
-      { name: "Chicken Kabab", price: 500, desc: "Hand-crafted minced chicken kababs seasoned with fresh herbs and grilled to smoky perfection. 4 pieces.", gradient: "linear-gradient(135deg, #6A3A18 0%, #A06030 30%, #C48040 60%, #3D2210 100%)", aura: "#A06030" },
-      { name: "Reshm Kabab", price: 550, desc: "Silky smooth minced chicken kababs enriched with cream and cashews, grilled until golden. 4 pieces of luxury.", gradient: "linear-gradient(135deg, #C4A070 0%, #E8C898 30%, #A08050 70%, #5A4428 100%)", aura: "#E8C898" },
-      { name: "Hara Hara Kabab", price: 550, desc: "Vibrant green kababs packed with fresh mint, coriander, and green chillies. Bursting with herbaceous flavor. 4 pieces.", gradient: "linear-gradient(135deg, #2A6A20 0%, #4A9A40 30%, #70C060 60%, #1A4010 100%)", aura: "#4A9A40" }
+      { name: "Chicken Boti", price: 650, desc: "12 pieces marinated in special BBQ spice blend, grilled over open flames until charred and juicy.", gradient: "linear-gradient(135deg, #8B2A10 0%, #C04020 30%, #E87040 60%, #3D1208 100%)", aura: "#C04020" },
+      { name: "Chicken Cheese Boti", price: 400, desc: "Succulent boti topped with melted cheese and smoky BBQ sauce. 2 pieces of cheesy perfection.", gradient: "linear-gradient(135deg, #A04020 0%, #D06030 30%, #E8B040 60%, #4A1A08 100%)", aura: "#D06030" },
+      { name: "Malai Boti", price: 750, desc: "Cream-marinated chicken grilled to buttery, melt-in-your-mouth perfection. 12 pieces of malai heaven.", gradient: "linear-gradient(135deg, #D4B080 0%, #E8D4B0 30%, #C4A070 70%, #6A5430 100%)", aura: "#E8D4B0" },
+      { name: "Kastori Boti", price: 700, desc: "Royal kastoori spices infusing every fiber of tender grilled chicken. 12 pieces of fragrant bliss.", gradient: "linear-gradient(135deg, #7A5020 0%, #B88040 30%, #D4A860 60%, #3D2810 100%)", aura: "#B88040" },
+      { name: "Chicken Kabab", price: 500, desc: "Hand-crafted minced chicken kababs seasoned with fresh herbs, grilled to smoky perfection. 4 pcs.", gradient: "linear-gradient(135deg, #6A3A18 0%, #A06030 30%, #C48040 60%, #3D2210 100%)", aura: "#A06030" },
+      { name: "Reshm Kabab", price: 550, desc: "Silky smooth minced chicken enriched with cream and cashews, grilled golden. 4 pieces of luxury.", gradient: "linear-gradient(135deg, #C4A070 0%, #E8C898 30%, #A08050 70%, #5A4428 100%)", aura: "#E8C898" },
+      { name: "Hara Hara Kabab", price: 550, desc: "Vibrant green kababs packed with fresh mint, coriander, and green chillies. 4 pieces of herb magic.", gradient: "linear-gradient(135deg, #2A6A20 0%, #4A9A40 30%, #70C060 60%, #1A4010 100%)", aura: "#4A9A40" }
     ]
   },
   {
     id: 18, name: "Tandoor", subtitle: "FROM THE HEART OF THE CLAY OVEN",
     colors: { bg: "rgba(100,70,40,0.2)", glow: "#A08050" },
     cards: [
-      { name: "Sada Roti", price: 30, desc: "Simple whole wheat roti baked fresh in our tandoor. The perfect accompaniment to any curry or BBQ.", gradient: "linear-gradient(135deg, #A08050 0%, #C4A878 30%, #8A6A40 70%, #4A3820 100%)", aura: "#C4A878" },
-      { name: "Plain Naan", price: 40, desc: "Soft, fluffy naan bread baked to perfection in our clay tandoor. Light, airy, and wonderfully pillowy.", gradient: "linear-gradient(135deg, #C4A870 0%, #E8D4A8 30%, #A08850 70%, #5A4828 100%)", aura: "#E8D4A8" },
-      { name: "Garlic Naan", price: 80, desc: "Our classic naan infused with roasted garlic and brushed with butter. Aromatic and irresistibly flavorful.", gradient: "linear-gradient(135deg, #D4B878 0%, #F0E0C0 30%, #B89858 70%, #6A5430 100%)", aura: "#F0E0C0" },
-      { name: "Roghni Naan", price: 60, desc: "Glossy, buttery naan brushed with oil and sprinkled with sesame and nigella seeds. Rich and indulgent.", gradient: "linear-gradient(135deg, #B89050 0%, #D4B478 30%, #A07A40 70%, #5A4020 100%)", aura: "#D4B478" },
-      { name: "Kalonji Naan", price: 60, desc: "Soft naan topped with fragrant kalonji (nigella) seeds. A subtle, nutty flavor that elevates every bite.", gradient: "linear-gradient(135deg, #8A7040 0%, #B89860 30%, #6A5430 70%, #3D3018 100%)", aura: "#B89860" },
+      { name: "Sada Roti", price: 30, desc: "Simple whole wheat roti baked fresh in our tandoor. The perfect accompaniment.", gradient: "linear-gradient(135deg, #A08050 0%, #C4A878 30%, #8A6A40 70%, #4A3820 100%)", aura: "#C4A878" },
+      { name: "Plain Naan", price: 40, desc: "Soft, fluffy naan baked to perfection in our clay tandoor. Light, airy, pillowy.", gradient: "linear-gradient(135deg, #C4A870 0%, #E8D4A8 30%, #A08850 70%, #5A4828 100%)", aura: "#E8D4A8" },
+      { name: "Garlic Naan", price: 80, desc: "Classic naan infused with roasted garlic and brushed with butter. Aromatic and irresistible.", gradient: "linear-gradient(135deg, #D4B878 0%, #F0E0C0 30%, #B89858 70%, #6A5430 100%)", aura: "#F0E0C0" },
+      { name: "Roghni Naan", price: 60, desc: "Glossy buttery naan brushed with oil, sprinkled with sesame and nigella seeds. Rich.", gradient: "linear-gradient(135deg, #B89050 0%, #D4B478 30%, #A07A40 70%, #5A4020 100%)", aura: "#D4B478" },
+      { name: "Kalonji Naan", price: 60, desc: "Soft naan topped with fragrant kalonji seeds. A subtle, nutty flavor that elevates every bite.", gradient: "linear-gradient(135deg, #8A7040 0%, #B89860 30%, #6A5430 70%, #3D3018 100%)", aura: "#B89860" },
       { name: "Khamiri Roti", price: 50, desc: "Leavened whole wheat bread with a soft, spongy texture. Traditional and deeply satisfying.", gradient: "linear-gradient(135deg, #9A7A48 0%, #C4A870 30%, #7A6038 70%, #4A3820 100%)", aura: "#C4A870" },
-      { name: "Special Naan", price: 100, desc: "Our signature stuffed naan filled with a special blend of ingredients. The crown jewel of our tandoor.", gradient: "linear-gradient(135deg, #D4A850 0%, #F0D088 30%, #B88A38 70%, #6A4E20 100%)", aura: "#F0D088" },
-      { name: "Raita", price: 100, desc: "Cool, creamy yogurt mixed with fresh cucumbers, mint, and a sprinkle of cumin. The perfect cooling companion.", gradient: "linear-gradient(135deg, #E8E8E0 0%, #F0F0E8 30%, #C4C4B8 70%, #8A8A78 100%)", aura: "#E8E8E0" },
-      { name: "Fresh Salad", price: 150, desc: "Crisp seasonal vegetables tossed with lemon dressing and fresh herbs. Light, healthy, and vibrant.", gradient: "linear-gradient(135deg, #40A040 0%, #80D050 30%, #C0E870 60%, #207020 100%)", aura: "#80D050" }
+      { name: "Special Naan", price: 100, desc: "Our signature stuffed naan filled with a special blend. The crown jewel of our tandoor.", gradient: "linear-gradient(135deg, #D4A850 0%, #F0D088 30%, #B88A38 70%, #6A4E20 100%)", aura: "#F0D088" },
+      { name: "Raita", price: 100, desc: "Cool creamy yogurt with fresh cucumbers, mint, and cumin. The perfect cooling companion.", gradient: "linear-gradient(135deg, #E8E8E0 0%, #F0F0E8 30%, #C4C4B8 70%, #8A8A78 100%)", aura: "#E8E8E0" },
+      { name: "Fresh Salad", price: 150, desc: "Crisp seasonal vegetables tossed with lemon dressing and fresh herbs. Light and vibrant.", gradient: "linear-gradient(135deg, #40A040 0%, #80D050 30%, #C0E870 60%, #207020 100%)", aura: "#80D050" }
     ]
   },
   {
     id: 19, name: "Mocktails", subtitle: "VIBRANT, BOLD, ALCOHOL-FREE",
     colors: { bg: "rgba(60,20,80,0.25)", glow: "#8040A0" },
     cards: [
-      { name: "Midnight Sunshine", price: 450, desc: "A mysterious blend of dark berry flavors illuminated by a burst of citrus sunshine. Bold, beautiful, unforgettable.", gradient: "linear-gradient(135deg, #1A1040 0%, #4A2080 30%, #E8C040 60%, #0A0820 100%)", aura: "#4A2080" },
-      { name: "Electric Lemonade", price: 400, desc: "Shockingly refreshing — vivid blue lemonade with an electrifying citrus punch that lights up your taste buds.", gradient: "linear-gradient(135deg, #2040C0 0%, #40A0F0 30%, #80E0F0 60%, #0A2060 100%)", aura: "#40A0F0" },
-      { name: "Berry Breeze", price: 400, desc: "A cool breeze of mixed berries blended with mint and ice. Light, refreshing, and perfectly balanced.", gradient: "linear-gradient(135deg, #6A20A0 0%, #A050D0 30%, #C090E0 60%, #3A1060 100%)", aura: "#A050D0" },
-      { name: "Strawberry Lemonade", price: 350, desc: "Classic lemonade elevated with fresh strawberry puree. The perfect sweet-tart balance on a warm day.", gradient: "linear-gradient(135deg, #E85070 0%, #F0A0A0 30%, #F0E050 60%, #8A2030 100%)", aura: "#E85070" },
-      { name: "Lady In Pink", price: 450, desc: "Elegantly crafted with rose, berries, and a touch of vanilla. Beautiful to look at, divine to taste.", gradient: "linear-gradient(135deg, #E070A0 0%, #F0B0C8 30%, #F8D8E0 60%, #8A3060 100%)", aura: "#E070A0" },
-      { name: "Blue Sky", price: 400, desc: "As clear and refreshing as a perfect blue sky — this cooling drink features blue curacao and citrus perfection.", gradient: "linear-gradient(135deg, #1060C0 0%, #30A0F0 30%, #80D0F8 60%, #082A60 100%)", aura: "#30A0F0" },
-      { name: "Purple Heaven", price: 450, desc: "A dreamy purple blend of grape, lavender, and secret fruits. Velvety smooth and utterly heavenly.", gradient: "linear-gradient(135deg, #4A1080 0%, #8040C0 30%, #C080E0 60%, #2A0840 100%)", aura: "#8040C0" }
+      { name: "Midnight Sunshine", price: 450, desc: "Dark berry flavors illuminated by citrus sunshine. Bold, beautiful, unforgettable.", gradient: "linear-gradient(135deg, #1A1040 0%, #4A2080 30%, #E8C040 60%, #0A0820 100%)", aura: "#4A2080" },
+      { name: "Electric Lemonade", price: 400, desc: "Vivid blue lemonade with an electrifying citrus punch. Shockingly refreshing.", gradient: "linear-gradient(135deg, #2040C0 0%, #40A0F0 30%, #80E0F0 60%, #0A2060 100%)", aura: "#40A0F0" },
+      { name: "Berry Breeze", price: 400, desc: "Mixed berries with mint and ice. Light, refreshing, perfectly balanced.", gradient: "linear-gradient(135deg, #6A20A0 0%, #A050D0 30%, #C090E0 60%, #3A1060 100%)", aura: "#A050D0" },
+      { name: "Strawberry Lemonade", price: 350, desc: "Classic lemonade with fresh strawberry puree. Sweet-tart perfection.", gradient: "linear-gradient(135deg, #E85070 0%, #F0A0A0 30%, #F0E050 60%, #8A2030 100%)", aura: "#E85070" },
+      { name: "Lady In Pink", price: 450, desc: "Rose, berries, and vanilla — beautiful to look at, divine to taste.", gradient: "linear-gradient(135deg, #E070A0 0%, #F0B0C8 30%, #F8D8E0 60%, #8A3060 100%)", aura: "#E070A0" },
+      { name: "Blue Sky", price: 400, desc: "Clear and refreshing as a perfect blue sky. Blue curacao and citrus perfection.", gradient: "linear-gradient(135deg, #1060C0 0%, #30A0F0 30%, #80D0F8 60%, #082A60 100%)", aura: "#30A0F0" },
+      { name: "Purple Heaven", price: 450, desc: "Dreamy purple blend of grape and lavender. Velvety smooth, utterly heavenly.", gradient: "linear-gradient(135deg, #4A1080 0%, #8040C0 30%, #C080E0 60%, #2A0840 100%)", aura: "#8040C0" }
     ]
   },
   {
-    id: 20, name: "Special Drinks", subtitle: "CURATED CREATIONS FOR THE CONNOISSEUR",
+    id: 20, name: "Special Drinks", subtitle: "CURATED FOR THE CONNOISSEUR",
     colors: { bg: "rgba(60,30,60,0.25)", glow: "#A04080" },
     cards: [
-      { name: "Peach", price: 350, desc: "Fresh peach nectar blended with ice and a hint of vanilla. Sweet, smooth, and utterly peachy.", gradient: "linear-gradient(135deg, #E8A060 0%, #F0C888 30%, #C48040 70%, #6A4020 100%)", aura: "#E8A060" },
-      { name: "Lemon", price: 300, desc: "Pure squeezed lemon with honey and chilled water. Simple, classic, and refreshingly tart.", gradient: "linear-gradient(135deg, #D4D030 0%, #F0F060 30%, #B0B020 70%, #5A5A10 100%)", aura: "#F0F060" },
-      { name: "Raspberry", price: 350, desc: "Plump raspberries crushed into a vibrant, tangy drink. Beautifully pink and full of berry flavor.", gradient: "linear-gradient(135deg, #C03060 0%, #E06088 30%, #F0A0B8 60%, #601830 100%)", aura: "#E06088" },
-      { name: "Ice Tea", price: 300, desc: "Classic brewed tea served chilled with lemon and a touch of sweetness. Cool, smooth, and timeless.", gradient: "linear-gradient(135deg, #A07030 0%, #D4A060 30%, #8B5A20 70%, #4A3010 100%)", aura: "#D4A060" },
-      { name: "Chai", price: 250, desc: "Our signature chai served in a special cold-brew style. Rich tea flavor with creamy milk, served iced.", gradient: "linear-gradient(135deg, #8B5A20 0%, #C48A40 30%, #6A4418 70%, #3D2A10 100%)", aura: "#C48A40" },
-      { name: "Angle Kiss", price: 400, desc: "Soft, sweet, and divinely smooth. A heavenly blend that leaves a kiss of sweetness on your lips.", gradient: "linear-gradient(135deg, #E8A0C0 0%, #F0C8D8 30%, #C478A0 70%, #6A2A4A 100%)", aura: "#E8A0C0" },
-      { name: "Dosti", price: 400, desc: "Our namesake drink — a secret recipe that embodies the spirit of friendship. Share one with someone special.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0C848 30%, #8040A0 60%, #4A2A08 100%)", aura: "#F0C848" },
-      { name: "Toky", price: 400, desc: "Inspired by the electric nights of Tokyo — vibrant, energetic, and full of unexpected flavor twists.", gradient: "linear-gradient(135deg, #E02040 0%, #F06070 30%, #F0C040 60%, #801020 100%)", aura: "#E02040" },
-      { name: "Lovely Day", price: 400, desc: "Bright and cheerful — this drink is like sunshine in a glass. Perfect for making any day lovely.", gradient: "linear-gradient(135deg, #F0D040 0%, #F0A030 30%, #E87840 60%, #8A4A10 100%)", aura: "#F0D040" },
-      { name: "Malibu Affairs", price: 500, desc: "Smooth coconut vibes meet tropical fruit in this luxurious creation. Sophisticated and refreshing.", gradient: "linear-gradient(135deg, #20A0C0 0%, #40C0E0 30%, #F0E080 60%, #0A5A6A 100%)", aura: "#40C0E0" },
-      { name: "Strawberry Zinc", price: 400, desc: "Fresh strawberries blended with a zingy citrus twist. Sweet, tangy, and vibrant.", gradient: "linear-gradient(135deg, #C43040 0%, #E86080 30%, #F0A0B0 60%, #6A1020 100%)", aura: "#E86080" },
-      { name: "Real Apple", price: 350, desc: "Fresh pressed apple juice. Pure, natural, and crisp — just like picking an apple from the tree.", gradient: "linear-gradient(135deg, #40A030 0%, #80C840 30%, #C0E870 60%, #206020 100%)", aura: "#80C840" },
-      { name: "Pina Colada", price: 450, desc: "Creamy coconut and sweet pineapple blended into tropical perfection. Close your eyes and escape.", gradient: "linear-gradient(135deg, #2A8A40 0%, #D4D040 30%, #F0E860 60%, #1A5A2A 100%)", aura: "#D4D040" },
-      { name: "Devil Teeth", price: 500, desc: "Daringly spicy and devilishly delicious — this bold drink bites back. Not for the faint of heart.", gradient: "linear-gradient(135deg, #8A0810 0%, #C02020 30%, #E84040 60%, #400408 100%)", aura: "#C02020" },
-      { name: "Lost In Hawaii", price: 450, desc: "A vibrant tropical fusion of exotic fruits and a splash of paradise. Let yourself get lost.", gradient: "linear-gradient(135deg, #E87040 0%, #F0C040 30%, #20A060 60%, #0A4A2A 100%)", aura: "#E87040" }
+      { name: "Peach", price: 350, desc: "Fresh peach nectar blended with ice and vanilla. Sweet, smooth, peachy.", gradient: "linear-gradient(135deg, #E8A060 0%, #F0C888 30%, #C48040 70%, #6A4020 100%)", aura: "#E8A060" },
+      { name: "Lemon", price: 300, desc: "Pure squeezed lemon with honey and chilled water. Classic and tart.", gradient: "linear-gradient(135deg, #D4D030 0%, #F0F060 30%, #B0B020 70%, #5A5A10 100%)", aura: "#F0F060" },
+      { name: "Raspberry", price: 350, desc: "Plump raspberries crushed into a vibrant, tangy drink. Pink and full of flavor.", gradient: "linear-gradient(135deg, #C03060 0%, #E06088 30%, #F0A0B8 60%, #601830 100%)", aura: "#E06088" },
+      { name: "Ice Tea", price: 300, desc: "Classic brewed tea served chilled with lemon. Cool, smooth, timeless.", gradient: "linear-gradient(135deg, #A07030 0%, #D4A060 30%, #8B5A20 70%, #4A3010 100%)", aura: "#D4A060" },
+      { name: "Chai", price: 250, desc: "Signature chai in a special cold-brew style. Rich tea with creamy milk, served iced.", gradient: "linear-gradient(135deg, #8B5A20 0%, #C48A40 30%, #6A4418 70%, #3D2A10 100%)", aura: "#C48A40" },
+      { name: "Angle Kiss", price: 400, desc: "Soft, sweet, divinely smooth. A heavenly kiss of sweetness on your lips.", gradient: "linear-gradient(135deg, #E8A0C0 0%, #F0C8D8 30%, #C478A0 70%, #6A2A4A 100%)", aura: "#E8A0C0" },
+      { name: "Dosti", price: 400, desc: "Our namesake — a secret recipe embodying friendship. Share one with someone special.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0C848 30%, #8040A0 60%, #4A2A08 100%)", aura: "#F0C848" },
+      { name: "Toky", price: 400, desc: "Inspired by Tokyo's electric nights — vibrant, energetic, full of twists.", gradient: "linear-gradient(135deg, #E02040 0%, #F06070 30%, #F0C040 60%, #801020 100%)", aura: "#E02040" },
+      { name: "Lovely Day", price: 400, desc: "Sunshine in a glass. Perfect for making any day lovely.", gradient: "linear-gradient(135deg, #F0D040 0%, #F0A030 30%, #E87840 60%, #8A4A10 100%)", aura: "#F0D040" },
+      { name: "Malibu Affairs", price: 500, desc: "Coconut vibes meet tropical fruit. Sophisticated and refreshing.", gradient: "linear-gradient(135deg, #20A0C0 0%, #40C0E0 30%, #F0E080 60%, #0A5A6A 100%)", aura: "#40C0E0" },
+      { name: "Strawberry Zinc", price: 400, desc: "Strawberries with zingy citrus twist. Sweet, tangy, vibrant.", gradient: "linear-gradient(135deg, #C43040 0%, #E86080 30%, #F0A0B0 60%, #6A1020 100%)", aura: "#E86080" },
+      { name: "Real Apple", price: 350, desc: "Fresh pressed apple juice. Pure, natural, crisp.", gradient: "linear-gradient(135deg, #40A030 0%, #80C840 30%, #C0E870 60%, #206020 100%)", aura: "#80C840" },
+      { name: "Pina Colada", price: 450, desc: "Creamy coconut and sweet pineapple blended into tropical perfection.", gradient: "linear-gradient(135deg, #2A8A40 0%, #D4D040 30%, #F0E860 60%, #1A5A2A 100%)", aura: "#D4D040" },
+      { name: "Devil Teeth", price: 500, desc: "Daringly spicy and devilishly delicious. This bold drink bites back.", gradient: "linear-gradient(135deg, #8A0810 0%, #C02020 30%, #E84040 60%, #400408 100%)", aura: "#C02020" },
+      { name: "Lost In Hawaii", price: 450, desc: "Tropical fusion of exotic fruits and paradise. Let yourself get lost.", gradient: "linear-gradient(135deg, #E87040 0%, #F0C040 30%, #20A060 60%, #0A4A2A 100%)", aura: "#E87040" }
     ]
   },
   {
     id: 21, name: "Margaritas", subtitle: "FROSTY, FRUITY, FANTASTIC",
     colors: { bg: "rgba(40,80,30,0.2)", glow: "#60C040" },
     cards: [
-      { name: "Mint Margarita", price: 300, desc: "Fresh mint crushed with lime, sugar, and sparkling soda. The ultimate refresher — cool and crisp.", gradient: "linear-gradient(135deg, #20A040 0%, #60D060 30%, #A0F0A0 60%, #105020 100%)", aura: "#60D060" },
-      { name: "Lemon Margarita", price: 300, desc: "Zingy fresh lemons blended with crushed ice and perfectly sweetened. A citrus explosion in every sip.", gradient: "linear-gradient(135deg, #D4D020 0%, #F0F060 30%, #A0A018 70%, #5A5A08 100%)", aura: "#F0F060" },
-      { name: "Peace Margarita", price: 350, desc: "A calming blend of peach and honey with gentle citrus notes. Sip, relax, and find your peace.", gradient: "linear-gradient(135deg, #E8B060 0%, #F0D498 30%, #C49848 70%, #6A5028 100%)", aura: "#E8B060" },
-      { name: "Blue Berry Margarita", price: 350, desc: "Wild blueberries blended into a frosty margarita. Vibrant purple and bursting with berry goodness.", gradient: "linear-gradient(135deg, #3030A0 0%, #6060D0 30%, #A090E0 60%, #181850 100%)", aura: "#6060D0" },
-      { name: "Strawberry Margarita", price: 350, desc: "Ripe strawberries blended into a pink frosty paradise. Sweet, tangy, and picture-perfect.", gradient: "linear-gradient(135deg, #D04060 0%, #F08090 30%, #F8C0C8 60%, #702030 100%)", aura: "#D04060" }
+      { name: "Mint Margarita", price: 300, desc: "Fresh mint with lime, sugar, and soda. The ultimate cool refresher.", gradient: "linear-gradient(135deg, #20A040 0%, #60D060 30%, #A0F0A0 60%, #105020 100%)", aura: "#60D060" },
+      { name: "Lemon Margarita", price: 300, desc: "Zingy lemons with crushed ice. A citrus explosion in every sip.", gradient: "linear-gradient(135deg, #D4D020 0%, #F0F060 30%, #A0A018 70%, #5A5A08 100%)", aura: "#F0F060" },
+      { name: "Peace Margarita", price: 350, desc: "Peach and honey with gentle citrus. Sip, relax, find your peace.", gradient: "linear-gradient(135deg, #E8B060 0%, #F0D498 30%, #C49848 70%, #6A5028 100%)", aura: "#E8B060" },
+      { name: "Blue Berry Margarita", price: 350, desc: "Wild blueberries in a frosty margarita. Vibrant and bursting with flavor.", gradient: "linear-gradient(135deg, #3030A0 0%, #6060D0 30%, #A090E0 60%, #181850 100%)", aura: "#6060D0" },
+      { name: "Strawberry Margarita", price: 350, desc: "Ripe strawberries in a pink frosty paradise. Sweet, tangy, picture-perfect.", gradient: "linear-gradient(135deg, #D04060 0%, #F08090 30%, #F8C0C8 60%, #702030 100%)", aura: "#D04060" }
     ]
   },
   {
     id: 22, name: "Beverages", subtitle: "CLASSIC DRINKS, PREMIUM SERVE",
     colors: { bg: "rgba(40,40,80,0.2)", glow: "#4060C0" },
     cards: [
-      { name: "G", price: 250, desc: "Premium craft beverage served ice cold with a citrus garnish. Crisp, clean, and effervescent.", gradient: "linear-gradient(135deg, #20A060 0%, #40D080 30%, #80F0A0 60%, #104030 100%)", aura: "#40D080" },
-      { name: "Drink", price: 200, desc: "Your choice of classic chilled beverages from our premium selection. Always served at the perfect temperature.", gradient: "linear-gradient(135deg, #C02020 0%, #E04040 30%, #F08060 60%, #601010 100%)", aura: "#E04040" },
-      { name: "Bull", price: 400, desc: "Energy unleashed — served ice cold for maximum impact. The ultimate energy boost when you need it most.", gradient: "linear-gradient(135deg, #1040A0 0%, #3070D0 30%, #D4A020 60%, #082050 100%)", aura: "#3070D0" },
-      { name: "Lime", price: 200, desc: "Fresh lime squeeze served with soda and ice. Simple, tangy, and the most refreshing thing on the menu.", gradient: "linear-gradient(135deg, #40C040 0%, #80F060 30%, #D0F8A0 60%, #208020 100%)", aura: "#80F060" }
+      { name: "G", price: 250, desc: "Premium craft beverage served ice cold with citrus garnish. Crisp and effervescent.", gradient: "linear-gradient(135deg, #20A060 0%, #40D080 30%, #80F0A0 60%, #104030 100%)", aura: "#40D080" },
+      { name: "Drink", price: 200, desc: "Classic chilled beverages from our premium selection. Always at perfect temperature.", gradient: "linear-gradient(135deg, #C02020 0%, #E04040 30%, #F08060 60%, #601010 100%)", aura: "#E04040" },
+      { name: "Bull", price: 400, desc: "Energy unleashed — served ice cold. The ultimate energy boost.", gradient: "linear-gradient(135deg, #1040A0 0%, #3070D0 30%, #D4A020 60%, #082050 100%)", aura: "#3070D0" },
+      { name: "Lime", price: 200, desc: "Fresh lime with soda and ice. Simple, tangy, the most refreshing drink.", gradient: "linear-gradient(135deg, #40C040 0%, #80F060 30%, #D0F8A0 60%, #208020 100%)", aura: "#80F060" }
     ]
   },
   {
     id: 23, name: "Hunger Classic", subtitle: "CLASSIC PIZZAS, DESI SOUL",
     colors: { bg: "rgba(130,30,20,0.25)", glow: "#C04030" },
     cards: [
-      { name: "Hunger Tikka", price: 850, desc: "Loaded with spicy chicken tikka, onions, peppers, and our signature pizza sauce on a hand-tossed crust. Desi flavor, Italian soul.", gradient: "linear-gradient(135deg, #C04020 0%, #E87040 30%, #D4A030 60%, #4A1808 100%)", aura: "#C04020" },
-      { name: "Hunger Fajita", price: 850, desc: "Sizzling fajita chicken with bell peppers, onions, and a smoky chipotle sauce. A pizza that brings the sizzle.", gradient: "linear-gradient(135deg, #D06030 0%, #F09050 30%, #A04020 70%, #4A1A08 100%)", aura: "#D06030" },
-      { name: "Hunger Fajita Sicilian", price: 950, desc: "Our fajita pizza elevated to Sicilian style — thick crust, extra loaded, extra cheesy. Bold and indulgent.", gradient: "linear-gradient(135deg, #B84020 0%, #E07040 30%, #F0A060 60%, #5A1A08 100%)", aura: "#E07040" },
-      { name: "Hunger Supreme", price: 950, desc: "The ultimate loaded pizza — every premium topping, extra cheese, and our signature sauce. The king of pizzas.", gradient: "linear-gradient(135deg, #A02020 0%, #D04030 30%, #E8C040 60%, #500A0A 100%)", aura: "#D04030" },
-      { name: "Hunger Cheese Max", price: 800, desc: "For the cheese obsessed — triple layered cheese blend melted to bubbly, stretchy perfection over our classic base.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0D060 30%, #C49020 70%, #6A4A10 100%)", aura: "#F0D060" }
+      { name: "Hunger Tikka", price: 850, desc: "Spicy chicken tikka, onions, peppers on hand-tossed crust. Desi flavor, Italian soul.", gradient: "linear-gradient(135deg, #C04020 0%, #E87040 30%, #D4A030 60%, #4A1808 100%)", aura: "#C04020" },
+      { name: "Hunger Fajita", price: 850, desc: "Sizzling fajita chicken with bell peppers and smoky chipotle sauce. A pizza that sizzles.", gradient: "linear-gradient(135deg, #D06030 0%, #F09050 30%, #A04020 70%, #4A1A08 100%)", aura: "#D06030" },
+      { name: "Hunger Fajita Sicilian", price: 950, desc: "Fajita elevated to Sicilian style — thick crust, extra loaded, extra cheesy. Bold.", gradient: "linear-gradient(135deg, #B84020 0%, #E07040 30%, #F0A060 60%, #5A1A08 100%)", aura: "#E07040" },
+      { name: "Hunger Supreme", price: 950, desc: "Ultimate loaded pizza — every premium topping, extra cheese, signature sauce. The king.", gradient: "linear-gradient(135deg, #A02020 0%, #D04030 30%, #E8C040 60%, #500A0A 100%)", aura: "#D04030" },
+      { name: "Hunger Cheese Max", price: 800, desc: "Triple layered cheese melted to bubbly, stretchy perfection. For the cheese obsessed.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0D060 30%, #C49020 70%, #6A4A10 100%)", aura: "#F0D060" }
     ]
   },
   {
     id: 24, name: "Hunger Premium", subtitle: "LUXURY PIZZAS FOR THE BOLD",
     colors: { bg: "rgba(80,10,10,0.3)", glow: "#A01020" },
     cards: [
-      { name: "Hunger Malai Boti", price: 1100, desc: "Premium malai boti loaded atop a golden crust with extra mozzarella and our secret creamy sauce. Unmatched luxury.", gradient: "linear-gradient(135deg, #6A1010 0%, #A02020 30%, #D4A040 60%, #300808 100%)", aura: "#A02020" },
-      { name: "Hunger Special", price: 1200, desc: "Our most premium creation — a secret combination of the finest ingredients curated by our head chef. A Chai Dosti masterpiece.", gradient: "linear-gradient(135deg, #4A0808 0%, #8A1818 30%, #C4A030 60%, #200404 100%)", aura: "#8A1818" },
-      { name: "Hunger Pepperoni", price: 1000, desc: "Classic pepperoni perfected — premium pepperoni slices layered generously over molten cheese. Crispy edges, meaty center.", gradient: "linear-gradient(135deg, #8A1010 0%, #C02828 30%, #E86040 60%, #400808 100%)", aura: "#C02828" },
-      { name: "Hunger Kabab Crust", price: 1100, desc: "Innovation meets tradition — our pizza crust is stuffed with seasoned kabab meat. Every bite is a flavor explosion.", gradient: "linear-gradient(135deg, #5A1808 0%, #8A3020 30%, #B86040 60%, #2A0C04 100%)", aura: "#8A3020" }
+      { name: "Hunger Malai Boti", price: 1100, desc: "Premium malai boti on golden crust with extra mozzarella and creamy secret sauce. Unmatched luxury.", gradient: "linear-gradient(135deg, #6A1010 0%, #A02020 30%, #D4A040 60%, #300808 100%)", aura: "#A02020" },
+      { name: "Hunger Special", price: 1200, desc: "Most premium creation — finest ingredients curated by head chef. A Chai Dosti masterpiece.", gradient: "linear-gradient(135deg, #4A0808 0%, #8A1818 30%, #C4A030 60%, #200404 100%)", aura: "#8A1818" },
+      { name: "Hunger Pepperoni", price: 1000, desc: "Premium pepperoni layered generously over molten cheese. Crispy edges, meaty center.", gradient: "linear-gradient(135deg, #8A1010 0%, #C02828 30%, #E86040 60%, #400808 100%)", aura: "#C02828" },
+      { name: "Hunger Kabab Crust", price: 1100, desc: "Pizza crust stuffed with seasoned kabab meat. Every bite is a flavor explosion.", gradient: "linear-gradient(135deg, #5A1808 0%, #8A3020 30%, #B86040 60%, #2A0C04 100%)", aura: "#8A3020" }
     ]
   },
   {
     id: 25, name: "About Us", subtitle: "CONNECT WITH CHAI DOSTI",
     colors: { bg: "rgba(10,20,50,0.3)", glow: "#2050A0" },
     cards: [
-      { name: "WhatsApp", price: null, desc: "Chat with us directly on WhatsApp for reservations, orders, and inquiries. We're always here for you!", gradient: "linear-gradient(135deg, #128C7E 0%, #25D366 30%, #20A050 60%, #064A3A 100%)", aura: "#25D366", isAbout: true, icon: "💬", label: "WhatsApp Us", value: "0321 9494942", action: "https://wa.me/923219494942" },
-      { name: "Phone", price: null, desc: "Give us a call to place your order or make a reservation. Our team is ready to serve you.", gradient: "linear-gradient(135deg, #1060C0 0%, #2090F0 30%, #60B0F8 60%, #083060 100%)", aura: "#2090F0", isAbout: true, icon: "📞", label: "Call Us", value: "0321 9494942", action: "tel:+923219494942" },
-      { name: "Address", price: null, desc: "Visit us at our location. We're conveniently located and ready to welcome you with warm chai and great food.", gradient: "linear-gradient(135deg, #0A1A3D 0%, #1A3A6D 30%, #D4A040 60%, #050D1E 100%)", aura: "#1A3A6D", isAbout: true, icon: "📍", label: "Find Us", value: "Atta Bakhsh Rd, beside Suzuki Premier Motors, Bahadrabad, Lahore", action: "https://maps.google.com/?q=Atta+Bakhsh+Rd+beside+Suzuki+Premier+Motors+Bahadrabad+Lahore" }
+      { name: "WhatsApp", price: null, desc: "Chat with us on WhatsApp for reservations, orders, and inquiries. We're always here!", gradient: "linear-gradient(135deg, #128C7E 0%, #25D366 30%, #20A050 60%, #064A3A 100%)", aura: "#25D366", isAbout: true, icon: "💬", label: "WhatsApp Us", value: "0321 9494942", action: "https://wa.me/923219494942" },
+      { name: "Phone", price: null, desc: "Call us to place your order or make a reservation. Our team is ready to serve.", gradient: "linear-gradient(135deg, #1060C0 0%, #2090F0 30%, #60B0F8 60%, #083060 100%)", aura: "#2090F0", isAbout: true, icon: "📞", label: "Call Us", value: "0321 9494942", action: "tel:+923219494942" },
+      { name: "Address", price: null, desc: "Visit us! We're conveniently located and ready to welcome you with warm chai.", gradient: "linear-gradient(135deg, #0A1A3D 0%, #1A3A6D 30%, #D4A040 60%, #050D1E 100%)", aura: "#1A3A6D", isAbout: true, icon: "📍", label: "Find Us", value: "Atta Bakhsh Rd, beside Suzuki Premier Motors, Bahadrabad, Lahore", action: "https://maps.google.com/?q=Atta+Bakhsh+Rd+beside+Suzuki+Premier+Motors+Bahadrabad+Lahore" }
     ]
   }
 ];
 
-// ━━━━━━━━━━━━━ BUILD APP ━━━━━━━━━━━━━
+// ━━━ BUILD ━━━
 const app = document.getElementById('app');
 const modal = document.getElementById('modal');
 const modalTitle = document.getElementById('modal-title');
 const modalClose = document.getElementById('modal-close');
-const modalModel = document.getElementById('modal-model');
 const bgOverlay = document.getElementById('bg-overlay');
 const bgGlow = document.getElementById('bg-glow');
 
-let activeCarousels = {};
-
 function buildApp() {
   let html = '';
-  menuData.forEach((cat) => {
+  menuData.forEach(cat => {
     html += `<section class="category-section" data-cat-id="${cat.id}" data-bg="${cat.colors.bg}" data-glow="${cat.colors.glow}">
       <div class="category-header">
         <h2 class="category-title">${cat.name}</h2>
@@ -920,15 +844,11 @@ function buildApp() {
       <div class="carousel-wrapper">
         <button class="carousel-nav prev" data-cat="${cat.id}" aria-label="Previous">‹</button>
         <div class="carousel-track" data-cat-track="${cat.id}">`;
-    
+
     cat.cards.forEach((card, idx) => {
-      if (card.isAbout) {
-        html += buildAboutCard(card, cat.id, idx);
-      } else {
-        html += buildMenuCard(card, cat.id, idx);
-      }
+      html += card.isAbout ? buildAboutCard(card, cat.id, idx) : buildMenuCard(card, cat.id, idx);
     });
-    
+
     html += `</div>
         <button class="carousel-nav next" data-cat="${cat.id}" aria-label="Next">›</button>
       </div>
@@ -943,31 +863,25 @@ function buildApp() {
 
 function buildMenuCard(card, catId, idx) {
   return `<div class="menu-card${idx === 0 ? ' active' : ''}" data-cat="${catId}" data-idx="${idx}" data-aura="${card.aura}" data-name="${card.name}">
-    <div class="card-aura" style="background:${card.aura}"></div>
-    <div class="card-border-glow"></div>
-    <div class="card-title-3d">${card.name}</div>
     <div class="card-inner">
       <div class="card-bg" style="background:${card.gradient}"></div>
-      <div class="card-glass"></div>
-      <div class="card-shimmer"></div>
+      <div class="card-overlay"></div>
+      <div class="card-shine"></div>
       <div class="card-content">
         <div class="card-title">${card.name}</div>
         <div class="card-desc">${card.desc}</div>
         <div class="card-price">Rs. ${card.price}</div>
       </div>
     </div>
+    <div class="card-title-3d">${card.name}</div>
   </div>`;
-}
-
-function buildAboutCard(card, catId, idx) {
+    }
+  function buildAboutCard(card, catId, idx) {
   return `<div class="menu-card${idx === 0 ? ' active' : ''}" data-cat="${catId}" data-idx="${idx}" data-aura="${card.aura}" data-name="${card.name}" data-about-action="${card.action}">
-    <div class="card-aura" style="background:${card.aura}"></div>
-    <div class="card-border-glow"></div>
-    <div class="card-title-3d">${card.label}</div>
     <div class="card-inner">
       <div class="card-bg" style="background:${card.gradient}"></div>
-      <div class="card-glass"></div>
-      <div class="card-shimmer"></div>
+      <div class="card-overlay"></div>
+      <div class="card-shine"></div>
       <div class="card-content">
         <div class="about-card-icon">${card.icon}</div>
         <div class="about-card-label">${card.label}</div>
@@ -975,191 +889,118 @@ function buildAboutCard(card, catId, idx) {
         <div class="card-desc" style="margin-top:10px">${card.desc}</div>
       </div>
     </div>
+    <div class="card-title-3d">${card.label}</div>
   </div>`;
 }
 
 buildApp();
-// ━━━━━━━━━━━━━ CAROUSEL LOGIC ━━━━━━━━━━━━━
-document.querySelectorAll('.carousel-track').forEach(track => {
-  const catId = track.dataset.catTrack;
-  let isDown = false, startX, scrollLeft;
 
-  track.addEventListener('mousedown', (e) => {
-    isDown = true;
+// ━━━ CAROUSEL ━━━
+document.querySelectorAll('.carousel-track').forEach(track => {
+  let isDown = false, startX, scrollL, moved = false;
+  const catId = track.dataset.catTrack;
+
+  track.addEventListener('mousedown', e => {
+    isDown = true; moved = false;
     track.classList.add('grabbing');
     startX = e.pageX - track.offsetLeft;
-    scrollLeft = track.scrollLeft;
+    scrollL = track.scrollLeft;
   });
-
-  track.addEventListener('mouseleave', () => {
-    isDown = false;
-    track.classList.remove('grabbing');
-  });
-
-  track.addEventListener('mouseup', () => {
-    isDown = false;
-    track.classList.remove('grabbing');
-  });
-
-  track.addEventListener('mousemove', (e) => {
+  track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('grabbing'); });
+  track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('grabbing'); });
+  track.addEventListener('mousemove', e => {
     if (!isDown) return;
     e.preventDefault();
+    moved = true;
     const x = e.pageX - track.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    track.scrollLeft = scrollLeft - walk;
+    track.scrollLeft = scrollL - (x - startX) * 1.5;
   });
 
+  let scrollTimeout;
   track.addEventListener('scroll', () => {
-    updateActiveCard(track, catId);
-  });
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => updateActiveCard(track, catId), 60);
+  }, { passive: true });
 });
 
 function updateActiveCard(track, catId) {
   const cards = track.querySelectorAll('.menu-card');
   const trackRect = track.getBoundingClientRect();
-  const trackCenter = trackRect.left + trackRect.width / 2;
-  let closestCard = null;
-  let closestDist = Infinity;
+  const center = trackRect.left + trackRect.width / 2;
+  let closest = null, minDist = Infinity;
 
   cards.forEach(card => {
-    const cardRect = card.getBoundingClientRect();
-    const cardCenter = cardRect.left + cardRect.width / 2;
-    const dist = Math.abs(cardCenter - trackCenter);
-    if (dist < closestDist) {
-      closestDist = dist;
-      closestCard = card;
-    }
+    const r = card.getBoundingClientRect();
+    const d = Math.abs(r.left + r.width / 2 - center);
+    if (d < minDist) { minDist = d; closest = card; }
   });
 
   cards.forEach(c => c.classList.remove('active'));
-  if (closestCard) {
-    closestCard.classList.add('active');
-    const idx = parseInt(closestCard.dataset.idx);
-    updateDots(catId, idx);
+  if (closest) {
+    closest.classList.add('active');
+    updateDots(catId, parseInt(closest.dataset.idx));
+
+    // Update bg glow color
+    const aura = closest.dataset.aura;
+    if (aura) {
+      bgGlow.style.background = `radial-gradient(ellipse at center, ${aura} 0%, transparent 70%)`;
+    }
   }
 }
 
 function updateDots(catId, activeIdx) {
-  const dotsContainer = document.querySelector(`[data-dots="${catId}"]`);
-  if (!dotsContainer) return;
-  dotsContainer.querySelectorAll('.scroll-dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === activeIdx);
-  });
+  const dots = document.querySelector(`[data-dots="${catId}"]`);
+  if (!dots) return;
+  dots.querySelectorAll('.scroll-dot').forEach((d, i) => d.classList.toggle('active', i === activeIdx));
 }
 
 // Nav buttons
 document.querySelectorAll('.carousel-nav').forEach(btn => {
   btn.addEventListener('click', () => {
-    const catId = btn.dataset.cat;
-    const track = document.querySelector(`[data-cat-track="${catId}"]`);
-    const cardWidth = track.querySelector('.menu-card')?.offsetWidth || 300;
-    const scrollAmount = cardWidth + 30;
-    
-    if (btn.classList.contains('prev')) {
-      track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    } else {
-      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
+    const track = document.querySelector(`[data-cat-track="${btn.dataset.cat}"]`);
+    const w = (track.querySelector('.menu-card')?.offsetWidth || 300) + 30;
+    track.scrollBy({ left: btn.classList.contains('prev') ? -w : w, behavior: 'smooth' });
   });
 });
 
-// ━━━━━━━━━━━━━ DYNAMIC BACKGROUND ━━━━━━━━━━━━━
-const sectionObserver = new IntersectionObserver((entries) => {
+// ━━━ DYNAMIC BACKGROUND (optimized — no blur) ━━━
+const sectionObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
-      const section = entry.target;
-      const bg = section.dataset.bg;
-      const glow = section.dataset.glow;
-
-      // Find the active card in this section
-      const activeCard = section.querySelector('.menu-card.active');
-      if (activeCard) {
-        const aura = activeCard.dataset.aura;
-        bgGlow.style.background = aura;
-        bgGlow.style.opacity = '0.15';
-      }
-
-      document.body.style.background = `linear-gradient(180deg, #0a0a0a 0%, ${bg} 50%, #0a0a0a 100%)`;
-      bgOverlay.style.background = `radial-gradient(ellipse at center, ${bg} 0%, rgba(10,10,10,0.95) 70%, #0a0a0a 100%)`;
+      const s = entry.target;
+      bgOverlay.style.background = `radial-gradient(ellipse at center, ${s.dataset.bg} 0%, rgba(10,10,10,0.95) 70%, #0a0a0a 100%)`;
     }
   });
-}, { threshold: [0.3, 0.5, 0.7] });
+}, { threshold: [0.3, 0.5] });
 
-document.querySelectorAll('.category-section').forEach(section => {
-  sectionObserver.observe(section);
-});
+document.querySelectorAll('.category-section').forEach(s => sectionObs.observe(s));
 
-// Update background based on active card scroll
-const scrollObserver = new MutationObserver((mutations) => {
-  mutations.forEach(mutation => {
-    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-      const card = mutation.target;
-      if (card.classList.contains('active') && card.classList.contains('menu-card')) {
-        const aura = card.dataset.aura;
-        if (aura) {
-          bgGlow.style.background = aura;
-          bgGlow.style.opacity = '0.18';
-        }
-      }
-    }
-  });
-});
-
-document.querySelectorAll('.menu-card').forEach(card => {
-  scrollObserver.observe(card, { attributes: true, attributeFilter: ['class'] });
-});
-
-// ━━━━━━━━━━━━━ CARD CLICK → MODAL ━━━━━━━━━━━━━
-document.addEventListener('click', (e) => {
+// ━━━ CARD CLICK ━━━
+document.addEventListener('click', e => {
   const card = e.target.closest('.menu-card');
   if (!card) return;
 
-  // Check if it's an about card
   const aboutAction = card.dataset.aboutAction;
-  if (aboutAction) {
-    window.open(aboutAction, '_blank');
-    return;
-  }
+  if (aboutAction) { window.open(aboutAction, '_blank'); return; }
 
-  // Open 3D model viewer modal
-  const name = card.dataset.name;
-  modalTitle.textContent = name;
-  modalModel.setAttribute('src', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb');
+  modalTitle.textContent = card.dataset.name;
+  document.getElementById('modal-model').setAttribute('src', 'https://modelviewer.dev/shared-assets/models/Astronaut.glb');
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 });
 
-modalClose.addEventListener('click', () => {
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-});
+modalClose.addEventListener('click', () => { modal.classList.remove('open'); document.body.style.overflow = ''; });
+modal.addEventListener('click', e => { if (e.target === modal) { modal.classList.remove('open'); document.body.style.overflow = ''; } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) { modal.classList.remove('open'); document.body.style.overflow = ''; } });
 
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal.classList.contains('open')) {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-});
-
-// ━━━━━━━━━━━━━ INITIAL SCROLL POSITION ━━━━━━━━━━━━━
-// Center first card in each carousel
+// Center first cards
 window.addEventListener('load', () => {
   document.querySelectorAll('.carousel-track').forEach(track => {
-    const firstCard = track.querySelector('.menu-card');
-    if (firstCard) {
-      const trackWidth = track.offsetWidth;
-      const cardWidth = firstCard.offsetWidth;
-      const offset = (trackWidth - cardWidth) / 2;
-      // Add padding for centering
-      track.style.paddingLeft = `${Math.max(offset, 20)}px`;
-      track.style.paddingRight = `${Math.max(offset, 20)}px`;
+    const card = track.querySelector('.menu-card');
+    if (card) {
+      const off = Math.max((track.offsetWidth - card.offsetWidth) / 2, 20);
+      track.style.paddingLeft = off + 'px';
+      track.style.paddingRight = off + 'px';
     }
   });
 });
