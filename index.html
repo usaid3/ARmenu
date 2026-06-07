@@ -1023,7 +1023,8 @@ const menuData = [
         desc: "A bold and tangy broth infused with rich spices, tender pieces, and a perfectly balanced hot and sour depth. Perfect starter for cold evenings.", 
         gradient: "linear-gradient(135deg, #8B3A1A 0%, #D4662B 30%, #A0522D 70%, #4A1A0A 100%)", 
         aura: "#D4662B",
-        // model3d: "YOUR_3D_MODEL_URL_HERE.glb"  ← Yahan apna 3D model URL daalo
+        model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" 
+          /*← Yahan apna 3D model URL daalo*/
       }
     ]
   },
@@ -1035,10 +1036,10 @@ const menuData = [
     id: 2, name: "Starters", subtitle: "CRISPY BEGINNINGS, UNFORGETTABLE FLAVORS",
     colors: { bg: "rgba(150,80,20,0.15)", glow: "#C4822E" },
     cards: [
-      { name: "Chicken Wings", price: 550, desc: "Golden crispy wings fried to perfection, served with our signature dipping sauces. Choose 6 or 12 piece platter.", gradient: "linear-gradient(135deg, #B87333 0%, #D4A043 30%, #8B6914 70%, #3D2B0A 100%)", aura: "#D4A043" },
-      { name: "Honey Chilli Wings", price: 650, desc: "Sweet honey meets fiery chilli in irresistibly glazed wings. Perfectly caramelized with a kick that keeps you wanting more.", gradient: "linear-gradient(135deg, #C44B2B 0%, #E8A52B 30%, #A04020 70%, #4A1A08 100%)", aura: "#E8A52B" },
-      { name: "Bread Sticks", price: 350, desc: "Warm, freshly baked breadsticks dusted with aromatic herbs and parmesan. Paired with rich marinara dipping sauce.", gradient: "linear-gradient(135deg, #C4A265 0%, #E8D5A5 30%, #A08050 70%, #4A3A1A 100%)", aura: "#E8D5A5" },
-      { name: "Nuggets", price: 450, desc: "Tender chicken nuggets with perfectly seasoned crispy coating. Served golden brown with your choice of dipping sauce.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0C848 30%, #B88A20 70%, #5A4010 100%)", aura: "#F0C848" }
+      { name: "Chicken Wings", price: 550, desc: "Golden crispy wings fried to perfection, served with our signature dipping sauces. Choose 6 or 12 piece platter.", gradient: "linear-gradient(135deg, #B87333 0%, #D4A043 30%, #8B6914 70%, #3D2B0A 100%)", aura: "#D4A043", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Honey Chilli Wings", price: 650, desc: "Sweet honey meets fiery chilli in irresistibly glazed wings. Perfectly caramelized with a kick that keeps you wanting more.", gradient: "linear-gradient(135deg, #C44B2B 0%, #E8A52B 30%, #A04020 70%, #4A1A08 100%)", aura: "#E8A52B", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Bread Sticks", price: 350, desc: "Warm, freshly baked breadsticks dusted with aromatic herbs and parmesan. Paired with rich marinara dipping sauce.", gradient: "linear-gradient(135deg, #C4A265 0%, #E8D5A5 30%, #A08050 70%, #4A3A1A 100%)", aura: "#E8D5A5", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Nuggets", price: 450, desc: "Tender chicken nuggets with perfectly seasoned crispy coating. Served golden brown with your choice of dipping sauce.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0C848 30%, #B88A20 70%, #5A4010 100%)", aura: "#F0C848", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"}
     ]
   },
 
@@ -1049,7 +1050,7 @@ const menuData = [
     id: 3, name: "SeaFood", subtitle: "TREASURES FROM THE OCEAN",
     colors: { bg: "rgba(20,60,100,0.2)", glow: "#2E86C4" },
     cards: [
-      { name: "Fish & Chips", price: 750, desc: "Ocean-fresh fish fillets in light crispy golden batter served alongside chunky seasoned fries. A timeless classic perfected.", gradient: "linear-gradient(135deg, #1A5276 0%, #2E86C4 30%, #D4A843 60%, #0A2A3D 100%)", aura: "#2E86C4" }
+      { name: "Fish & Chips", price: 750, desc: "Ocean-fresh fish fillets in light crispy golden batter served alongside chunky seasoned fries. A timeless classic perfected.", gradient: "linear-gradient(135deg, #1A5276 0%, #2E86C4 30%, #D4A843 60%, #0A2A3D 100%)", aura: "#2E86C4", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"}
     ]
   },
 
@@ -1060,14 +1061,14 @@ const menuData = [
     id: 4, name: "Fries", subtitle: "GOLDEN PERFECTION IN EVERY BITE",
     colors: { bg: "rgba(140,100,20,0.15)", glow: "#D4A830" },
   cards: [
-      { name: "Plain Fries", price: 200, desc: "Classic golden fries, perfectly salted and impossibly crispy. Simple, satisfying, irresistibly addictive.", gradient: "linear-gradient(135deg, #D4A830 0%, #F0C850 30%, #B89020 70%, #5A4510 100%)", aura: "#F0C850" },
-      { name: "Masala Fries", price: 250, desc: "Signature fries tossed in a secret blend of aromatic desi spices. A flavorful twist on a beloved classic.", gradient: "linear-gradient(135deg, #C44B20 0%, #E87030 30%, #A04018 70%, #4A1A08 100%)", aura: "#E87030" },
-      { name: "Garlic Mayo Fries", price: 300, desc: "Crispy fries drizzled with creamy garlic mayo sauce, finished with a sprinkle of herbs. Pure indulgence.", gradient: "linear-gradient(135deg, #E8D8A0 0%, #F5ECC8 30%, #C4B478 70%, #6A5A30 100%)", aura: "#F5ECC8" },
-      { name: "Cheesy Fries", price: 350, desc: "Loaded with melted premium cheese that stretches with every bite. Topped with our special drizzle sauce.", gradient: "linear-gradient(135deg, #D4A020 0%, #F0D040 30%, #C49818 70%, #6A5010 100%)", aura: "#F0D040" },
-      { name: "Jalapeno Fries", price: 350, desc: "Fiery jalapenos meet crispy fries in this bold flavor explosion. Topped with spicy cheese and pickled peppers.", gradient: "linear-gradient(135deg, #4A8020 0%, #70B030 30%, #C44020 60%, #2A4010 100%)", aura: "#70B030" },
-      { name: "Chicken Loaded", price: 500, desc: "Piled high with seasoned chicken, melted cheese, sauces, and signature toppings. A meal in itself.", gradient: "linear-gradient(135deg, #B87030 0%, #D4A040 30%, #8B5A20 70%, #3D2A0A 100%)", aura: "#D4A040" },
-      { name: "Pizza Fries", price: 450, desc: "Best of both worlds — crispy fries topped with pizza sauce, mozzarella, and pepperoni. Baked bubbly.", gradient: "linear-gradient(135deg, #C43020 0%, #E85030 30%, #D4A030 60%, #4A1008 100%)", aura: "#E85030" },
-      { name: "BBQ Fries", price: 400, desc: "Smoky BBQ sauce cascading over golden fries, topped with crispy onion bits and char-grilled flavor.", gradient: "linear-gradient(135deg, #8B3A10 0%, #C46020 30%, #4A2A0A 70%, #2A1A06 100%)", aura: "#C46020" }
+      { name: "Plain Fries", price: 200, desc: "Classic golden fries, perfectly salted and impossibly crispy. Simple, satisfying, irresistibly addictive.", gradient: "linear-gradient(135deg, #D4A830 0%, #F0C850 30%, #B89020 70%, #5A4510 100%)", aura: "#F0C850", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Masala Fries", price: 250, desc: "Signature fries tossed in a secret blend of aromatic desi spices. A flavorful twist on a beloved classic.", gradient: "linear-gradient(135deg, #C44B20 0%, #E87030 30%, #A04018 70%, #4A1A08 100%)", aura: "#E87030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Garlic Mayo Fries", price: 300, desc: "Crispy fries drizzled with creamy garlic mayo sauce, finished with a sprinkle of herbs. Pure indulgence.", gradient: "linear-gradient(135deg, #E8D8A0 0%, #F5ECC8 30%, #C4B478 70%, #6A5A30 100%)", aura: "#F5ECC8", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Cheesy Fries", price: 350, desc: "Loaded with melted premium cheese that stretches with every bite. Topped with our special drizzle sauce.", gradient: "linear-gradient(135deg, #D4A020 0%, #F0D040 30%, #C49818 70%, #6A5010 100%)", aura: "#F0D040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Jalapeno Fries", price: 350, desc: "Fiery jalapenos meet crispy fries in this bold flavor explosion. Topped with spicy cheese and pickled peppers.", gradient: "linear-gradient(135deg, #4A8020 0%, #70B030 30%, #C44020 60%, #2A4010 100%)", aura: "#70B030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Chicken Loaded", price: 500, desc: "Piled high with seasoned chicken, melted cheese, sauces, and signature toppings. A meal in itself.", gradient: "linear-gradient(135deg, #B87030 0%, #D4A040 30%, #8B5A20 70%, #3D2A0A 100%)", aura: "#D4A040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Pizza Fries", price: 450, desc: "Best of both worlds — crispy fries topped with pizza sauce, mozzarella, and pepperoni. Baked bubbly.", gradient: "linear-gradient(135deg, #C43020 0%, #E85030 30%, #D4A030 60%, #4A1008 100%)", aura: "#E85030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "BBQ Fries", price: 400, desc: "Smoky BBQ sauce cascading over golden fries, topped with crispy onion bits and char-grilled flavor.", gradient: "linear-gradient(135deg, #8B3A10 0%, #C46020 30%, #4A2A0A 70%, #2A1A06 100%)", aura: "#C46020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"}
     ]
   },
 
@@ -1078,7 +1079,7 @@ const menuData = [
     id: 5, name: "Poultry", subtitle: "ROASTED TO GOLDEN PERFECTION",
     colors: { bg: "rgba(100,60,20,0.2)", glow: "#A07030" },
     cards: [
-      { name: "Stuffed Chicken", price: 950, desc: "Whole chicken marinated 24 hours, stuffed with aromatic rice and herbs, roasted golden. Half and full available.", gradient: "linear-gradient(135deg, #6A4020 0%, #A07030 30%, #C49040 60%, #3D2410 100%)", aura: "#A07030" }
+      { name: "Stuffed Chicken", price: 950, desc: "Whole chicken marinated 24 hours, stuffed with aromatic rice and herbs, roasted golden. Half and full available.", gradient: "linear-gradient(135deg, #6A4020 0%, #A07030 30%, #C49040 60%, #3D2410 100%)", aura: "#A07030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"}
     ]
   },
 
@@ -1089,9 +1090,9 @@ const menuData = [
     id: 6, name: "Wrap", subtitle: "ROLLED WITH LOVE AND FLAVOR",
     colors: { bg: "rgba(90,80,40,0.15)", glow: "#A09050" },
     cards: [
-      { name: "Chicken Cheese Wrap", price: 450, desc: "Tender grilled chicken wrapped in warm tortilla with melted cheese, fresh veggies, and creamy signature sauce.", gradient: "linear-gradient(135deg, #8B7A40 0%, #C4B070 30%, #A09050 70%, #4A4020 100%)", aura: "#C4B070" },
-      { name: "Pizza Wrap", price: 400, desc: "All flavors of a loaded pizza rolled into a crispy wrap. Packed with cheese, sauce, and savory toppings.", gradient: "linear-gradient(135deg, #C43020 0%, #E86040 30%, #D4A030 60%, #4A1808 100%)", aura: "#E86040" },
-      { name: "Arabian Wrap", price: 500, desc: "Exotic blend of Arabian spices, grilled chicken, tahini, and fresh herbs wrapped in soft flatbread.", gradient: "linear-gradient(135deg, #6A5A30 0%, #B8A060 30%, #8B7A40 70%, #3D3418 100%)", aura: "#B8A060" }
+      { name: "Chicken Cheese Wrap", price: 450, desc: "Tender grilled chicken wrapped in warm tortilla with melted cheese, fresh veggies, and creamy signature sauce.", gradient: "linear-gradient(135deg, #8B7A40 0%, #C4B070 30%, #A09050 70%, #4A4020 100%)", aura: "#C4B070", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Pizza Wrap", price: 400, desc: "All flavors of a loaded pizza rolled into a crispy wrap. Packed with cheese, sauce, and savory toppings.", gradient: "linear-gradient(135deg, #C43020 0%, #E86040 30%, #D4A030 60%, #4A1808 100%)", aura: "#E86040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Arabian Wrap", price: 500, desc: "Exotic blend of Arabian spices, grilled chicken, tahini, and fresh herbs wrapped in soft flatbread.", gradient: "linear-gradient(135deg, #6A5A30 0%, #B8A060 30%, #8B7A40 70%, #3D3418 100%)", aura: "#B8A060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"}
     ]
   },
 
@@ -1102,8 +1103,8 @@ const menuData = [
     id: 7, name: "Pasta", subtitle: "AL DENTE ARTISTRY",
     colors: { bg: "rgba(130,50,30,0.15)", glow: "#C45030" },
     cards: [
-      { name: "Special Pasta", price: 550, desc: "Chef's signature — rich blend of creamy and tangy sauces with perfectly cooked pasta and premium toppings.", gradient: "linear-gradient(135deg, #C43020 0%, #E8C8A0 30%, #A04020 60%, #4A1A0A 100%)", aura: "#C43020" },
-      { name: "Pasta", price: 450, desc: "Classic Italian-style pasta tossed in your choice of house sauces. Simple, elegant, deeply satisfying.", gradient: "linear-gradient(135deg, #B86030 0%, #E8D0A8 30%, #8B4A20 70%, #3D2010 100%)", aura: "#B86030" }
+      { name: "Special Pasta", price: 550, desc: "Chef's signature — rich blend of creamy and tangy sauces with perfectly cooked pasta and premium toppings.", gradient: "linear-gradient(135deg, #C43020 0%, #E8C8A0 30%, #A04020 60%, #4A1A0A 100%)", aura: "#C43020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Pasta", price: 450, desc: "Classic Italian-style pasta tossed in your choice of house sauces. Simple, elegant, deeply satisfying.", gradient: "linear-gradient(135deg, #B86030 0%, #E8D0A8 30%, #8B4A20 70%, #3D2010 100%)", aura: "#B86030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"}
     ]
   },
 
@@ -1114,12 +1115,12 @@ const menuData = [
     id: 8, name: "Tea", subtitle: "BREWED WITH SOUL AND TRADITION",
     colors: { bg: "rgba(100,70,30,0.2)", glow: "#A08040" },
     cards: [
-      { name: "Karak Tea", price: 180, desc: "Strong, bold, richly spiced — brewed slow with cardamom and evaporated milk for perfect desi kick.", gradient: "linear-gradient(135deg, #8B5A20 0%, #C48A40 30%, #6A4418 70%, #3D2A10 100%)", aura: "#C48A40" },
-      { name: "Special Tea", price: 200, desc: "House special blend — perfectly balanced chai with secret mix of premium tea leaves and aromatic spices.", gradient: "linear-gradient(135deg, #A06A30 0%, #D4A050 30%, #7A5020 70%, #4A3018 100%)", aura: "#D4A050" },
-      { name: "Green Tea", price: 200, desc: "Delicate and refreshing, premium green tea that soothes the palate and calms the soul with every sip.", gradient: "linear-gradient(135deg, #2A6A2A 0%, #4A9A4A 30%, #1A4A1A 70%, #0A2A0A 100%)", aura: "#4A9A4A" },
-      { name: "Doodh Patti", price: 150, desc: "Rich milk simmered with premium tea leaves until deep amber. Creamy, strong, unforgettable.", gradient: "linear-gradient(135deg, #C4A070 0%, #E8D0A8 30%, #A07A40 70%, #5A4020 100%)", aura: "#E8D0A8" },
-      { name: "Cardamom Tea", price: 200, desc: "Fragrant cardamom pods crushed into warming cup of silky chai. Each sip is an aromatic journey.", gradient: "linear-gradient(135deg, #6A8040 0%, #A0B060 30%, #8B7A40 70%, #3D3A18 100%)", aura: "#A0B060" },
-      { name: "Tandoori Tea", price: 250, desc: "The viral sensation — chai poured into red-hot clay pot, giving uniquely smoky, earthy flavor.", gradient: "linear-gradient(135deg, #8B3A1A 0%, #C46030 30%, #A04A20 70%, #4A1A08 100%)", aura: "#C46030" }
+      { name: "Karak Tea", price: 180, desc: "Strong, bold, richly spiced — brewed slow with cardamom and evaporated milk for perfect desi kick.", gradient: "linear-gradient(135deg, #8B5A20 0%, #C48A40 30%, #6A4418 70%, #3D2A10 100%)", aura: "#C48A40", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Special Tea", price: 200, desc: "House special blend — perfectly balanced chai with secret mix of premium tea leaves and aromatic spices.", gradient: "linear-gradient(135deg, #A06A30 0%, #D4A050 30%, #7A5020 70%, #4A3018 100%)", aura: "#D4A050", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Green Tea", price: 200, desc: "Delicate and refreshing, premium green tea that soothes the palate and calms the soul with every sip.", gradient: "linear-gradient(135deg, #2A6A2A 0%, #4A9A4A 30%, #1A4A1A 70%, #0A2A0A 100%)", aura: "#4A9A4A", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Doodh Patti", price: 150, desc: "Rich milk simmered with premium tea leaves until deep amber. Creamy, strong, unforgettable.", gradient: "linear-gradient(135deg, #C4A070 0%, #E8D0A8 30%, #A07A40 70%, #5A4020 100%)", aura: "#E8D0A8", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Cardamom Tea", price: 200, desc: "Fragrant cardamom pods crushed into warming cup of silky chai. Each sip is an aromatic journey.", gradient: "linear-gradient(135deg, #6A8040 0%, #A0B060 30%, #8B7A40 70%, #3D3A18 100%)", aura: "#A0B060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Tandoori Tea", price: 250, desc: "The viral sensation — chai poured into red-hot clay pot, giving uniquely smoky, earthy flavor.", gradient: "linear-gradient(135deg, #8B3A1A 0%, #C46030 30%, #A04A20 70%, #4A1A08 100%)", aura: "#C46030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"}
     ]
   },
 
@@ -1130,8 +1131,8 @@ const menuData = [
     id: 9, name: "Sandwiches", subtitle: "LAYERED WITH PREMIUM GOODNESS",
     colors: { bg: "rgba(120,90,40,0.15)", glow: "#C4A050" },
     cards: [
-      { name: "Club Sandwich", price: 500, desc: "Triple-decker loaded with grilled chicken, crispy bacon, fresh lettuce, tomato, special mayo. With fries.", gradient: "linear-gradient(135deg, #C4A050 0%, #E8D080 30%, #A08030 70%, #5A4818 100%)", aura: "#E8D080" },
-      { name: "Chai Dosti Special", price: 600, desc: "Our signature sandwich — unique blend of premium ingredients, secret sauce, and love. Exclusive.", gradient: "linear-gradient(135deg, #D4A020 0%, #F0C040 30%, #B88A18 70%, #6A4A10 100%)", aura: "#F0C040" }
+      { name: "Club Sandwich", price: 500, desc: "Triple-decker loaded with grilled chicken, crispy bacon, fresh lettuce, tomato, special mayo. With fries.", gradient: "linear-gradient(135deg, #C4A050 0%, #E8D080 30%, #A08030 70%, #5A4818 100%)", aura: "#E8D080", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"},
+      { name: "Chai Dosti Special", price: 600, desc: "Our signature sandwich — unique blend of premium ingredients, secret sauce, and love. Exclusive.", gradient: "linear-gradient(135deg, #D4A020 0%, #F0C040 30%, #B88A18 70%, #6A4A10 100%)", aura: "#F0C040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb"}
     ]
   },
 
@@ -1142,11 +1143,11 @@ const menuData = [
     id: 10, name: "Ice Cream Shakes", subtitle: "CREAMY FROZEN INDULGENCE",
     colors: { bg: "rgba(100,50,60,0.2)", glow: "#C46080" },
     cards: [
-      { name: "Death By Chocolate", price: 550, desc: "Layered dark chocolate ice cream, chocolate fudge drizzle, crunchy cocoa crumbs. A chocoholic's dream.", gradient: "linear-gradient(135deg, #3D1A0A 0%, #6A3020 30%, #4A2010 60%, #1A0A04 100%)", aura: "#6A3020" },
-      { name: "Peanut Butter Shake", price: 550, desc: "Smooth peanut butter blended with vanilla ice cream and caramel drizzle. Nutty, creamy paradise.", gradient: "linear-gradient(135deg, #A07030 0%, #D4A060 30%, #8B6020 70%, #4A3010 100%)", aura: "#D4A060" },
-      { name: "Vanilla Twist", price: 450, desc: "Pure Madagascar vanilla ice cream blended into thick creamy shake with caramel ribbon twist.", gradient: "linear-gradient(135deg, #E8D8C0 0%, #F5ECD8 30%, #C4B498 70%, #8A7A60 100%)", aura: "#F5ECD8" },
-      { name: "Cold Coffee", price: 400, desc: "Premium espresso blended with creamy ice cream and cold milk. Rich, smooth afternoon pick-me-up.", gradient: "linear-gradient(135deg, #4A3020 0%, #8B6040 30%, #6A4A30 70%, #2A1A10 100%)", aura: "#8B6040" },
-      { name: "Vanilla/Choco Shake", price: 400, desc: "Classic duo — choose silky vanilla or rich chocolate, both blended to thick creamy perfection.", gradient: "linear-gradient(135deg, #C4A080 0%, #6A3A20 50%, #E8D0B0 100%)", aura: "#C4A080" }
+      { name: "Death By Chocolate", price: 550, desc: "Layered dark chocolate ice cream, chocolate fudge drizzle, crunchy cocoa crumbs. A chocoholic's dream.", gradient: "linear-gradient(135deg, #3D1A0A 0%, #6A3020 30%, #4A2010 60%, #1A0A04 100%)", aura: "#6A3020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Peanut Butter Shake", price: 550, desc: "Smooth peanut butter blended with vanilla ice cream and caramel drizzle. Nutty, creamy paradise.", gradient: "linear-gradient(135deg, #A07030 0%, #D4A060 30%, #8B6020 70%, #4A3010 100%)", aura: "#D4A060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Vanilla Twist", price: 450, desc: "Pure Madagascar vanilla ice cream blended into thick creamy shake with caramel ribbon twist.", gradient: "linear-gradient(135deg, #E8D8C0 0%, #F5ECD8 30%, #C4B498 70%, #8A7A60 100%)", aura: "#F5ECD8", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Cold Coffee", price: 400, desc: "Premium espresso blended with creamy ice cream and cold milk. Rich, smooth afternoon pick-me-up.", gradient: "linear-gradient(135deg, #4A3020 0%, #8B6040 30%, #6A4A30 70%, #2A1A10 100%)", aura: "#8B6040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Vanilla/Choco Shake", price: 400, desc: "Classic duo — choose silky vanilla or rich chocolate, both blended to thick creamy perfection.", gradient: "linear-gradient(135deg, #C4A080 0%, #6A3A20 50%, #E8D0B0 100%)", aura: "#C4A080", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
     ]
   },
 
@@ -1157,149 +1158,149 @@ const menuData = [
     id: 11, name: "Dosti Special", subtitle: "SIGNATURE DRINKS YOU WON'T FIND ANYWHERE ELSE",
     colors: { bg: "rgba(80,40,100,0.15)", glow: "#A050C4" },
     cards: [
-      { name: "Pina Colada", price: 450, desc: "Tropical paradise — creamy coconut blended with sweet pineapple and crushed ice.", gradient: "linear-gradient(135deg, #2A8A40 0%, #D4D040 30%, #F0E860 60%, #1A5A2A 100%)", aura: "#D4D040" },
-      { name: "Lost In Hawaii", price: 450, desc: "Vibrant tropical fusion of exotic fruits, passion, and a splash of paradise.", gradient: "linear-gradient(135deg, #E87040 0%, #F0C040 30%, #20A060 60%, #0A4A2A 100%)", aura: "#E87040" },
-      { name: "Angle Kiss", price: 400, desc: "Soft, sweet, divinely smooth — a heavenly blend that leaves sweetness on your lips.", gradient: "linear-gradient(135deg, #E8A0C0 0%, #F0C8D8 30%, #C478A0 70%, #6A2A4A 100%)", aura: "#E8A0C0" },
-      { name: "Lovely Day", price: 400, desc: "Bright, cheerful, utterly refreshing — makes every day feel lovely and sunny.", gradient: "linear-gradient(135deg, #F0D040 0%, #F0A030 30%, #E87840 60%, #8A4A10 100%)", aura: "#F0D040" },
-      { name: "Malibu Affairs", price: 500, desc: "Smooth coconut vibes meet tropical fruit. Sophisticated and refreshing.", gradient: "linear-gradient(135deg, #20A0C0 0%, #40C0E0 30%, #F0E080 60%, #0A5A6A 100%)", aura: "#40C0E0" },
-      { name: "Strawberry Zinc", price: 400, desc: "Fresh strawberries with zingy citrus twist. Sweet, tangy, bursting with berry goodness.", gradient: "linear-gradient(135deg, #C43040 0%, #E86080 30%, #F0A0B0 60%, #6A1020 100%)", aura: "#E86080" },
-      { name: "Midnight Sunshine", price: 450, desc: "Dark berry flavors illuminated by citrus sunshine. Bold, beautiful, unforgettable.", gradient: "linear-gradient(135deg, #1A1040 0%, #4A2080 30%, #E8C040 60%, #0A0820 100%)", aura: "#4A2080" },
-      { name: "Electric Lemonade", price: 400, desc: "Vivid blue lemonade with electrifying citrus punch. Shockingly refreshing.", gradient: "linear-gradient(135deg, #2040C0 0%, #40A0F0 30%, #80E0F0 60%, #0A2060 100%)", aura: "#40A0F0" },
-      { name: "Berry Breeze", price: 400, desc: "Cool breeze of mixed berries with mint and ice. Light, refreshing, balanced.", gradient: "linear-gradient(135deg, #6A20A0 0%, #A050D0 30%, #C090E0 60%, #3A1060 100%)", aura: "#A050D0" },
-      { name: "Strawberry Lemonade", price: 350, desc: "Classic lemonade elevated with fresh strawberry puree. Perfect sweet-tart balance.", gradient: "linear-gradient(135deg, #E85070 0%, #F0A0A0 30%, #F0E050 60%, #8A2030 100%)", aura: "#E85070" },
-      { name: "Lady In Pink", price: 450, desc: "Elegantly crafted with rose, berries, vanilla. Beautiful to look at, divine to taste.", gradient: "linear-gradient(135deg, #E070A0 0%, #F0B0C8 30%, #F8D8E0 60%, #8A3060 100%)", aura: "#E070A0" },
-      { name: "Blue Sky", price: 400, desc: "Clear and refreshing as perfect blue sky. Blue curacao and citrus perfection.", gradient: "linear-gradient(135deg, #1060C0 0%, #30A0F0 30%, #80D0F8 60%, #082A60 100%)", aura: "#30A0F0" },
-      { name: "Purple Heaven", price: 450, desc: "Dreamy purple blend of grape, lavender, secret fruits. Velvety and heavenly.", gradient: "linear-gradient(135deg, #4A1080 0%, #8040C0 30%, #C080E0 60%, #2A0840 100%)", aura: "#8040C0" },
-      { name: "Real Apple", price: 350, desc: "Fresh pressed apple juice. Pure, natural, crisp — taste of real orchard apples.", gradient: "linear-gradient(135deg, #40A030 0%, #80C840 30%, #C0E870 60%, #206020 100%)", aura: "#80C840" },
-      { name: "Seasonal Fresh Juice", price: 300, desc: "Made with whatever is freshest today. Always seasonal, always delicious.", gradient: "linear-gradient(135deg, #E8A040 0%, #80C040 30%, #F0C060 60%, #4A5020 100%)", aura: "#80C040" }
+      { name: "Pina Colada", price: 450, desc: "Tropical paradise — creamy coconut blended with sweet pineapple and crushed ice.", gradient: "linear-gradient(135deg, #2A8A40 0%, #D4D040 30%, #F0E860 60%, #1A5A2A 100%)", aura: "#D4D040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Lost In Hawaii", price: 450, desc: "Vibrant tropical fusion of exotic fruits, passion, and a splash of paradise.", gradient: "linear-gradient(135deg, #E87040 0%, #F0C040 30%, #20A060 60%, #0A4A2A 100%)", aura: "#E87040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Angle Kiss", price: 400, desc: "Soft, sweet, divinely smooth — a heavenly blend that leaves sweetness on your lips.", gradient: "linear-gradient(135deg, #E8A0C0 0%, #F0C8D8 30%, #C478A0 70%, #6A2A4A 100%)", aura: "#E8A0C0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Lovely Day", price: 400, desc: "Bright, cheerful, utterly refreshing — makes every day feel lovely and sunny.", gradient: "linear-gradient(135deg, #F0D040 0%, #F0A030 30%, #E87840 60%, #8A4A10 100%)", aura: "#F0D040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Malibu Affairs", price: 500, desc: "Smooth coconut vibes meet tropical fruit. Sophisticated and refreshing.", gradient: "linear-gradient(135deg, #20A0C0 0%, #40C0E0 30%, #F0E080 60%, #0A5A6A 100%)", aura: "#40C0E0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Strawberry Zinc", price: 400, desc: "Fresh strawberries with zingy citrus twist. Sweet, tangy, bursting with berry goodness.", gradient: "linear-gradient(135deg, #C43040 0%, #E86080 30%, #F0A0B0 60%, #6A1020 100%)", aura: "#E86080", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Midnight Sunshine", price: 450, desc: "Dark berry flavors illuminated by citrus sunshine. Bold, beautiful, unforgettable.", gradient: "linear-gradient(135deg, #1A1040 0%, #4A2080 30%, #E8C040 60%, #0A0820 100%)", aura: "#4A2080", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Electric Lemonade", price: 400, desc: "Vivid blue lemonade with electrifying citrus punch. Shockingly refreshing.", gradient: "linear-gradient(135deg, #2040C0 0%, #40A0F0 30%, #80E0F0 60%, #0A2060 100%)", aura: "#40A0F0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Berry Breeze", price: 400, desc: "Cool breeze of mixed berries with mint and ice. Light, refreshing, balanced.", gradient: "linear-gradient(135deg, #6A20A0 0%, #A050D0 30%, #C090E0 60%, #3A1060 100%)", aura: "#A050D0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Strawberry Lemonade", price: 350, desc: "Classic lemonade elevated with fresh strawberry puree. Perfect sweet-tart balance.", gradient: "linear-gradient(135deg, #E85070 0%, #F0A0A0 30%, #F0E050 60%, #8A2030 100%)", aura: "#E85070", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Lady In Pink", price: 450, desc: "Elegantly crafted with rose, berries, vanilla. Beautiful to look at, divine to taste.", gradient: "linear-gradient(135deg, #E070A0 0%, #F0B0C8 30%, #F8D8E0 60%, #8A3060 100%)", aura: "#E070A0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Blue Sky", price: 400, desc: "Clear and refreshing as perfect blue sky. Blue curacao and citrus perfection.", gradient: "linear-gradient(135deg, #1060C0 0%, #30A0F0 30%, #80D0F8 60%, #082A60 100%)", aura: "#30A0F0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Purple Heaven", price: 450, desc: "Dreamy purple blend of grape, lavender, secret fruits. Velvety and heavenly.", gradient: "linear-gradient(135deg, #4A1080 0%, #8040C0 30%, #C080E0 60%, #2A0840 100%)", aura: "#8040C0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Real Apple", price: 350, desc: "Fresh pressed apple juice. Pure, natural, crisp — taste of real orchard apples.", gradient: "linear-gradient(135deg, #40A030 0%, #80C840 30%, #C0E870 60%, #206020 100%)", aura: "#80C840", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+      { name: "Seasonal Fresh Juice", price: 300, desc: "Made with whatever is freshest today. Always seasonal, always delicious.", gradient: "linear-gradient(135deg, #E8A040 0%, #80C040 30%, #F0C060 60%, #4A5020 100%)", aura: "#80C040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
     ]
   },
 
   // ━━━━━━━━━━━━━ CATEGORY 12: PANINI ━━━━━━━━━━━━━
   { id: 12, name: "Panini", subtitle: "PRESSED TO PERFECTION", colors: { bg: "rgba(120,80,30,0.15)", glow: "#B88A40" }, cards: [
-    { name: "Grill Chicken Panini", price: 500, desc: "Grilled chicken between artisan bread with melted cheese, sun-dried tomatoes, basil pesto.", gradient: "linear-gradient(135deg, #B88A40 0%, #D4B060 30%, #A07830 70%, #5A4018 100%)", aura: "#D4B060" },
-    { name: "Hot Jalapeno Panini", price: 500, desc: "Fiery jalapenos, pepper jack cheese, seasoned chicken pressed into crispy golden bread.", gradient: "linear-gradient(135deg, #C44020 0%, #E87040 30%, #4A8020 60%, #3A1808 100%)", aura: "#E87040" }
+    { name: "Grill Chicken Panini", price: 500, desc: "Grilled chicken between artisan bread with melted cheese, sun-dried tomatoes, basil pesto.", gradient: "linear-gradient(135deg, #B88A40 0%, #D4B060 30%, #A07830 70%, #5A4018 100%)", aura: "#D4B060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Hot Jalapeno Panini", price: 500, desc: "Fiery jalapenos, pepper jack cheese, seasoned chicken pressed into crispy golden bread.", gradient: "linear-gradient(135deg, #C44020 0%, #E87040 30%, #4A8020 60%, #3A1808 100%)", aura: "#E87040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 13: KEHWA ━━━━━━━━━━━━━
   { id: 13, name: "Kehwa", subtitle: "ANCIENT FLAVORS, WARM SOUL", colors: { bg: "rgba(30,70,30,0.2)", glow: "#4A8A30" },
   cards: [
-    { name: "Peshawri Kehwa", price: 250, desc: "Traditional Peshawari green tea with cardamom, cinnamon, saffron, crushed almonds. Royally warming.", gradient: "linear-gradient(135deg, #1A4A1A 0%, #4A8A30 30%, #D4A040 60%, #0A2A0A 100%)", aura: "#4A8A30" },
-    { name: "Lemon Grass Kehwa", price: 250, desc: "Refreshing lemon grass steeped with green tea and honey. Citrusy twist on classic kehwa.", gradient: "linear-gradient(135deg, #4A8A20 0%, #80C040 30%, #C4E060 60%, #2A5010 100%)", aura: "#80C040" }
+    { name: "Peshawri Kehwa", price: 250, desc: "Traditional Peshawari green tea with cardamom, cinnamon, saffron, crushed almonds. Royally warming.", gradient: "linear-gradient(135deg, #1A4A1A 0%, #4A8A30 30%, #D4A040 60%, #0A2A0A 100%)", aura: "#4A8A30", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Lemon Grass Kehwa", price: 250, desc: "Refreshing lemon grass steeped with green tea and honey. Citrusy twist on classic kehwa.", gradient: "linear-gradient(135deg, #4A8A20 0%, #80C040 30%, #C4E060 60%, #2A5010 100%)", aura: "#80C040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 14: ICE TEA ━━━━━━━━━━━━━
   { id: 14, name: "Ice Tea", subtitle: "CHILLED, FRUITY, REFRESHING", colors: { bg: "rgba(120,70,50,0.15)", glow: "#E89060" }, cards: [
-    { name: "Peach Ice Tea", price: 350, desc: "Sweet peach nectar with cold-brewed tea over ice. Summery, fruity, impossibly refreshing.", gradient: "linear-gradient(135deg, #E8A060 0%, #F0C890 30%, #C47840 70%, #6A4020 100%)", aura: "#E8A060" },
-    { name: "Lemon Ice Tea", price: 350, desc: "Tart lemon meets smooth cold tea. Perfectly sweet, perfectly tart, perfectly cold.", gradient: "linear-gradient(135deg, #E8D040 0%, #F0E878 30%, #C4B030 70%, #6A5A18 100%)", aura: "#E8D040" },
-    { name: "Raspberry Ice Tea", price: 350, desc: "Luscious raspberry puree swirled into iced tea. Bold, fruity, gorgeous.", gradient: "linear-gradient(135deg, #C03060 0%, #E06088 30%, #F0A0B8 60%, #601830 100%)", aura: "#C03060" }
+    { name: "Peach Ice Tea", price: 350, desc: "Sweet peach nectar with cold-brewed tea over ice. Summery, fruity, impossibly refreshing.", gradient: "linear-gradient(135deg, #E8A060 0%, #F0C890 30%, #C47840 70%, #6A4020 100%)", aura: "#E8A060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Lemon Ice Tea", price: 350, desc: "Tart lemon meets smooth cold tea. Perfectly sweet, perfectly tart, perfectly cold.", gradient: "linear-gradient(135deg, #E8D040 0%, #F0E878 30%, #C4B030 70%, #6A5A18 100%)", aura: "#E8D040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Raspberry Ice Tea", price: 350, desc: "Luscious raspberry puree swirled into iced tea. Bold, fruity, gorgeous.", gradient: "linear-gradient(135deg, #C03060 0%, #E06088 30%, #F0A0B8 60%, #601830 100%)", aura: "#C03060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 15: DESSERTS ━━━━━━━━━━━━━
   { id: 15, name: "Desserts", subtitle: "SWEET ENDINGS, LASTING MEMORIES", colors: { bg: "rgba(80,30,30,0.2)", glow: "#8A4030" }, cards: [
-    { name: "Molten Lava", price: 500, desc: "Warm chocolate cake oozing rich velvety molten chocolate. Served with vanilla ice cream.", gradient: "linear-gradient(135deg, #8A2A10 0%, #C44020 30%, #6A2010 60%, #2A0A04 100%)", aura: "#C44020" },
-    { name: "Brownie Ala Mode", price: 450, desc: "Thick fudgy brownie served warm, topped with premium vanilla ice cream and chocolate drizzle.", gradient: "linear-gradient(135deg, #4A2010 0%, #7A3A20 30%, #E8D0A0 60%, #2A1008 100%)", aura: "#7A3A20" },
-    { name: "Gulab Jammun", price: 300, desc: "Soft spongy dumplings soaked in fragrant rose cardamom sugar syrup. Timeless delicacy. 4 pcs.", gradient: "linear-gradient(135deg, #A06030 0%, #D4A060 30%, #8A4A20 70%, #4A2A10 100%)", aura: "#D4A060" }
+    { name: "Molten Lava", price: 500, desc: "Warm chocolate cake oozing rich velvety molten chocolate. Served with vanilla ice cream.", gradient: "linear-gradient(135deg, #8A2A10 0%, #C44020 30%, #6A2010 60%, #2A0A04 100%)", aura: "#C44020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Brownie Ala Mode", price: 450, desc: "Thick fudgy brownie served warm, topped with premium vanilla ice cream and chocolate drizzle.", gradient: "linear-gradient(135deg, #4A2010 0%, #7A3A20 30%, #E8D0A0 60%, #2A1008 100%)", aura: "#7A3A20", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Gulab Jammun", price: 300, desc: "Soft spongy dumplings soaked in fragrant rose cardamom sugar syrup. Timeless delicacy. 4 pcs.", gradient: "linear-gradient(135deg, #A06030 0%, #D4A060 30%, #8A4A20 70%, #4A2A10 100%)", aura: "#D4A060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 16: HOUSE SPECIAL ━━━━━━━━━━━━━
   { id: 16, name: "House Special", subtitle: "REFRESHMENTS CRAFTED IN-HOUSE", colors: { bg: "rgba(30,80,40,0.15)", glow: "#40A050" }, cards: [
-    { name: "Mint Margarita", price: 300, desc: "Fresh mint crushed with lime, sugar, sparkling soda. Crisp, cool, endlessly refreshing.", gradient: "linear-gradient(135deg, #20A040 0%, #60D060 30%, #A0F0A0 60%, #105020 100%)", aura: "#60D060" },
-    { name: "Lemon Margarita", price: 300, desc: "Zingy fresh lemons with crushed ice, sweetened to perfection. A citrus explosion.", gradient: "linear-gradient(135deg, #D4D020 0%, #F0F060 30%, #A0A018 70%, #5A5A08 100%)", aura: "#F0F060" },
-    { name: "Peach Margarita", price: 350, desc: "Sweet peach puree meets tangy citrus. Fruity frozen delight. Summer in a glass.", gradient: "linear-gradient(135deg, #E8A050 0%, #F0C880 30%, #C48838 70%, #6A4820 100%)", aura: "#F0C880" },
-    { name: "Blue Berry Margarita", price: 350, desc: "Wild blueberries in a frosty margarita with lime. Vibrant and bursting with flavor.", gradient: "linear-gradient(135deg, #3030A0 0%, #6060D0 30%, #A090E0 60%, #181850 100%)", aura: "#6060D0" },
-    { name: "Strawberry Margarita", price: 350, desc: "Ripe strawberries in pink frosty paradise with lime. Sweet, tangy, beautiful.", gradient: "linear-gradient(135deg, #D04060 0%, #F08090 30%, #F8C0C8 60%, #702030 100%)", aura: "#D04060" },
-    { name: "Red Bull", price: 400, desc: "Original energy drink served ice cold. Wings on demand.", gradient: "linear-gradient(135deg, #1040A0 0%, #3070D0 30%, #D4A020 60%, #082050 100%)", aura: "#3070D0" },
-    { name: "Soft Drink", price: 150, desc: "Classic carbonated beverages served chilled with ice and lemon.", gradient: "linear-gradient(135deg, #C02020 0%, #E05030 30%, #2A2A2A 60%, #601010 100%)", aura: "#C02020" },
-    { name: "Water", price: 100, desc: "Premium filtered mineral water. Even hydration feels elevated.", gradient: "linear-gradient(135deg, #40A0D0 0%, #80D0F0 30%, #C0E8F8 60%, #205060 100%)", aura: "#80D0F0" }
+    { name: "Mint Margarita", price: 300, desc: "Fresh mint crushed with lime, sugar, sparkling soda. Crisp, cool, endlessly refreshing.", gradient: "linear-gradient(135deg, #20A040 0%, #60D060 30%, #A0F0A0 60%, #105020 100%)", aura: "#60D060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Lemon Margarita", price: 300, desc: "Zingy fresh lemons with crushed ice, sweetened to perfection. A citrus explosion.", gradient: "linear-gradient(135deg, #D4D020 0%, #F0F060 30%, #A0A018 70%, #5A5A08 100%)", aura: "#F0F060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Peach Margarita", price: 350, desc: "Sweet peach puree meets tangy citrus. Fruity frozen delight. Summer in a glass.", gradient: "linear-gradient(135deg, #E8A050 0%, #F0C880 30%, #C48838 70%, #6A4820 100%)", aura: "#F0C880", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Blue Berry Margarita", price: 350, desc: "Wild blueberries in a frosty margarita with lime. Vibrant and bursting with flavor.", gradient: "linear-gradient(135deg, #3030A0 0%, #6060D0 30%, #A090E0 60%, #181850 100%)", aura: "#6060D0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Strawberry Margarita", price: 350, desc: "Ripe strawberries in pink frosty paradise with lime. Sweet, tangy, beautiful.", gradient: "linear-gradient(135deg, #D04060 0%, #F08090 30%, #F8C0C8 60%, #702030 100%)", aura: "#D04060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Red Bull", price: 400, desc: "Original energy drink served ice cold. Wings on demand.", gradient: "linear-gradient(135deg, #1040A0 0%, #3070D0 30%, #D4A020 60%, #082050 100%)", aura: "#3070D0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Soft Drink", price: 150, desc: "Classic carbonated beverages served chilled with ice and lemon.", gradient: "linear-gradient(135deg, #C02020 0%, #E05030 30%, #2A2A2A 60%, #601010 100%)", aura: "#C02020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Water", price: 100, desc: "Premium filtered mineral water. Even hydration feels elevated.", gradient: "linear-gradient(135deg, #40A0D0 0%, #80D0F0 30%, #C0E8F8 60%, #205060 100%)", aura: "#80D0F0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 17: BBQ ━━━━━━━━━━━━━
   { id: 17, name: "BBQ", subtitle: "FLAME-KISSED, SMOKE-INFUSED", colors: { bg: "rgba(120,30,10,0.2)", glow: "#C04020" }, cards: [
-    { name: "Chicken Boti", price: 650, desc: "12 pieces marinated in special BBQ blend, grilled over open flames until charred and juicy.", gradient: "linear-gradient(135deg, #8B2A10 0%, #C04020 30%, #E87040 60%, #3D1208 100%)", aura: "#C04020" },
-    { name: "Cheese Boti", price: 400, desc: "Succulent boti topped with melted cheese and smoky BBQ sauce. 2 pieces of perfection.", gradient: "linear-gradient(135deg, #A04020 0%, #D06030 30%, #E8B040 60%, #4A1A08 100%)", aura: "#D06030" },
-    { name: "Malai Boti", price: 750, desc: "Cream-marinated chicken grilled to buttery melt-in-mouth perfection. 12 pieces.", gradient: "linear-gradient(135deg, #D4B080 0%, #E8D4B0 30%, #C4A070 70%, #6A5430 100%)", aura: "#E8D4B0" },
-    { name: "Kastori Boti", price: 700, desc: "Royal kastoori spices infusing tender grilled chicken. 12 pieces of fragrant bliss.", gradient: "linear-gradient(135deg, #7A5020 0%, #B88040 30%, #D4A860 60%, #3D2810 100%)", aura: "#B88040" },
-    { name: "Chicken Kabab", price: 500, desc: "Hand-crafted minced chicken kababs with fresh herbs, grilled smoky. 4 pieces.", gradient: "linear-gradient(135deg, #6A3A18 0%, #A06030 30%, #C48040 60%, #3D2210 100%)", aura: "#A06030" },
-    { name: "Reshm Kabab", price: 550, desc: "Silky minced chicken enriched with cream and cashews, grilled golden. 4 pieces.", gradient: "linear-gradient(135deg, #C4A070 0%, #E8C898 30%, #A08050 70%, #5A4428 100%)", aura: "#E8C898" },
-    { name: "Hara Hara Kabab", price: 550, desc: "Vibrant green kababs with fresh mint, coriander, green chillies. 4 pieces.", gradient: "linear-gradient(135deg, #2A6A20 0%, #4A9A40 30%, #70C060 60%, #1A4010 100%)", aura: "#4A9A40" }
+    { name: "Chicken Boti", price: 650, desc: "12 pieces marinated in special BBQ blend, grilled over open flames until charred and juicy.", gradient: "linear-gradient(135deg, #8B2A10 0%, #C04020 30%, #E87040 60%, #3D1208 100%)", aura: "#C04020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Cheese Boti", price: 400, desc: "Succulent boti topped with melted cheese and smoky BBQ sauce. 2 pieces of perfection.", gradient: "linear-gradient(135deg, #A04020 0%, #D06030 30%, #E8B040 60%, #4A1A08 100%)", aura: "#D06030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Malai Boti", price: 750, desc: "Cream-marinated chicken grilled to buttery melt-in-mouth perfection. 12 pieces.", gradient: "linear-gradient(135deg, #D4B080 0%, #E8D4B0 30%, #C4A070 70%, #6A5430 100%)", aura: "#E8D4B0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Kastori Boti", price: 700, desc: "Royal kastoori spices infusing tender grilled chicken. 12 pieces of fragrant bliss.", gradient: "linear-gradient(135deg, #7A5020 0%, #B88040 30%, #D4A860 60%, #3D2810 100%)", aura: "#B88040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Chicken Kabab", price: 500, desc: "Hand-crafted minced chicken kababs with fresh herbs, grilled smoky. 4 pieces.", gradient: "linear-gradient(135deg, #6A3A18 0%, #A06030 30%, #C48040 60%, #3D2210 100%)", aura: "#A06030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Reshm Kabab", price: 550, desc: "Silky minced chicken enriched with cream and cashews, grilled golden. 4 pieces.", gradient: "linear-gradient(135deg, #C4A070 0%, #E8C898 30%, #A08050 70%, #5A4428 100%)", aura: "#E8C898", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Hara Hara Kabab", price: 550, desc: "Vibrant green kababs with fresh mint, coriander, green chillies. 4 pieces.", gradient: "linear-gradient(135deg, #2A6A20 0%, #4A9A40 30%, #70C060 60%, #1A4010 100%)", aura: "#4A9A40", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 18: TANDOOR ━━━━━━━━━━━━━
   { id: 18, name: "Tandoor", subtitle: "FROM THE HEART OF THE CLAY OVEN", colors: { bg: "rgba(100,70,40,0.15)", glow: "#A08050" }, cards: [
-    { name: "Sada Roti", price: 30, desc: "Simple whole wheat roti fresh from tandoor. Perfect accompaniment.", gradient: "linear-gradient(135deg, #A08050 0%, #C4A878 30%, #8A6A40 70%, #4A3820 100%)", aura: "#C4A878" },
-    { name: "Plain Naan", price: 40, desc: "Soft fluffy naan baked to perfection in clay tandoor. Light, airy, pillowy.", gradient: "linear-gradient(135deg, #C4A870 0%, #E8D4A8 30%, #A08850 70%, #5A4828 100%)", aura: "#E8D4A8" },
-    { name: "Garlic Naan", price: 80, desc: "Classic naan infused with roasted garlic, brushed with butter. Aromatic.", gradient: "linear-gradient(135deg, #D4B878 0%, #F0E0C0 30%, #B89858 70%, #6A5430 100%)", aura: "#F0E0C0" },
-    { name: "Roghni Naan", price: 60, desc: "Glossy buttery naan with sesame and nigella seeds. Rich and indulgent.", gradient: "linear-gradient(135deg, #B89050 0%, #D4B478 30%, #A07A40 70%, #5A4020 100%)", aura: "#D4B478" },
-    { name: "Kalonji Naan", price: 60, desc: "Soft naan topped with fragrant kalonji seeds. Subtle nutty flavor.", gradient: "linear-gradient(135deg, #8A7040 0%, #B89860 30%, #6A5430 70%, #3D3018 100%)", aura: "#B89860" },
-    { name: "Khamiri Roti", price: 50, desc: "Leavened whole wheat bread, soft spongy texture. Traditional and satisfying.", gradient: "linear-gradient(135deg, #9A7A48 0%, #C4A870 30%, #7A6038 70%, #4A3820 100%)", aura: "#C4A870" },
-    { name: "Special Naan", price: 100, desc: "Signature stuffed naan with special blend. Crown jewel of tandoor.", gradient: "linear-gradient(135deg, #D4A850 0%, #F0D088 30%, #B88A38 70%, #6A4E20 100%)", aura: "#F0D088" },
-    { name: "Raita", price: 100, desc: "Cool creamy yogurt with cucumbers, mint, cumin. Perfect cooling companion.", gradient: "linear-gradient(135deg, #E8E8E0 0%, #F0F0E8 30%, #C4C4B8 70%, #8A8A78 100%)", aura: "#E8E8E0" },
-    { name: "Fresh Salad", price: 150, desc: "Crisp seasonal vegetables with lemon dressing and fresh herbs. Vibrant.", gradient: "linear-gradient(135deg, #40A040 0%, #80D050 30%, #C0E870 60%, #207020 100%)", aura: "#80D050" }
+    { name: "Sada Roti", price: 30, desc: "Simple whole wheat roti fresh from tandoor. Perfect accompaniment.", gradient: "linear-gradient(135deg, #A08050 0%, #C4A878 30%, #8A6A40 70%, #4A3820 100%)", aura: "#C4A878", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Plain Naan", price: 40, desc: "Soft fluffy naan baked to perfection in clay tandoor. Light, airy, pillowy.", gradient: "linear-gradient(135deg, #C4A870 0%, #E8D4A8 30%, #A08850 70%, #5A4828 100%)", aura: "#E8D4A8", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Garlic Naan", price: 80, desc: "Classic naan infused with roasted garlic, brushed with butter. Aromatic.", gradient: "linear-gradient(135deg, #D4B878 0%, #F0E0C0 30%, #B89858 70%, #6A5430 100%)", aura: "#F0E0C0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Roghni Naan", price: 60, desc: "Glossy buttery naan with sesame and nigella seeds. Rich and indulgent.", gradient: "linear-gradient(135deg, #B89050 0%, #D4B478 30%, #A07A40 70%, #5A4020 100%)", aura: "#D4B478", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Kalonji Naan", price: 60, desc: "Soft naan topped with fragrant kalonji seeds. Subtle nutty flavor.", gradient: "linear-gradient(135deg, #8A7040 0%, #B89860 30%, #6A5430 70%, #3D3018 100%)", aura: "#B89860", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Khamiri Roti", price: 50, desc: "Leavened whole wheat bread, soft spongy texture. Traditional and satisfying.", gradient: "linear-gradient(135deg, #9A7A48 0%, #C4A870 30%, #7A6038 70%, #4A3820 100%)", aura: "#C4A870", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Special Naan", price: 100, desc: "Signature stuffed naan with special blend. Crown jewel of tandoor.", gradient: "linear-gradient(135deg, #D4A850 0%, #F0D088 30%, #B88A38 70%, #6A4E20 100%)", aura: "#F0D088", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Raita", price: 100, desc: "Cool creamy yogurt with cucumbers, mint, cumin. Perfect cooling companion.", gradient: "linear-gradient(135deg, #E8E8E0 0%, #F0F0E8 30%, #C4C4B8 70%, #8A8A78 100%)", aura: "#E8E8E0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Fresh Salad", price: 150, desc: "Crisp seasonal vegetables with lemon dressing and fresh herbs. Vibrant.", gradient: "linear-gradient(135deg, #40A040 0%, #80D050 30%, #C0E870 60%, #207020 100%)", aura: "#80D050", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 19: MOCKTAILS ━━━━━━━━━━━━━
   { id: 19, name: "Mocktails", subtitle: "VIBRANT, BOLD, ALCOHOL-FREE", colors: { bg: "rgba(60,20,80,0.2)", glow: "#8040A0" }, cards: [
-    { name: "Midnight Sunshine", price: 450, desc: "Dark berry flavors illuminated by citrus sunshine. Bold and unforgettable.", gradient: "linear-gradient(135deg, #1A1040 0%, #4A2080 30%, #E8C040 60%, #0A0820 100%)", aura: "#4A2080" },
-    { name: "Electric Lemonade", price: 400, desc: "Vivid blue lemonade with electrifying citrus punch.", gradient: "linear-gradient(135deg, #2040C0 0%, #40A0F0 30%, #80E0F0 60%, #0A2060 100%)", aura: "#40A0F0" },
-    { name: "Berry Breeze", price: 400, desc: "Mixed berries with mint and ice. Refreshing and balanced.", gradient: "linear-gradient(135deg, #6A20A0 0%, #A050D0 30%, #C090E0 60%, #3A1060 100%)", aura: "#A050D0" },
-    { name: "Strawberry Lemonade", price: 350, desc: "Classic lemonade with fresh strawberry puree. Sweet-tart perfection.", gradient: "linear-gradient(135deg, #E85070 0%, #F0A0A0 30%, #F0E050 60%, #8A2030 100%)", aura: "#E85070" },
-    { name: "Lady In Pink", price: 450, desc: "Rose, berries, vanilla. Beautiful to look at, divine to taste.", gradient: "linear-gradient(135deg, #E070A0 0%, #F0B0C8 30%, #F8D8E0 60%, #8A3060 100%)", aura: "#E070A0" },
-    { name: "Blue Sky", price: 400, desc: "Refreshing as a perfect blue sky. Blue curacao and citrus.", gradient: "linear-gradient(135deg, #1060C0 0%, #30A0F0 30%, #80D0F8 60%, #082A60 100%)", aura: "#30A0F0" },
-    { name: "Purple Heaven", price: 450, desc: "Dreamy purple blend of grape and lavender. Velvety heavenly.", gradient: "linear-gradient(135deg, #4A1080 0%, #8040C0 30%, #C080E0 60%, #2A0840 100%)", aura: "#8040C0" }
+    { name: "Midnight Sunshine", price: 450, desc: "Dark berry flavors illuminated by citrus sunshine. Bold and unforgettable.", gradient: "linear-gradient(135deg, #1A1040 0%, #4A2080 30%, #E8C040 60%, #0A0820 100%)", aura: "#4A2080", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Electric Lemonade", price: 400, desc: "Vivid blue lemonade with electrifying citrus punch.", gradient: "linear-gradient(135deg, #2040C0 0%, #40A0F0 30%, #80E0F0 60%, #0A2060 100%)", aura: "#40A0F0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Berry Breeze", price: 400, desc: "Mixed berries with mint and ice. Refreshing and balanced.", gradient: "linear-gradient(135deg, #6A20A0 0%, #A050D0 30%, #C090E0 60%, #3A1060 100%)", aura: "#A050D0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Strawberry Lemonade", price: 350, desc: "Classic lemonade with fresh strawberry puree. Sweet-tart perfection.", gradient: "linear-gradient(135deg, #E85070 0%, #F0A0A0 30%, #F0E050 60%, #8A2030 100%)", aura: "#E85070", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Lady In Pink", price: 450, desc: "Rose, berries, vanilla. Beautiful to look at, divine to taste.", gradient: "linear-gradient(135deg, #E070A0 0%, #F0B0C8 30%, #F8D8E0 60%, #8A3060 100%)", aura: "#E070A0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Blue Sky", price: 400, desc: "Refreshing as a perfect blue sky. Blue curacao and citrus.", gradient: "linear-gradient(135deg, #1060C0 0%, #30A0F0 30%, #80D0F8 60%, #082A60 100%)", aura: "#30A0F0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Purple Heaven", price: 450, desc: "Dreamy purple blend of grape and lavender. Velvety heavenly.", gradient: "linear-gradient(135deg, #4A1080 0%, #8040C0 30%, #C080E0 60%, #2A0840 100%)", aura: "#8040C0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 20: SPECIAL DRINKS ━━━━━━━━━━━━━
   { id: 20, name: "Special Drinks", subtitle: "CURATED FOR THE CONNOISSEUR", colors: { bg: "rgba(60,30,60,0.2)", glow: "#A04080" }, cards: [
-    { name: "Peach", price: 350, desc: "Fresh peach nectar with ice and vanilla. Sweet and smooth.", gradient: "linear-gradient(135deg, #E8A060 0%, #F0C888 30%, #C48040 70%, #6A4020 100%)", aura: "#E8A060" },
-    { name: "Lemon", price: 300, desc: "Pure squeezed lemon with honey. Classic and refreshing.", gradient: "linear-gradient(135deg, #D4D030 0%, #F0F060 30%, #B0B020 70%, #5A5A10 100%)", aura: "#F0F060" },
-    { name: "Raspberry", price: 350, desc: "Plump raspberries crushed into vibrant tangy drink.", gradient: "linear-gradient(135deg, #C03060 0%, #E06088 30%, #F0A0B8 60%, #601830 100%)", aura: "#E06088" },
-    { name: "Ice Tea", price: 300, desc: "Classic brewed tea chilled with lemon. Cool and timeless.", gradient: "linear-gradient(135deg, #A07030 0%, #D4A060 30%, #8B5A20 70%, #4A3010 100%)", aura: "#D4A060" },
-    { name: "Chai", price: 250, desc: "Signature cold-brew style chai. Rich with creamy milk.", gradient: "linear-gradient(135deg, #8B5A20 0%, #C48A40 30%, #6A4418 70%, #3D2A10 100%)", aura: "#C48A40" },
-    { name: "Angle Kiss", price: 400, desc: "Heavenly sweet blend. A kiss of sweetness on your lips.", gradient: "linear-gradient(135deg, #E8A0C0 0%, #F0C8D8 30%, #C478A0 70%, #6A2A4A 100%)", aura: "#E8A0C0" },
-    { name: "Dosti", price: 400, desc: "Our namesake secret recipe. Share with someone special.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0C848 30%, #8040A0 60%, #4A2A08 100%)", aura: "#F0C848" },
-    { name: "Toky", price: 400, desc: "Inspired by Tokyo nights. Vibrant and full of twists.", gradient: "linear-gradient(135deg, #E02040 0%, #F06070 30%, #F0C040 60%, #801020 100%)", aura: "#E02040" },
-    { name: "Lovely Day", price: 400, desc: "Sunshine in a glass. Makes any day lovely.", gradient: "linear-gradient(135deg, #F0D040 0%, #F0A030 30%, #E87840 60%, #8A4A10 100%)", aura: "#F0D040" },
-    { name: "Malibu Affairs", price: 500, desc: "Coconut vibes meet tropical fruit. Sophisticated.", gradient: "linear-gradient(135deg, #20A0C0 0%, #40C0E0 30%, #F0E080 60%, #0A5A6A 100%)", aura: "#40C0E0" },
-    { name: "Strawberry Zinc", price: 400, desc: "Strawberries with zingy citrus. Sweet and vibrant.", gradient: "linear-gradient(135deg, #C43040 0%, #E86080 30%, #F0A0B0 60%, #6A1020 100%)", aura: "#E86080" },
-    { name: "Real Apple", price: 350, desc: "Fresh pressed apple. Pure, natural, crisp.", gradient: "linear-gradient(135deg, #40A030 0%, #80C840 30%, #C0E870 60%, #206020 100%)", aura: "#80C840" },
-    { name: "Pina Colada", price: 450, desc: "Coconut and pineapple blended into tropical perfection.", gradient: "linear-gradient(135deg, #2A8A40 0%, #D4D040 30%, #F0E860 60%, #1A5A2A 100%)", aura: "#D4D040" },
-    { name: "Devil Teeth", price: 500, desc: "Daringly spicy and devilishly delicious. Bites back.", gradient: "linear-gradient(135deg, #8A0810 0%, #C02020 30%, #E84040 60%, #400408 100%)", aura: "#C02020" },
-    { name: "Lost In Hawaii", price: 450, desc: "Tropical fusion of exotic fruits. Get lost in paradise.", gradient: "linear-gradient(135deg, #E87040 0%, #F0C040 30%, #20A060 60%, #0A4A2A 100%)", aura: "#E87040" }
+    { name: "Peach", price: 350, desc: "Fresh peach nectar with ice and vanilla. Sweet and smooth.", gradient: "linear-gradient(135deg, #E8A060 0%, #F0C888 30%, #C48040 70%, #6A4020 100%)", aura: "#E8A060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Lemon", price: 300, desc: "Pure squeezed lemon with honey. Classic and refreshing.", gradient: "linear-gradient(135deg, #D4D030 0%, #F0F060 30%, #B0B020 70%, #5A5A10 100%)", aura: "#F0F060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Raspberry", price: 350, desc: "Plump raspberries crushed into vibrant tangy drink.", gradient: "linear-gradient(135deg, #C03060 0%, #E06088 30%, #F0A0B8 60%, #601830 100%)", aura: "#E06088", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Ice Tea", price: 300, desc: "Classic brewed tea chilled with lemon. Cool and timeless.", gradient: "linear-gradient(135deg, #A07030 0%, #D4A060 30%, #8B5A20 70%, #4A3010 100%)", aura: "#D4A060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Chai", price: 250, desc: "Signature cold-brew style chai. Rich with creamy milk.", gradient: "linear-gradient(135deg, #8B5A20 0%, #C48A40 30%, #6A4418 70%, #3D2A10 100%)", aura: "#C48A40", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Angle Kiss", price: 400, desc: "Heavenly sweet blend. A kiss of sweetness on your lips.", gradient: "linear-gradient(135deg, #E8A0C0 0%, #F0C8D8 30%, #C478A0 70%, #6A2A4A 100%)", aura: "#E8A0C0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Dosti", price: 400, desc: "Our namesake secret recipe. Share with someone special.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0C848 30%, #8040A0 60%, #4A2A08 100%)", aura: "#F0C848", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Toky", price: 400, desc: "Inspired by Tokyo nights. Vibrant and full of twists.", gradient: "linear-gradient(135deg, #E02040 0%, #F06070 30%, #F0C040 60%, #801020 100%)", aura: "#E02040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Lovely Day", price: 400, desc: "Sunshine in a glass. Makes any day lovely.", gradient: "linear-gradient(135deg, #F0D040 0%, #F0A030 30%, #E87840 60%, #8A4A10 100%)", aura: "#F0D040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Malibu Affairs", price: 500, desc: "Coconut vibes meet tropical fruit. Sophisticated.", gradient: "linear-gradient(135deg, #20A0C0 0%, #40C0E0 30%, #F0E080 60%, #0A5A6A 100%)", aura: "#40C0E0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Strawberry Zinc", price: 400, desc: "Strawberries with zingy citrus. Sweet and vibrant.", gradient: "linear-gradient(135deg, #C43040 0%, #E86080 30%, #F0A0B0 60%, #6A1020 100%)", aura: "#E86080", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Real Apple", price: 350, desc: "Fresh pressed apple. Pure, natural, crisp.", gradient: "linear-gradient(135deg, #40A030 0%, #80C840 30%, #C0E870 60%, #206020 100%)", aura: "#80C840", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Pina Colada", price: 450, desc: "Coconut and pineapple blended into tropical perfection.", gradient: "linear-gradient(135deg, #2A8A40 0%, #D4D040 30%, #F0E860 60%, #1A5A2A 100%)", aura: "#D4D040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Devil Teeth", price: 500, desc: "Daringly spicy and devilishly delicious. Bites back.", gradient: "linear-gradient(135deg, #8A0810 0%, #C02020 30%, #E84040 60%, #400408 100%)", aura: "#C02020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Lost In Hawaii", price: 450, desc: "Tropical fusion of exotic fruits. Get lost in paradise.", gradient: "linear-gradient(135deg, #E87040 0%, #F0C040 30%, #20A060 60%, #0A4A2A 100%)", aura: "#E87040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 21: MARGARITAS ━━━━━━━━━━━━━
   { id: 21, name: "Margaritas", subtitle: "FROSTY, FRUITY, FANTASTIC", colors: { bg: "rgba(40,80,30,0.15)", glow: "#60C040" }, cards: [
-    { name: "Mint Margarita", price: 300, desc: "Fresh mint with lime and soda. Ultimate refresher.", gradient: "linear-gradient(135deg, #20A040 0%, #60D060 30%, #A0F0A0 60%, #105020 100%)", aura: "#60D060" },
-    { name: "Lemon Margarita", price: 300, desc: "Zingy lemons with crushed ice. Citrus explosion.", gradient: "linear-gradient(135deg, #D4D020 0%, #F0F060 30%, #A0A018 70%, #5A5A08 100%)", aura: "#F0F060" },
-    { name: "Peace Margarita", price: 350, desc: "Peach and honey with gentle citrus. Find your peace.", gradient: "linear-gradient(135deg, #E8B060 0%, #F0D498 30%, #C49848 70%, #6A5028 100%)", aura: "#E8B060" },
-    { name: "Blue Berry Margarita", price: 350, desc: "Wild blueberries in frosty margarita. Vibrant.", gradient: "linear-gradient(135deg, #3030A0 0%, #6060D0 30%, #A090E0 60%, #181850 100%)", aura: "#6060D0" },
-    { name: "Strawberry Margarita", price: 350, desc: "Ripe strawberries in pink frosty paradise.", gradient: "linear-gradient(135deg, #D04060 0%, #F08090 30%, #F8C0C8 60%, #702030 100%)", aura: "#D04060" }
+    { name: "Mint Margarita", price: 300, desc: "Fresh mint with lime and soda. Ultimate refresher.", gradient: "linear-gradient(135deg, #20A040 0%, #60D060 30%, #A0F0A0 60%, #105020 100%)", aura: "#60D060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Lemon Margarita", price: 300, desc: "Zingy lemons with crushed ice. Citrus explosion.", gradient: "linear-gradient(135deg, #D4D020 0%, #F0F060 30%, #A0A018 70%, #5A5A08 100%)", aura: "#F0F060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Peace Margarita", price: 350, desc: "Peach and honey with gentle citrus. Find your peace.", gradient: "linear-gradient(135deg, #E8B060 0%, #F0D498 30%, #C49848 70%, #6A5028 100%)", aura: "#E8B060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Blue Berry Margarita", price: 350, desc: "Wild blueberries in frosty margarita. Vibrant.", gradient: "linear-gradient(135deg, #3030A0 0%, #6060D0 30%, #A090E0 60%, #181850 100%)", aura: "#6060D0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Strawberry Margarita", price: 350, desc: "Ripe strawberries in pink frosty paradise.", gradient: "linear-gradient(135deg, #D04060 0%, #F08090 30%, #F8C0C8 60%, #702030 100%)", aura: "#D04060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 22: BEVERAGES ━━━━━━━━━━━━━
   { id: 22, name: "Beverages", subtitle: "CLASSIC DRINKS, PREMIUM SERVE", colors: { bg: "rgba(40,40,80,0.15)", glow: "#4060C0" }, cards: [
-    { name: "G", price: 250, desc: "Premium craft beverage served ice cold with citrus.", gradient: "linear-gradient(135deg, #20A060 0%, #40D080 30%, #80F0A0 60%, #104030 100%)", aura: "#40D080" },
-    { name: "Drink", price: 200, desc: "Classic chilled beverages from our premium selection.", gradient: "linear-gradient(135deg, #C02020 0%, #E04040 30%, #F08060 60%, #601010 100%)", aura: "#E04040" },
-    { name: "Bull", price: 400, desc: "Energy unleashed. Ice cold for maximum impact.", gradient: "linear-gradient(135deg, #1040A0 0%, #3070D0 30%, #D4A020 60%, #082050 100%)", aura: "#3070D0" },
-    { name: "Lime", price: 200, desc: "Fresh lime with soda and ice. Simple, tangy, refreshing.", gradient: "linear-gradient(135deg, #40C040 0%, #80F060 30%, #D0F8A0 60%, #208020 100%)", aura: "#80F060" }
+    { name: "G", price: 250, desc: "Premium craft beverage served ice cold with citrus.", gradient: "linear-gradient(135deg, #20A060 0%, #40D080 30%, #80F0A0 60%, #104030 100%)", aura: "#40D080", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Drink", price: 200, desc: "Classic chilled beverages from our premium selection.", gradient: "linear-gradient(135deg, #C02020 0%, #E04040 30%, #F08060 60%, #601010 100%)", aura: "#E04040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Bull", price: 400, desc: "Energy unleashed. Ice cold for maximum impact.", gradient: "linear-gradient(135deg, #1040A0 0%, #3070D0 30%, #D4A020 60%, #082050 100%)", aura: "#3070D0", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Lime", price: 200, desc: "Fresh lime with soda and ice. Simple, tangy, refreshing.", gradient: "linear-gradient(135deg, #40C040 0%, #80F060 30%, #D0F8A0 60%, #208020 100%)", aura: "#80F060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 23: HUNGER CLASSIC PIZZAS ━━━━━━━━━━━━━
   { id: 23, name: "Hunger Classic", subtitle: "CLASSIC PIZZAS, DESI SOUL", colors: { bg: "rgba(130,30,20,0.2)", glow: "#C04030" }, cards: [
-    { name: "Hunger Tikka", price: 850, desc: "Spicy chicken tikka, onions, peppers on hand-tossed crust.", gradient: "linear-gradient(135deg, #C04020 0%, #E87040 30%, #D4A030 60%, #4A1808 100%)", aura: "#C04020" },
-    { name: "Hunger Fajita", price: 850, desc: "Sizzling fajita chicken with bell peppers and chipotle.", gradient: "linear-gradient(135deg, #D06030 0%, #F09050 30%, #A04020 70%, #4A1A08 100%)", aura: "#D06030" },
-    { name: "Fajita Sicilian", price: 950, desc: "Fajita elevated Sicilian style. Thick crust, extra loaded.", gradient: "linear-gradient(135deg, #B84020 0%, #E07040 30%, #F0A060 60%, #5A1A08 100%)", aura: "#E07040" },
-    { name: "Hunger Supreme", price: 950, desc: "Ultimate loaded pizza. Every premium topping. The king.", gradient: "linear-gradient(135deg, #A02020 0%, #D04030 30%, #E8C040 60%, #500A0A 100%)", aura: "#D04030" },
-    { name: "Cheese Max", price: 800, desc: "Triple layered cheese melted to bubbly stretchy perfection.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0D060 30%, #C49020 70%, #6A4A10 100%)", aura: "#F0D060" }
+    { name: "Hunger Tikka", price: 850, desc: "Spicy chicken tikka, onions, peppers on hand-tossed crust.", gradient: "linear-gradient(135deg, #C04020 0%, #E87040 30%, #D4A030 60%, #4A1808 100%)", aura: "#C04020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Hunger Fajita", price: 850, desc: "Sizzling fajita chicken with bell peppers and chipotle.", gradient: "linear-gradient(135deg, #D06030 0%, #F09050 30%, #A04020 70%, #4A1A08 100%)", aura: "#D06030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Fajita Sicilian", price: 950, desc: "Fajita elevated Sicilian style. Thick crust, extra loaded.", gradient: "linear-gradient(135deg, #B84020 0%, #E07040 30%, #F0A060 60%, #5A1A08 100%)", aura: "#E07040", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Hunger Supreme", price: 950, desc: "Ultimate loaded pizza. Every premium topping. The king.", gradient: "linear-gradient(135deg, #A02020 0%, #D04030 30%, #E8C040 60%, #500A0A 100%)", aura: "#D04030", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Cheese Max", price: 800, desc: "Triple layered cheese melted to bubbly stretchy perfection.", gradient: "linear-gradient(135deg, #D4A030 0%, #F0D060 30%, #C49020 70%, #6A4A10 100%)", aura: "#F0D060", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 24: HUNGER PREMIUM PIZZAS ━━━━━━━━━━━━━
   { id: 24, name: "Hunger Premium", subtitle: "LUXURY PIZZAS FOR THE BOLD", colors: { bg: "rgba(80,10,10,0.25)", glow: "#A01020" }, cards: [
-    { name: "Hunger Malai Boti", price: 1100, desc: "Premium malai boti on golden crust with extra mozzarella and secret sauce.", gradient: "linear-gradient(135deg, #6A1010 0%, #A02020 30%, #D4A040 60%, #300808 100%)", aura: "#A02020" },
-    { name: "Hunger Special", price: 1200, desc: "Most premium creation. Finest ingredients by head chef. Masterpiece.", gradient: "linear-gradient(135deg, #4A0808 0%, #8A1818 30%, #C4A030 60%, #200404 100%)", aura: "#8A1818" },
-    { name: "Hunger Pepperoni", price: 1000, desc: "Premium pepperoni layered over molten cheese. Crispy edges.", gradient: "linear-gradient(135deg, #8A1010 0%, #C02828 30%, #E86040 60%, #400808 100%)", aura: "#C02828" },
-    { name: "Kabab Crust", price: 1100, desc: "Pizza crust stuffed with seasoned kabab meat. Flavor explosion.", gradient: "linear-gradient(135deg, #5A1808 0%, #8A3020 30%, #B86040 60%, #2A0C04 100%)", aura: "#8A3020" }
+    { name: "Hunger Malai Boti", price: 1100, desc: "Premium malai boti on golden crust with extra mozzarella and secret sauce.", gradient: "linear-gradient(135deg, #6A1010 0%, #A02020 30%, #D4A040 60%, #300808 100%)", aura: "#A02020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Hunger Special", price: 1200, desc: "Most premium creation. Finest ingredients by head chef. Masterpiece.", gradient: "linear-gradient(135deg, #4A0808 0%, #8A1818 30%, #C4A030 60%, #200404 100%)", aura: "#8A1818", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Hunger Pepperoni", price: 1000, desc: "Premium pepperoni layered over molten cheese. Crispy edges.", gradient: "linear-gradient(135deg, #8A1010 0%, #C02828 30%, #E86040 60%, #400808 100%)", aura: "#C02828", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" },
+    { name: "Kabab Crust", price: 1100, desc: "Pizza crust stuffed with seasoned kabab meat. Flavor explosion.", gradient: "linear-gradient(135deg, #5A1808 0%, #8A3020 30%, #B86040 60%, #2A0C04 100%)", aura: "#8A3020", model3d: "https://cdn.jsdelivr.net/gh/usaid3/AR-models-@main/udon_meal.glb" }
   ]},
 
   // ━━━━━━━━━━━━━ CATEGORY 25: ABOUT US ━━━━━━━━━━━━━
