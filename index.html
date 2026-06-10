@@ -877,6 +877,413 @@ body {
   .category-section { padding: 35px 0 20px; }
 }
 
+  /* 
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CART ICON — Top Right Floating Bag
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*/
+#cart-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #d4a853, #8a6d2b);
+  border: 2px solid #f0c96e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 4px 15px rgba(212, 168, 83, 0.4),
+              0 0 20px rgba(212, 168, 83, 0.2);
+  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#cart-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(212, 168, 83, 0.6),
+              0 0 30px rgba(212, 168, 83, 0.4);
+}
+
+#cart-icon:active {
+  transform: scale(0.95);
+}
+
+#cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #c43020;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  padding: 0 5px;
+}
+
+#cart-badge.zero {
+  display: none;
+}
+
+/* Pulse animation when item added */
+@keyframes cartPulse {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.1); }
+}
+
+#cart-icon.pulse {
+  animation: cartPulse 0.6s ease;
+}
+
+/* 
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TOAST NOTIFICATION
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*/
+#toast-notification {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+  border: 1.5px solid #d4a853;
+  color: #f5f0e8;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 20px rgba(212, 168, 83, 0.3),
+              0 10px 30px rgba(0,0,0,0.5);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#toast-notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ADD TO CART BUTTON in Modal
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*/
+#add-to-cart-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #d4a853, #8a6d2b);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#add-to-cart-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+#add-to-cart-btn:active {
+  transform: scale(0.97);
+}
+
+#add-to-cart-btn.added {
+  background: linear-gradient(135deg, #2a8a40, #1a5a2a);
+}
+
+/* 
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CART MODAL
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*/
+.cart-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.cart-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cart-modal-content {
+  width: 92vw;
+  max-width: 500px;
+  max-height: 88vh;
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+  border-radius: 22px;
+  border: 1.5px solid #8a6d2b;
+  box-shadow: 0 0 25px rgba(212, 168, 83, 0.3),
+              0 20px 60px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.92);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cart-modal-overlay.open .cart-modal-content {
+  transform: scale(1);
+}
+
+.cart-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(212, 168, 83, 0.2);
+}
+
+.cart-modal-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #d4a853;
+  letter-spacing: 1.5px;
+}
+
+.cart-modal-close {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid #8a6d2b;
+  background: transparent;
+  color: #d4a853;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.cart-modal-close:hover {
+  background: rgba(212, 168, 83, 0.15);
+}
+
+.cart-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.cart-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #b8b0a0;
+  font-family: 'Inter', sans-serif;
+}
+
+.cart-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(212, 168, 83, 0.1);
+  gap: 12px;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #f5f0e8;
+  margin-bottom: 4px;
+}
+
+.cart-item-price {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #d4a853;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-qty-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #8a6d2b;
+  background: transparent;
+  color: #d4a853;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.cart-qty-btn:hover {
+  background: rgba(212, 168, 83, 0.15);
+}
+
+.cart-qty-value {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #f5f0e8;
+  min-width: 20px;
+  text-align: center;
+}
+
+.cart-item-remove {
+  background: transparent;
+  border: none;
+  color: #c43020;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin-left: 8px;
+}
+
+.cart-item-remove:hover {
+  color: #e84040;
+}
+
+.cart-total-section {
+  padding: 16px 24px;
+  background: rgba(212, 168, 83, 0.05);
+  border-top: 1px solid rgba(212, 168, 83, 0.2);
+}
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  color: #d4a853;
+  font-weight: 700;
+}
+
+.cart-form {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(212, 168, 83, 0.2);
+}
+
+.cart-form-group {
+  margin-bottom: 12px;
+}
+
+.cart-form-label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: #b8b0a0;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.cart-form-input,
+.cart-form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 168, 83, 0.2);
+  border-radius: 8px;
+  color: #f5f0e8;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.cart-form-input:focus,
+.cart-form-textarea:focus {
+  border-color: #d4a853;
+}
+
+.cart-form-textarea {
+  resize: vertical;
+  min-height: 60px;
+  font-family: 'Inter', sans-serif;
+}
+
+.cart-send-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+.cart-send-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.cart-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  }
 /* 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ACCESSIBILITY — Reduced motion preference
@@ -933,6 +1340,23 @@ body {
 -->
 <div id="bg-overlay"></div>
 <div id="bg-glow"></div>
+  <!-- 
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CART ICON — Top Right Corner
+  Always visible, badge shows item count
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-->
+<div id="cart-icon" onclick="openCart()">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <path d="M16 10a4 4 0 0 1-8 0"></path>
+  </svg>
+  <span id="cart-badge">0</span>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast-notification"></div>
 
 <!-- 
   ╔══════════════════════════════════════════════════════════╗
@@ -973,7 +1397,56 @@ body {
 -->
 <div class="app-container" id="app"></div>
 
-<!-- 
+  <!-- 
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CART MODAL — Order summary + customer details
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-->
+<div class="cart-modal-overlay" id="cart-modal">
+  <div class="cart-modal-content">
+    
+    <div class="cart-modal-header">
+      <div class="cart-modal-title">🛒 Your Order</div>
+      <button class="cart-modal-close" onclick="closeCart()" aria-label="Close cart">✕</button>
+    </div>
+    
+    <div class="cart-modal-body" id="cart-items-container">
+      <!-- Items dynamically inject hongi -->
+    </div>
+    
+    <div class="cart-total-section" id="cart-total-section" style="display:none;">
+      <div class="cart-total-row">
+        <span>TOTAL</span>
+        <span>Rs. <span id="cart-total">0</span></span>
+      </div>
+    </div>
+    
+    <div class="cart-form" id="cart-form-section" style="display:none;">
+      
+      <div class="cart-form-group">
+        <label class="cart-form-label">Your Name *</label>
+        <input type="text" class="cart-form-input" id="customer-name" placeholder="e.g. Ahmed Khan" />
+      </div>
+      
+      <div class="cart-form-group">
+        <label class="cart-form-label">Table Number *</label>
+        <input type="text" class="cart-form-input" id="table-number" placeholder="e.g. 7" />
+      </div>
+      
+      <div class="cart-form-group">
+        <label class="cart-form-label">Special Instructions (Optional)</label>
+        <textarea class="cart-form-textarea" id="special-notes" placeholder="e.g. Extra spicy, no onions..."></textarea>
+      </div>
+      
+      <button class="cart-send-btn" onclick="sendOrderToWhatsApp()">
+        💬 Send Order on WhatsApp
+      </button>
+      
+    </div>
+    
+  </div>
+</div>
+  <!-- 
   ╔══════════════════════════════════════════════════════════╗
   ║  3D MODEL VIEWER MODAL                                   ║
   ║                                                          ║
@@ -1028,7 +1501,15 @@ body {
         shadow-intensity="1"
         style="width:100%;height:100%;background:transparent;"
       ></model-viewer>
+       </div>
+    
+    <!-- Add to Cart Button — Bottom of pop-up -->
+    <div id="add-to-cart-container" style="padding: 14px 24px; border-top: 1px solid rgba(212,168,83,0.15);">
+      <button id="add-to-cart-btn" onclick="addCurrentItemToCart()">
+        🛒 Add to Cart
+      </button>
     </div>
+    
   </div>
 </div>
 <script>
@@ -1801,6 +2282,7 @@ document.addEventListener('click', e => {
   const card = e.target.closest('.menu-card');
   if (!card) return;
 
+  // About Us cards — external link
   const aboutAction = card.dataset.aboutAction;
   if (aboutAction) {
     window.open(aboutAction, '_blank');
@@ -1811,12 +2293,33 @@ document.addEventListener('click', e => {
   const modelUrl = card.dataset.model || 
     "https://modelviewer.dev/shared-assets/models/Astronaut.glb";
   const iosUrl = card.dataset.modelIos || modelUrl;
+  
+  // Get price from card data
+  const catId = parseInt(card.dataset.cat);
+  const idx = parseInt(card.dataset.idx);
+  const cardData = menuData.find(c => c.id === catId)?.cards[idx];
+  
+  // Set current item for cart
+  currentModalItem = {
+    name: name,
+    price: cardData?.price || 0
+  };
 
   modalTitle.textContent = name;
   modalModel.setAttribute('src', modelUrl);
   modalModel.setAttribute('ios-src', iosUrl);
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  
+  // Show/hide Add to Cart button based on card type
+  const addToCartContainer = document.getElementById('add-to-cart-container');
+  if (cardData?.isAbout) {
+    addToCartContainer.style.display = 'none';
+  } else {
+    addToCartContainer.style.display = 'block';
+    addToCartBtn.classList.remove('added');
+    addToCartBtn.innerHTML = '🛒 Add to Cart';
+  }
 
   setupARButton(modelUrl, iosUrl);
 });
@@ -2031,6 +2534,252 @@ window.addEventListener('load', () => {
     }
   });
 });
+  /*
+  ╔══════════════════════════════════════════════════════════╗
+  ║  CART SYSTEM — Complete WhatsApp Order System            ║
+  ╚══════════════════════════════════════════════════════════╝
+*/
+
+// Current item jo modal me open hai
+let currentModalItem = null;
+
+// Cart data — localStorage me save hota hai
+let cart = JSON.parse(localStorage.getItem('chaiDostiCart')) || [];
+
+// WhatsApp number
+const WHATSAPP_NUMBER = '923219494942';
+
+// DOM References
+const cartIcon = document.getElementById('cart-icon');
+const cartBadge = document.getElementById('cart-badge');
+const cartModal = document.getElementById('cart-modal');
+const cartItemsContainer = document.getElementById('cart-items-container');
+const cartTotalSection = document.getElementById('cart-total-section');
+const cartFormSection = document.getElementById('cart-form-section');
+const cartTotal = document.getElementById('cart-total');
+const addToCartBtn = document.getElementById('add-to-cart-btn');
+const toastNotification = document.getElementById('toast-notification');
+
+
+// ━━━ Update Cart Badge ━━━
+function updateCartBadge() {
+  const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+  cartBadge.textContent = totalItems;
+  cartBadge.classList.toggle('zero', totalItems === 0);
+}
+
+
+// ━━━ Save to localStorage ━━━
+function saveCart() {
+  localStorage.setItem('chaiDostiCart', JSON.stringify(cart));
+  updateCartBadge();
+}
+
+
+// ━━━ Show Toast ━━━
+function showToast(message) {
+  toastNotification.innerHTML = `✅ ${message}`;
+  toastNotification.classList.add('show');
+  setTimeout(() => {
+    toastNotification.classList.remove('show');
+  }, 2500);
+}
+
+
+// ━━━ Add Current Item to Cart ━━━
+function addCurrentItemToCart() {
+  if (!currentModalItem) return;
+  
+  // Check if item already in cart
+  const existing = cart.find(item => item.name === currentModalItem.name);
+  
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({
+      name: currentModalItem.name,
+      price: currentModalItem.price,
+      qty: 1
+    });
+  }
+  
+  saveCart();
+  
+  // Button state change
+  addToCartBtn.classList.add('added');
+  addToCartBtn.innerHTML = '✓ Added to Cart';
+  
+  // Cart icon pulse
+  cartIcon.classList.add('pulse');
+  setTimeout(() => cartIcon.classList.remove('pulse'), 600);
+  
+  // Toast
+  showToast(`${currentModalItem.name} added to cart`);
+  
+  // Reset button after 2 sec
+  setTimeout(() => {
+    addToCartBtn.classList.remove('added');
+    addToCartBtn.innerHTML = '🛒 Add to Cart';
+  }, 2000);
+}
+
+
+// ━━━ Open Cart Modal ━━━
+function openCart() {
+  renderCart();
+  cartModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+
+// ━━━ Close Cart Modal ━━━
+function closeCart() {
+  cartModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+
+// ━━━ Render Cart Items ━━━
+function renderCart() {
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = `
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛒</div>
+        <div>Your cart is empty</div>
+        <div style="font-size:0.8rem;margin-top:8px;opacity:0.7;">
+          Add items from the menu to get started
+        </div>
+      </div>
+    `;
+    cartTotalSection.style.display = 'none';
+    cartFormSection.style.display = 'none';
+    return;
+  }
+  
+  let html = '';
+  let total = 0;
+  
+  cart.forEach((item, idx) => {
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+    
+    html += `
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">Rs. ${item.price} × ${item.qty} = Rs. ${itemTotal}</div>
+        </div>
+        <div class="cart-item-controls">
+          <button class="cart-qty-btn" onclick="updateQty(${idx}, -1)">−</button>
+          <span class="cart-qty-value">${item.qty}</span>
+          <button class="cart-qty-btn" onclick="updateQty(${idx}, 1)">+</button>
+          <button class="cart-item-remove" onclick="removeItem(${idx})" title="Remove">✕</button>
+        </div>
+      </div>
+    `;
+  });
+  
+  cartItemsContainer.innerHTML = html;
+  cartTotal.textContent = total.toLocaleString();
+  cartTotalSection.style.display = 'block';
+  cartFormSection.style.display = 'block';
+}
+
+
+// ━━━ Update Quantity ━━━
+function updateQty(idx, change) {
+  cart[idx].qty += change;
+  if (cart[idx].qty <= 0) {
+    cart.splice(idx, 1);
+  }
+  saveCart();
+  renderCart();
+}
+
+
+// ━━━ Remove Item ━━━
+function removeItem(idx) {
+  cart.splice(idx, 1);
+  saveCart();
+  renderCart();
+}
+
+
+// ━━━ Send Order to WhatsApp ━━━
+function sendOrderToWhatsApp() {
+  const name = document.getElementById('customer-name').value.trim();
+  const table = document.getElementById('table-number').value.trim();
+  const notes = document.getElementById('special-notes').value.trim();
+  
+  // Validation
+  if (!name) {
+    showToast('Please enter your name');
+    document.getElementById('customer-name').focus();
+    return;
+  }
+  
+  if (!table) {
+    showToast('Please enter table number');
+    document.getElementById('table-number').focus();
+    return;
+  }
+  
+  if (cart.length === 0) {
+    showToast('Cart is empty');
+    return;
+  }
+  
+  // Build message
+  let message = `🍽️ *NEW ORDER - Chai Dosti*\n\n`;
+  message += `👤 *Customer:* ${name}\n`;
+  message += `🪑 *Table:* ${table}\n`;
+  message += `⏰ *Time:* ${new Date().toLocaleTimeString('en-PK', { hour: '2-digit', minute: '2-digit' })}\n\n`;
+  message += `📋 *ORDER ITEMS:*\n\n`;
+  
+  let total = 0;
+  cart.forEach((item, idx) => {
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+    message += `${idx + 1}. ${item.name}\n`;
+    message += `   Qty: ${item.qty} × Rs. ${item.price} = Rs. ${itemTotal}\n\n`;
+  });
+  
+  message += `─────────────────────\n`;
+  message += `💰 *TOTAL: Rs. ${total.toLocaleString()}*\n`;
+  message += `─────────────────────\n\n`;
+  message += `💵 *Payment:* Cash\n`;
+  
+  if (notes) {
+    message += `📌 *Note:* ${notes}\n`;
+  }
+  
+  message += `\n_Sent via Chai Dosti Digital Menu_`;
+  
+  // Open WhatsApp
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, '_blank');
+  
+  // Clear cart after sending
+  setTimeout(() => {
+    if (confirm('Order sent! Clear cart?')) {
+      cart = [];
+      saveCart();
+      closeCart();
+      showToast('Cart cleared! Thank you 🙏');
+    }
+  }, 1000);
+}
+
+
+// ━━━ Close cart on overlay click ━━━
+cartModal.addEventListener('click', e => {
+  if (e.target === cartModal) closeCart();
+});
+
+
+// ━━━ Initial badge update ━━━
+updateCartBadge();
+
 </script>
 </body>
 </html>
