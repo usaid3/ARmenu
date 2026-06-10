@@ -890,13 +890,36 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
-  #ar-launch-btn:hover {
+  /* AR Message Box Animations */
+@keyframes arMsgFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes arMsgFadeOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+}
+
+#ar-msg-close-btn:hover {
   opacity: 0.85;
 }
 
-#ar-launch-btn:active {
+#ar-msg-close-btn:active {
   opacity: 0.7;
-  transform: scale(0.98);
+  transform: scale(0.96);
 }
 </style>
 </head>
@@ -1802,54 +1825,157 @@ document.addEventListener('click', e => {
 function setupARButton(modelUrl, iosUrl) {
   const arSupport = checkARSupport();
 
-  if (arSupport.isIOS) {
+  // ━━━ DESKTOP / LAPTOP ━━━
+  if (!arSupport.supported) {
     arLaunchBtn.style.display = 'flex';
-    arLaunchBtn.style.background = 'linear-gradient(135deg, #d4a853, #8a6d2b)';
-    arLaunchBtn.innerHTML = '📷 View on Your Table (AR)';
-    arLaunchBtn.style.cursor = 'pointer';
-    arLaunchBtn.onclick = () => {
-      if (modalModel.canActivateAR) {
-        modalModel.activateAR();
-      } else {
-        const anchor = document.createElement('a');
-        anchor.setAttribute('rel', 'ar');
-        anchor.setAttribute('href', iosUrl);
-        anchor.click();
-      }
-    };
-
-  } else if (arSupport.isAndroid) {
-    arLaunchBtn.style.display = 'flex';
-    arLaunchBtn.style.background = 'linear-gradient(135deg, #d4a853, #8a6d2b)';
-    arLaunchBtn.innerHTML = '📷 View on Your Table (AR)';
-    arLaunchBtn.style.cursor = 'pointer';
-    arLaunchBtn.onclick = () => {
-      if (modalModel.canActivateAR) {
-        modalModel.activateAR();
-      } else {
-        const sceneViewerUrl =
-          `intent://arvr.google.com/scene-viewer/1.0?` +
-          `file=${encodeURIComponent(modelUrl)}&` +
-          `mode=ar_preferred&` +
-          `title=${encodeURIComponent(modalTitle.textContent)}` +
-          `#Intent;scheme=https;` +
-          `package=com.google.android.googlequicksearchbox;` +
-          `action=android.intent.action.VIEW;` +
-          `S.browser_fallback_url=${encodeURIComponent(modelUrl)};end;`;
-        window.location.href = sceneViewerUrl;
-      }
-    };
-
-  } else {
-    // Desktop
-    arLaunchBtn.style.display = 'flex';
-    arLaunchBtn.style.background = 'rgba(138,109,43,0.3)';
-    arLaunchBtn.innerHTML = '📷 AR — Mobile Pe Available Hai';
+    arLaunchBtn.style.background = 'rgba(138,109,43,0.4)';
+    arLaunchBtn.innerHTML = '💻 AR Mobile Phone Pe Available Hai';
     arLaunchBtn.style.cursor = 'not-allowed';
-    arLaunchBtn.onclick = null;
+    arLaunchBtn.onclick = () => {
+      showARMessage(
+        '📱 Mobile Device Required',
+        'AR feature sirf mobile phones par chalti hai. Apne phone se ye menu kholiye aur "View on Your Table" button dabaiye.'
+      );
+    };
+    return;
   }
+
+  // ━━━ MOBILE (iOS / ANDROID) ━━━
+  arLaunchBtn.style.display = 'flex';
+  arLaunchBtn.style.background = 'linear-gradient(135deg, #d4a853, #8a6d2b)';
+  arLaunchBtn.innerHTML = '📷 View on Your Table (AR)';
+  arLaunchBtn.style.cursor = 'pointer';
+
+  arLaunchBtn.onclick = async () => {
+    // Loading state
+    arLaunchBtn.innerHTML = '⏳ Loading AR...';
+    arLaunchBtn.style.cursor = 'wait';
+
+    try {
+      // Model-viewer ka AR check
+      const canAR = modalModel.canActivateAR;
+      
+      if (canAR) {
+        // ✅ AR Supported — Launch karo
+        await modalModel.activateAR();
+        
+        // Reset button after 2 sec
+        setTimeout(() => {
+          arLaunchBtn.innerHTML = '📷 View on Your Table (AR)';
+          arLaunchBtn.style.cursor = 'pointer';
+        }, 2000);
+
+      } else {
+        // ❌ AR Not Supported on this device
+        arLaunchBtn.innerHTML = '📷 View on Your Table (AR)';
+        arLaunchBtn.style.cursor = 'pointer';
+        
+        if (arSupport.isIOS) {
+          showARMessage(
+            '📱 iOS Update Required',
+            'AR ke liye iOS 12 ya naya version chahiye. Apna iPhone update kariye Settings → General → Software Update se.'
+          );
+        } else if (arSupport.isAndroid) {
+          showARMessage(
+            '📱 AR Not Available',
+            'Aapke phone par AR support nahi hai. Ye feature naye Android phones par chalti hai jo ARCore support karte hon. Aap pop-up me 3D model rotate kar ke dekh sakte hain.'
+          );
+        }
+      }
+
+    } catch (err) {
+      // Koi bhi error aaye
+      console.log('AR Error:', err);
+      arLaunchBtn.innerHTML = '📷 View on Your Table (AR)';
+      arLaunchBtn.style.cursor = 'pointer';
+      
+      showARMessage(
+        '⚠️ AR Launch Failed',
+        'AR launch nahi ho saka. Aapke device par AR support nahi hai ya koi technical issue hai. Aap pop-up me 3D model dekh sakte hain.'
+      );
+    }
+  };
 }
 
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// AR MESSAGE POPUP — Friendly notification
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function showARMessage(title, message) {
+  // Purana message hata do agar hai
+  const existing = document.getElementById('ar-message-box');
+  if (existing) existing.remove();
+
+  // Naya message banayein
+  const box = document.createElement('div');
+  box.id = 'ar-message-box';
+  box.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+    border: 1.5px solid #d4a853;
+    border-radius: 18px;
+    padding: 25px 28px;
+    max-width: 360px;
+    width: 88%;
+    z-index: 99999;
+    box-shadow: 0 0 25px rgba(212, 168, 83, 0.4),
+                0 20px 60px rgba(0,0,0,0.6);
+    text-align: center;
+    animation: arMsgFadeIn 0.35s ease;
+  `;
+
+  box.innerHTML = `
+    <div style="
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: #d4a853;
+      margin-bottom: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    ">${title}</div>
+    
+    <div style="
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #f5f0e8;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    ">${message}</div>
+    
+    <button id="ar-msg-close-btn" style="
+      padding: 10px 28px;
+      background: linear-gradient(135deg, #d4a853, #8a6d2b);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    ">OK Got It</button>
+  `;
+
+  document.body.appendChild(box);
+
+  // Close button handler
+  document.getElementById('ar-msg-close-btn').addEventListener('click', () => {
+    box.style.animation = 'arMsgFadeOut 0.3s ease';
+    setTimeout(() => box.remove(), 300);
+  });
+
+  // 5 sec baad auto-close
+  setTimeout(() => {
+    if (document.getElementById('ar-message-box')) {
+      box.style.animation = 'arMsgFadeOut 0.3s ease';
+      setTimeout(() => box.remove(), 300);
+    }
+  }, 6000);
+}
 /*
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   MODAL CLOSE HANDLERS
