@@ -890,6 +890,14 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+  #ar-launch-btn:hover {
+  opacity: 0.85;
+}
+
+#ar-launch-btn:active {
+  opacity: 0.7;
+  transform: scale(0.98);
+}
 </style>
 </head>
 <body>
@@ -960,10 +968,38 @@ body {
       <div class="modal-title" id="modal-title">Item Name</div>
       <button class="modal-close" id="modal-close" aria-label="Close modal">✕</button>
     </div>
+
+    <!-- AR Button -->
+    <div style="padding: 8px 24px; border-bottom: 1px solid rgba(212,168,83,0.15);">
+      <button id="ar-launch-btn" style="
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(135deg, #d4a853, #8a6d2b);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-family: 'Cinzel', serif;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: opacity 0.3s ease;
+      ">
+        📷 View on Your Table (AR)
+      </button>
+    </div>
+
     <div class="modal-viewer">
       <model-viewer
         id="modal-model"
         src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+        ios-src=""
+        ar
+        ar-modes="scene-viewer webxr quick-look"
+        ar-placement="floor"
         auto-rotate
         camera-controls
         shadow-intensity="1"
@@ -972,7 +1008,6 @@ body {
     </div>
   </div>
 </div>
-
 <script>
 /*
   ╔══════════════════════════════════════════════════════════╗
@@ -1729,29 +1764,91 @@ document.querySelectorAll('.category-section').forEach(s => sectionObs.observe(s
   ║  SUPPORTED: .glb aur .gltf formats                       ║
   ╚══════════════════════════════════════════════════════════╝
 */
+// AR Support Check
+function checkARSupport() {
+  const isAndroid = /android/i.test(navigator.userAgent);
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  return { isAndroid, isIOS, supported: isAndroid || isIOS };
+}
+
+const arLaunchBtn = document.getElementById('ar-launch-btn');
+
+// Card Click Handler
 document.addEventListener('click', e => {
   const card = e.target.closest('.menu-card');
-  if (!card) return;  // Agar card pe click nahi hua to ignore
+  if (!card) return;
 
-  // ── Check: About card hai? ──
   const aboutAction = card.dataset.aboutAction;
   if (aboutAction) {
-    // About card pe click = external link open karo
     window.open(aboutAction, '_blank');
     return;
   }
 
-  // ── Regular card = 3D model modal open karo ──
   const name = card.dataset.name;
   const modelUrl = card.dataset.model || 
     "https://modelviewer.dev/shared-assets/models/Astronaut.glb";
-  
-  modalTitle.textContent = name;               // Modal me item name set karo
-  modalModel.setAttribute('src', modelUrl);    // 3D model URL set karo
-  modal.classList.add('open');                  // Modal dikhao
-  document.body.style.overflow = 'hidden';     // Background scroll band karo
+  const iosUrl = card.dataset.modelIos || modelUrl;
+
+  modalTitle.textContent = name;
+  modalModel.setAttribute('src', modelUrl);
+  modalModel.setAttribute('ios-src', iosUrl);
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  setupARButton(modelUrl, iosUrl);
 });
 
+// AR Button Setup
+function setupARButton(modelUrl, iosUrl) {
+  const arSupport = checkARSupport();
+
+  if (arSupport.isIOS) {
+    arLaunchBtn.style.display = 'flex';
+    arLaunchBtn.style.background = 'linear-gradient(135deg, #d4a853, #8a6d2b)';
+    arLaunchBtn.innerHTML = '📷 View on Your Table (AR)';
+    arLaunchBtn.style.cursor = 'pointer';
+    arLaunchBtn.onclick = () => {
+      if (modalModel.canActivateAR) {
+        modalModel.activateAR();
+      } else {
+        const anchor = document.createElement('a');
+        anchor.setAttribute('rel', 'ar');
+        anchor.setAttribute('href', iosUrl);
+        anchor.click();
+      }
+    };
+
+  } else if (arSupport.isAndroid) {
+    arLaunchBtn.style.display = 'flex';
+    arLaunchBtn.style.background = 'linear-gradient(135deg, #d4a853, #8a6d2b)';
+    arLaunchBtn.innerHTML = '📷 View on Your Table (AR)';
+    arLaunchBtn.style.cursor = 'pointer';
+    arLaunchBtn.onclick = () => {
+      if (modalModel.canActivateAR) {
+        modalModel.activateAR();
+      } else {
+        const sceneViewerUrl =
+          `intent://arvr.google.com/scene-viewer/1.0?` +
+          `file=${encodeURIComponent(modelUrl)}&` +
+          `mode=ar_preferred&` +
+          `title=${encodeURIComponent(modalTitle.textContent)}` +
+          `#Intent;scheme=https;` +
+          `package=com.google.android.googlequicksearchbox;` +
+          `action=android.intent.action.VIEW;` +
+          `S.browser_fallback_url=${encodeURIComponent(modelUrl)};end;`;
+        window.location.href = sceneViewerUrl;
+      }
+    };
+
+  } else {
+    // Desktop
+    arLaunchBtn.style.display = 'flex';
+    arLaunchBtn.style.background = 'rgba(138,109,43,0.3)';
+    arLaunchBtn.innerHTML = '📷 AR — Mobile Pe Available Hai';
+    arLaunchBtn.style.cursor = 'not-allowed';
+    arLaunchBtn.onclick = null;
+  }
+}
 
 /*
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1778,7 +1875,11 @@ document.addEventListener('keydown', e => {
 
 function closeModal() {
   modal.classList.remove('open');
-  document.body.style.overflow = '';  // Background scroll wapas chalu
+  document.body.style.overflow = '';
+  // AR button reset
+  arLaunchBtn.style.background = 'linear-gradient(135deg, #d4a853, #8a6d2b)';
+  arLaunchBtn.innerHTML = '📷 View on Your Table (AR)';
+  arLaunchBtn.style.cursor = 'pointer';
 }
 
 
